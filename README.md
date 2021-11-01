@@ -1,6 +1,6 @@
 # WatchsterApp 
 
-Watchster is an web application capable of managing and recomanding movies to its users.  
+Watchster is an web application capable of managing and recomanding movies to its users. It will be build as a free software, secure and easy to use. To know more about the features that need to be implemented, read the following sections. 
 
 ## Functional Requirements  
 - [ ] Users can register into the applicaion
@@ -10,6 +10,8 @@ Watchster is an web application capable of managing and recomanding movies to it
 - [ ] A listed movie should have at least the following displayed properties:
   * Title
   * Cover photo 
+  * Genre
+  * Release year
   * Rating
 - [ ] Any movie can be rated by any user
 - [ ] Users can see a list of recomanded movies ordered from the best to worst
@@ -38,3 +40,10 @@ Watchster is an web application capable of managing and recomanding movies to it
 - [ ] Build a scheduled process that will run weekly to send movie recomandaion to all users that are subscribed
 - [ ] Email Notification is done using SendGrid
 - [ ] Build a scheduled process that will run daily at 4AM UTC and insert in the database new movies that were released
+
+## Languages and Technologies Used  
+  1. .NET 5 (latest when the development started) for Backend Development
+  2. SQL Server 2019 for Database Management
+  3. Angular v12.2.8 (latest when the development started) for the UI Development  
+
+## Project Structure
