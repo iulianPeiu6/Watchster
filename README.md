@@ -19,6 +19,11 @@ Watchster is an web application capable of managing and recomanding movies to it
 - [ ] A movie that was seen will not be recomaned anymore to that user
 - [ ] The System sends emails to the users from time to time to give new movie recomandations
 - [ ] A User can disable the email notification
+- [ ] The System uses IMDb API as Third Party Application
+- [ ] Use IMDb API to get the details for a specifiec movie base on the IMDb ID that is stored in the System Database
+- [ ] Build a scheduled process that will run weekly to send movie recomandaion to all users that are subscribed
+- [ ] Email Notification is done using SendGrid
+- [ ] Build a scheduled process that will run daily at 4AM UTC and insert in the database new movies that were released
 - [ ] Users can logout
 - [ ] Users can delete their account
  
@@ -35,11 +40,6 @@ Watchster is an web application capable of managing and recomanding movies to it
 - [ ] The Movie Recomandation is done using concepts of ML
 - [ ] Movie Recomander Algorithm use this [Dataset](https://www.kaggle.com/grouplens/movielens-20m-dataset) for training and testing
 - [ ] Training and testing accuracy should be above 70%
-- [ ] The System uses IMDb API as Third Party Application
-- [ ] Use IMDb API to get the details for a specifiec movie base on the IMDb ID that is stored in the System Database
-- [ ] Build a scheduled process that will run weekly to send movie recomandaion to all users that are subscribed
-- [ ] Email Notification is done using SendGrid
-- [ ] Build a scheduled process that will run daily at 4AM UTC and insert in the database new movies that were released
 
 ## Languages and Technologies Used  
   1. .NET 5 (latest when the development started) for Backend Development
