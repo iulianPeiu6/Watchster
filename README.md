@@ -4,7 +4,7 @@ Watchster is an web application capable of managing and recomanding movies to it
 
 ## Functional Requirements  
 - [ ] Users can register into the applicaion
-- [ ] The Application sends a confirmation email that the account has been created to verify the email
+- [ ] The System sends a confirmation email that the account has been created to verify the email
 - [ ] Users can login into the application
 - [ ] Every authenticated user can see all the listed movies
 - [ ] A listed movie should have at least the following displayed properties:
@@ -15,7 +15,7 @@ Watchster is an web application capable of managing and recomanding movies to it
 - [ ] Users can see a list of recomanded movies ordered from the best to worst
 - [ ] A movie can be marked by an User as seen
 - [ ] A movie that was seen will not be recomaned anymore to that user
-- [ ] The application sends emails to the users from time to time to give new movie recomandations
+- [ ] The System sends emails to the users from time to time to give new movie recomandations
 - [ ] A User can disable the email notification
 - [ ] Users can logout
 - [ ] Users can delete their account
@@ -33,6 +33,7 @@ Watchster is an web application capable of managing and recomanding movies to it
 - [ ] The Movie Recomandation is done using concepts of ML
 - [ ] Movie Recomander Algorithm use this [Dataset](https://www.kaggle.com/grouplens/movielens-20m-dataset) for training and testing
 - [ ] Training and testing accuracy should be above 70%
-- [ ] The application uses IMDb API as Third Party Application
-- [ ] Use IMDb API to get the details for a specifiec movie base on the IMDb ID that is stored in the Application Database
+- [ ] The System uses IMDb API as Third Party Application
+- [ ] Use IMDb API to get the details for a specifiec movie base on the IMDb ID that is stored in the System Database
 - [ ] Email Notification is done using SendGrid
+- [ ] Build a scheduled process that will run weekly to send movie recomandaion to all users that are subscribed
