@@ -35,5 +35,6 @@ Watchster is an web application capable of managing and recomanding movies to it
 - [ ] Training and testing accuracy should be above 70%
 - [ ] The System uses IMDb API as Third Party Application
 - [ ] Use IMDb API to get the details for a specifiec movie base on the IMDb ID that is stored in the System Database
-- [ ] Email Notification is done using SendGrid
 - [ ] Build a scheduled process that will run weekly to send movie recomandaion to all users that are subscribed
+- [ ] Email Notification is done using SendGrid
+- [ ] Build a scheduled process that will run daily at 4AM UTC and insert in the database new movies that were released
