@@ -57,4 +57,5 @@ None
 ### Justification
 
 Based on the criteria mentioned, we found the MVC architecture to be outdated and there is greater value to be obtained quickly by n-tieres. Moreover, we wanted to expermient with a different approach in regards to implementing a web application.
+
 The client/server architecture doesn't fit the project requirements because we need to implement a UI using a front-end framework such as Angular. Active connections are not desired for greater scalability and stability.
