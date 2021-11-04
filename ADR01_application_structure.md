@@ -23,11 +23,11 @@ We want to use an architecture that enables us to have maintainable software, as
   
 ### Decision
 
-The application should be based on n-tiered architecture
+The application should be based on n-layered architecture
 
 ### Status
 
-Decided.
+Partially decided.
 
 ## Details
 
@@ -35,7 +35,7 @@ Decided.
 
 We want to create an application that is modern, fast, reliable, responsive.
 
-The team has proven skills in implementing a multi-tiered model.
+The team has proven skills in implementing a multi-layered model.
 
 ### Constraints
 
@@ -43,19 +43,20 @@ None
 
 ### Alternatives
 
-- [ ] MVC architecture
-- [ ] Client/Server architecture
+  1. Onion architecture
+  2. MVC architecture
+  3. Client/Server architecture
 
 ### Argument
 
-- [ ] Application maintainability
-- [ ] Application adaptability
-- [ ] Application expandability
-- [ ] Resources capabilities
-- [ ] Implementation time
+- [x] Application maintainability
+- [x] Application adaptability
+- [x] Application expandability
+- [x] Resources capabilities
+- [x] Implementation time
 
 ### Justification
 
-Based on the criteria mentioned, we found the MVC architecture to be outdated and there is greater value to be obtained quickly by n-tieres. Moreover, we wanted to expermient with a different approach in regards to implementing a web application.
+Based on the criteria mentioned, we found the MVC architecture to be outdated and there is greater value to be obtained quickly by n-layered. Moreover, we wanted to experiment with a different approach in regards to implementing a web application.
 
 The client/server architecture doesn't fit the project requirements because we need to implement a UI using a front-end framework such as Angular. Active connections are not desired for greater scalability and stability.
