@@ -1,7 +1,9 @@
-# WatchsterAppC4Diagrams
+# C4 Diagrams
 
-This repository contains the C4 diagrams for the WatchsterApp system in both XML and PNG formats.
+## Context Diagram  
 
-C4 level 1 diagram name : System Context Diagram
+![Context Diagram](https://github.com/iulianPeiu6/WatchsterApp/blob/main/SystemModeling/C4Diagrams/SystemContextDiagram.png)  
 
-C4 level 2 diagram name : Container Diagram
+## Container Diagram  
+
+![Container Diagram](https://github.com/iulianPeiu6/WatchsterApp/blob/main/SystemModeling/C4Diagrams/ContainerDiagram.png)  
