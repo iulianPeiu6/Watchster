@@ -1,5 +1,7 @@
 # Watchster  
 
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=watchster)
+
 Watchster is a web application capable of managing and recommending movies to its users. It will be built as free software, secure, and easy to use. To know more about the features that need to be implemented, read the following sections. 
 
 ## System Modeling
