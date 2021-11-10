@@ -32,6 +32,12 @@ namespace Watchster.WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Watchster.WebApi", Version = "v1" });
             });
+            services.AddApiVersioning(config =>
+            {
+                config.DefaultApiVersion = new ApiVersion(1, 0);
+                config.AssumeDefaultVersionWhenUnspecified = true;
+                config.ReportApiVersions = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
