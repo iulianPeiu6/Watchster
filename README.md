@@ -1,7 +1,6 @@
 # Watchster  
 
-[![SonarCloud](https://img.shields.io/sonar/violations/watchster?format=long&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=watchster)&nbsp;&nbsp;&nbsp;&nbsp;[![CircleCI](https://img.shields.io/circleci/build/github/iulianPeiu6/Watchster/main)](https://app.circleci.com/pipelines/github/iulianPeiu6)
-
+[![SonarCloud](https://img.shields.io/sonar/violations/watchster?format=long&server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=watchster)&nbsp;&nbsp;&nbsp;&nbsp;[![SonarCloud](https://img.shields.io/sonar/coverage/watchster?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/component_measures?id=watchster&metric=coverage&view=list)&nbsp;&nbsp;&nbsp;&nbsp;[![CircleCI](https://img.shields.io/circleci/build/github/iulianPeiu6/Watchster/main)](https://app.circleci.com/pipelines/github/iulianPeiu6)  
 Watchster is a web application capable of managing and recommending movies to its users. It will be built as free software, secure, and easy to use. To know more about the features that need to be implemented, read the following sections. 
 
 ## System Modeling
