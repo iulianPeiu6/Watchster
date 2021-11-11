@@ -39,7 +39,8 @@ The team has proven skills in implementing a multi-layered model.
 
 ### Constraints
 
-None
+* Use .NET 5 or 6 for Backend Development.  
+* Use Angular/React/Blazor/Razor for Frontend Development
 
 ### Alternatives
 

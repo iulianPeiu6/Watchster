@@ -12,6 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Watchster.ApplicationService\Watchster.ApplicationService.csproj" />
+    <ProjectReference Include="..\Watchster.DataAccess\Watchster.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Controllers\" />
   </ItemGroup>
 
