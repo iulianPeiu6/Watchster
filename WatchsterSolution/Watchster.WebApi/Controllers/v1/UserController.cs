@@ -13,25 +13,29 @@ namespace Watchster.WebApi.Controllers.v1
         }
 
         [HttpPost]
-        public IActionResult Authenticate([FromBody] UserAuthenticationDetails user)
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpPost]
+        [Route("Register")]
         public IActionResult Register([FromBody] User user)
         {
             throw new NotImplementedException();
         }
 
-        [HttpDelete]
-        public IActionResult Delete(Guid userId)
+        [HttpPost]
+        [Route("Authenticate")]
+        public IActionResult Authenticate([FromBody] UserAuthenticationDetails user)
         {
             throw new NotImplementedException();
         }
 
         [HttpPatch]
-        public IActionResult Update(Guid userId, [FromBody] User user) 
+        [Route("Update")]
+        public IActionResult Update(Guid userId, [FromBody] User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public IActionResult Delete(Guid userId)
         {
             throw new NotImplementedException();
         }
