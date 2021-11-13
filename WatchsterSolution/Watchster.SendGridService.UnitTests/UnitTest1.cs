@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Watchster.SendGridService.UnitTests
+namespace Watchster.SendGrid.UnitTests
 {
     public class Tests
     {

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Watchster.SendGridService\Watchster.SendGridService.csproj" />
+    <ProjectReference Include="..\Watchster.SendGridService\Watchster.SendGrid.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,39 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using SendGrid.Helpers.Mail;
+using Watchster.SendGrid.Models;
+using Watchster.SendGrid.Services;
 
-namespace Watchster.SendGridService.TestConsole
+namespace Watchster.SendGrid.TestConsole
 {
     static class Program
     {
         static void Main()
         {
-            throw new NotImplementedException();
+            var services = new ServiceCollection()
+                .AddSendGrid()
+                .AddLogging(configure => configure.AddConsole())
+                .Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information)
+                .BuildServiceProvider();
+
+            var sendGridService = services.GetRequiredService<ISendGridService>();
+
+            TestSendMail(sendGridService);
+        }
+
+        private static void TestSendMail(ISendGridService sendGridService)
+        {
+            var mail = new MailInfo
+            {
+                Subject = "Mail Subject Test",
+                Body = "Mail Body Test",
+                Receiver = new EmailAddress()
+                {
+                    Name = "Iulian Cosmin Peiu",
+                    Email = "iulianpeiu6@test.test"
+                }
+            };
+            sendGridService.SendMail(mail).Wait();
         }
     }
 }
