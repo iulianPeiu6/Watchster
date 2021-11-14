@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -12,7 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Watchster.IMDbService\Watchster.IMDbService.csproj" />
     <ProjectReference Include="..\Watchster.MLUtil\Watchster.MLUtil.csproj" />
-    <ProjectReference Include="..\Watchster.SendGridService\Watchster.SendGrid.csproj" />
+    <ProjectReference Include="..\Watchster.SendGrid\Watchster.SendGrid.csproj" />
   </ItemGroup>
 
 </Project>

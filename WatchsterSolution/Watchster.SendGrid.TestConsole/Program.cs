@@ -29,8 +29,8 @@ namespace Watchster.SendGrid.TestConsole
                 Body = "Mail Body Test",
                 Receiver = new EmailAddress()
                 {
-                    Name = "Iulian Cosmin Peiu",
-                    Email = "iulianpeiu6@test.test"
+                    Name = "Alex",
+                    Email = "watchster.integration@gmail.com"
                 }
             };
             sendGridService.SendMailAsync(mail).Wait();
