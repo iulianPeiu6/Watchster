@@ -33,7 +33,7 @@ namespace Watchster.SendGrid.TestConsole
                     Email = "iulianpeiu6@test.test"
                 }
             };
-            sendGridService.SendMail(mail).Wait();
+            sendGridService.SendMailAsync(mail).Wait();
         }
     }
 }

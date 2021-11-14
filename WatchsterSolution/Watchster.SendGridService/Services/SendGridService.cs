@@ -21,7 +21,7 @@ namespace Watchster.SendGrid.Services
             this.config = config.Value;
         }
 
-        public async Task SendMail(MailInfo mail)
+        public async Task SendMailAsync(MailInfo mail)
         {
             try
             {

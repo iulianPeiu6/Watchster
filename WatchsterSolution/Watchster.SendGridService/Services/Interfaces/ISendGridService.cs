@@ -5,6 +5,6 @@ namespace Watchster.SendGrid.Services
 {
     public interface ISendGridService
     {
-        Task SendMail(MailInfo mail);
+        Task SendMailAsync(MailInfo mail);
     }
 }
