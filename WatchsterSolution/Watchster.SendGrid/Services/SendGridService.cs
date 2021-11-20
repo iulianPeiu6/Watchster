@@ -39,11 +39,12 @@ namespace Watchster.SendGrid.Services
                 message.AddTo(mail.Receiver);
 
                 var response = await sendGridClient.SendEmailAsync(message).ConfigureAwait(false);
-
                 if (response.IsSuccessStatusCode)
                 {
                     logger.LogInformation($"Mail sent");
                 }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    throw new ArgumentException("Sender Key is invalid!");
             }
             catch (Exception ex)
             {
