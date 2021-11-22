@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{24F07CC9-DD5C-4B32-997B-208195B2AEAB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestConsoles", "TestConsoles", "{24F07CC9-DD5C-4B32-997B-208195B2AEAB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.WebApi", "Watchster.WebApi\Watchster.WebApi.csproj", "{04EA7AB3-EDD1-40D4-8F88-BA20BA9AB5EB}"
 EndProject
@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{DFD8BCED-2375-4597-8843-9DE834FD1A26}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.SendGridService", "Watchster.SendGridService\Watchster.SendGridService.csproj", "{ABA71C28-FE75-4A6B-8837-D3F8A81F62C8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.IMDbService", "Watchster.IMDbService\Watchster.IMDbService.csproj", "{CFD44C88-EED2-4168-97FE-BD1A42103200}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.MLUtil", "Watchster.MLUtil\Watchster.MLUtil.csproj", "{05B4FA38-2777-47BC-AD2D-3A12D2A23882}"
@@ -27,13 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.DataAccess", "Wat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.IMDbService.TestConsole", "Watchster.IMDbService.TestConsole\Watchster.IMDbService.TestConsole.csproj", "{03B45B4E-6589-4571-8B53-6ABA003E02E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.SendGridService.TestConsole", "Watchster.SendGridService.TestConsole\Watchster.SendGridService.TestConsole.csproj", "{9A209C30-4745-4833-9E67-E6F2A85B168E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.SendGrid.TestConsole", "Watchster.SendGrid.TestConsole\Watchster.SendGrid.TestConsole.csproj", "{9A209C30-4745-4833-9E67-E6F2A85B168E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.MLUtil.TestConsole", "Watchster.MLUtil.TestConsole\Watchster.MLUtil.TestConsole.csproj", "{73C561E4-DB6C-4FB1-84B0-0A797842115F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.ApplicationService", "Watchster.ApplicationService\Watchster.ApplicationService.csproj", "{57C12AD6-4438-4B8F-820D-C22FB4AE3B02}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.SendGridService.UnitTests", "Watchster.SendGridService.UnitTests\Watchster.SendGridService.UnitTests.csproj", "{19FB56AC-5D82-442C-9A27-387323EF6D89}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.MLUtil.UnitTests", "Watchster.MLUtil.UnitTests\Watchster.MLUtil.UnitTests.csproj", "{C900453E-C20E-4FE8-BF94-6758896A0D03}"
 EndProject
@@ -41,9 +37,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.IMDb.UnitTests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jobs", "Jobs", "{55CDACE2-3872-400F-B502-6586D3048820}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watchster.MovieImporter", "Watchster.MovieImporter\Watchster.MovieImporter.csproj", "{D2EB69CD-98D9-4131-A4AD-9230D1BBE2C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.MovieImporter", "Watchster.MovieImporter\Watchster.MovieImporter.csproj", "{D2EB69CD-98D9-4131-A4AD-9230D1BBE2C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watchster.MovieRecommenderNotifier", "Watchster.MovieRecommenderNotifier\Watchster.MovieRecommenderNotifier.csproj", "{D10FC4D1-8038-4485-AD70-57BFC608EC9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.MovieRecommenderNotifier", "Watchster.MovieRecommenderNotifier\Watchster.MovieRecommenderNotifier.csproj", "{D10FC4D1-8038-4485-AD70-57BFC608EC9A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.SendGrid", "Watchster.SendGrid\Watchster.SendGrid.csproj", "{6D687668-3620-4C04-AFDB-5A65BFB32BA8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.SendGridService.UnitTests", "Watchster.SendGrid.UnitTests\Watchster.SendGridService.UnitTests.csproj", "{3E450987-899F-4B6A-8194-DA54DC129561}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +55,6 @@ Global
 		{04EA7AB3-EDD1-40D4-8F88-BA20BA9AB5EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04EA7AB3-EDD1-40D4-8F88-BA20BA9AB5EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04EA7AB3-EDD1-40D4-8F88-BA20BA9AB5EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ABA71C28-FE75-4A6B-8837-D3F8A81F62C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ABA71C28-FE75-4A6B-8837-D3F8A81F62C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ABA71C28-FE75-4A6B-8837-D3F8A81F62C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ABA71C28-FE75-4A6B-8837-D3F8A81F62C8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CFD44C88-EED2-4168-97FE-BD1A42103200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CFD44C88-EED2-4168-97FE-BD1A42103200}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFD44C88-EED2-4168-97FE-BD1A42103200}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -87,10 +83,6 @@ Global
 		{57C12AD6-4438-4B8F-820D-C22FB4AE3B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57C12AD6-4438-4B8F-820D-C22FB4AE3B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57C12AD6-4438-4B8F-820D-C22FB4AE3B02}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19FB56AC-5D82-442C-9A27-387323EF6D89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19FB56AC-5D82-442C-9A27-387323EF6D89}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19FB56AC-5D82-442C-9A27-387323EF6D89}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19FB56AC-5D82-442C-9A27-387323EF6D89}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C900453E-C20E-4FE8-BF94-6758896A0D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C900453E-C20E-4FE8-BF94-6758896A0D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C900453E-C20E-4FE8-BF94-6758896A0D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -107,6 +99,14 @@ Global
 		{D10FC4D1-8038-4485-AD70-57BFC608EC9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D10FC4D1-8038-4485-AD70-57BFC608EC9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D10FC4D1-8038-4485-AD70-57BFC608EC9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D687668-3620-4C04-AFDB-5A65BFB32BA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D687668-3620-4C04-AFDB-5A65BFB32BA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D687668-3620-4C04-AFDB-5A65BFB32BA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D687668-3620-4C04-AFDB-5A65BFB32BA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E450987-899F-4B6A-8194-DA54DC129561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E450987-899F-4B6A-8194-DA54DC129561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E450987-899F-4B6A-8194-DA54DC129561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E450987-899F-4B6A-8194-DA54DC129561}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,7 +115,6 @@ Global
 		{24F07CC9-DD5C-4B32-997B-208195B2AEAB} = {2FCB7D00-D2D2-4309-82E6-8FE1BA68382A}
 		{04EA7AB3-EDD1-40D4-8F88-BA20BA9AB5EB} = {DFD8BCED-2375-4597-8843-9DE834FD1A26}
 		{DC4D6766-44DE-40FC-90C7-531B19E1E1CE} = {2FCB7D00-D2D2-4309-82E6-8FE1BA68382A}
-		{ABA71C28-FE75-4A6B-8837-D3F8A81F62C8} = {32CF6F99-EA37-434D-83CB-D0A207507C07}
 		{CFD44C88-EED2-4168-97FE-BD1A42103200} = {32CF6F99-EA37-434D-83CB-D0A207507C07}
 		{05B4FA38-2777-47BC-AD2D-3A12D2A23882} = {32CF6F99-EA37-434D-83CB-D0A207507C07}
 		{564AA387-E6B9-4FFF-AA1D-086E5B09B4C4} = {BDE67BDB-8D87-4A06-8D22-6367D5DAFA24}
@@ -123,12 +122,13 @@ Global
 		{9A209C30-4745-4833-9E67-E6F2A85B168E} = {24F07CC9-DD5C-4B32-997B-208195B2AEAB}
 		{73C561E4-DB6C-4FB1-84B0-0A797842115F} = {24F07CC9-DD5C-4B32-997B-208195B2AEAB}
 		{57C12AD6-4438-4B8F-820D-C22FB4AE3B02} = {32CF6F99-EA37-434D-83CB-D0A207507C07}
-		{19FB56AC-5D82-442C-9A27-387323EF6D89} = {DC4D6766-44DE-40FC-90C7-531B19E1E1CE}
 		{C900453E-C20E-4FE8-BF94-6758896A0D03} = {DC4D6766-44DE-40FC-90C7-531B19E1E1CE}
 		{1C28D992-6B0D-4328-B0A2-1FFF5084359D} = {DC4D6766-44DE-40FC-90C7-531B19E1E1CE}
 		{55CDACE2-3872-400F-B502-6586D3048820} = {DFD8BCED-2375-4597-8843-9DE834FD1A26}
 		{D2EB69CD-98D9-4131-A4AD-9230D1BBE2C9} = {55CDACE2-3872-400F-B502-6586D3048820}
 		{D10FC4D1-8038-4485-AD70-57BFC608EC9A} = {55CDACE2-3872-400F-B502-6586D3048820}
+		{6D687668-3620-4C04-AFDB-5A65BFB32BA8} = {32CF6F99-EA37-434D-83CB-D0A207507C07}
+		{3E450987-899F-4B6A-8194-DA54DC129561} = {DC4D6766-44DE-40FC-90C7-531B19E1E1CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E7A2B8F0-0680-42ED-A5D7-EE316C9393C9}
