@@ -71,38 +71,6 @@ namespace Watchster.SendGrid.UnitTests
         }
 
         [Test]
-        public void Given_Mail_When_MailIsValid_SendEmailAsyncShouldBeCalledOnceExactly()
-        {
-            var mail = new MailInfo
-            {
-                Sender = new EmailAddress()
-                {
-                    Name = Faker.Name.FullName(),
-                    Email = Faker.Internet.Email()
-                },
-                Subject = string.Join(" ", Faker.Lorem.Sentences(3)),
-                Body = string.Join(" ", Faker.Lorem.Sentences(3)),
-                Receiver = new EmailAddress()
-                {
-                    Name = Faker.Name.FullName(),
-                    Email = Faker.Internet.Email()
-                }
-            };
-
-            sendGridService.SendMailAsync(mail).Wait();
-
-            var message = new SendGridMessage
-            {
-                From = mail.Sender,
-                Subject = mail.Subject
-            };
-            message.AddContent(MimeType.Text, mail.Body);
-            message.AddTo(mail.Receiver);
-
-            //A.CallTo(() => sendGridClient.SendEmailAsync(message, default)).MustHaveHappenedOnceExactly();
-        }
-
-        [Test]
         public void Given_Mail_When_ReceiverEmailIsEmpty_Then_SendMailAsyncShouldThrowArgumentException()
         {
             var mail = new MailInfo
