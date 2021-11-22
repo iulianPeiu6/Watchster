@@ -23,6 +23,13 @@ namespace Watchster.SendGrid.Services
             this.sendGridClient = new SendGridClient(this.config.ApiKey);
         }
 
+        public SendGridService(ILogger<SendGridService> logger, IOptions<SendGridConfig> config, SendGridClient sendGridClient)
+        {
+            this.logger = logger;
+            this.config = config.Value;
+            this.sendGridClient = sendGridClient;
+        }
+
         public async Task SendMailAsync(MailInfo mail)
         {
             try
@@ -39,8 +46,6 @@ namespace Watchster.SendGrid.Services
                 };
                 message.AddContent(MimeType.Text, mail.Body);
                 message.AddTo(mail.Receiver);
-
-                
 
                 var response = await sendGridClient.SendEmailAsync(message).ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
@@ -63,7 +68,7 @@ namespace Watchster.SendGrid.Services
         {
             Guard.ArgumentNotNull(mail, nameof(mail));
             Guard.ArgumentNotNullOrEmpty(mail.Receiver.Email, nameof(mail.Receiver.Email));
-            
+
             if (mail.Sender is null)
             {
                 mail.Sender = config.Sender;
