@@ -40,14 +40,14 @@ namespace Watchster.SendGrid.UnitTests
         }
 
         [Test]
-        public void Given_Mail_When_MailIsNull_Then_SendMailAsyncShouldThrowException()
+        public void Given_Mail_When_MailIsNull_Then_SendMailAsyncShouldThrowAggregateExceptionContainingArgumentNullException()
         {
             Action action = () => sendGridService.SendMailAsync(null).Wait();
             action.Should().Throw<AggregateException>().And.InnerException.Should().BeOfType<ArgumentNullException>();
         }
 
         [Test]
-        public void Given_Mail_When_ReceiverEmailIsNull_Then_SendMailAsyncShouldThrowException()
+        public void Given_Mail_When_ReceiverEmailIsNull_Then_SendMailAsyncShouldThrowAggregateExceptionContainingArgumentNullException()
         {
             RandomStringGenerator stringGeneretor = new RandomStringGenerator();
             var mail = new MailInfo
@@ -89,5 +89,46 @@ namespace Watchster.SendGrid.UnitTests
         //    message.AddTo(mail.Receiver);
         //    A.CallTo(() => sendGridService.sendGridClient.SendEmailAsync(message, default)).MustHaveHappenedOnceExactly();
         //}
+
+        [Test]
+        public void Given_Mail_When_ReceiverEmailIsInvalid_Then_SendMailAsyncShouldThrowAggregateExceptionContainingArgumentException()
+        {
+            RandomStringGenerator stringGeneretor = new RandomStringGenerator();
+            var mail = new MailInfo
+            {
+                Subject = stringGeneretor.GenerateValue(),
+                Body = stringGeneretor.GenerateValue(),
+                Receiver = new EmailAddress()
+                {
+                    Name = stringGeneretor.GenerateValue(),
+                    Email = "",
+                }
+            };
+            Action action = () => sendGridService.SendMailAsync(mail).Wait();
+            action.Should().Throw<AggregateException>().And.InnerException.Should().BeOfType<ArgumentException>();
+        }
+
+        [Test]
+        public void Given_Mail_When_SenderEmailIsInvalid_Then_SendMailAsyncShouldThrowAggregateExceptionContainingArgumentException()
+        {
+            RandomStringGenerator stringGeneretor = new RandomStringGenerator();
+            var mail = new MailInfo
+            {
+                Sender = new EmailAddress
+                {
+                    Name = stringGeneretor.GenerateValue(),
+                    Email = ""
+                },
+                Subject = stringGeneretor.GenerateValue(),
+                Body = stringGeneretor.GenerateValue(),
+                Receiver = new EmailAddress()
+                {
+                    Name = stringGeneretor.GenerateValue(),
+                    Email = "watchster.integration@gmail.com",
+                }
+            };
+            Action action = () => sendGridService.SendMailAsync(mail).Wait();
+            action.Should().Throw<AggregateException>().And.InnerException.Should().BeOfType<ArgumentException>();
+        }
     }
 }
