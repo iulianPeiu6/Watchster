@@ -35,6 +35,12 @@ namespace Watchster.MLUtil.Services
             }
         }
 
+        public MovieRatingPrediction PredictMovieRating(MovieRating movie)
+        {
+            logger.LogInformation($"Predict Movie Rating for Movie: {movie.MovieId}");
+            return predictionEngine.Predict(movie);
+        }
+
         private void LoadModel()
         {
             logger.LogInformation($"Loading model from '{modelPath}'...");
@@ -71,7 +77,7 @@ namespace Watchster.MLUtil.Services
             return (dataSplit.TrainSet, dataSplit.TestSet);
         }
 
-        public void BuildAndTrainModel(IDataView trainingDataView)
+        private void BuildAndTrainModel(IDataView trainingDataView)
         {
             logger.LogInformation($"Training model ...");
 
@@ -96,7 +102,7 @@ namespace Watchster.MLUtil.Services
            
         }
 
-        public void EvaluateModel(IDataView testDataView)
+        private void EvaluateModel(IDataView testDataView)
         {
             var prediction = model.Transform(testDataView);
             var metrics = mlContext.Regression.Evaluate(prediction, labelColumnName: "Label", scoreColumnName: "Score");
@@ -108,12 +114,6 @@ namespace Watchster.MLUtil.Services
         {
             logger.LogInformation($"Saving the model to file '{modelPath}'...");
             mlContext.Model.Save(model, schema, modelPath);
-        }
-
-        public MovieRatingPrediction PredictMovieRating(MovieRating movie)
-        {
-            logger.LogInformation($"Prediction Movie Rating for Movie: {movie.MovieId} ...");
-            return predictionEngine.Predict(movie);
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
 using Watchster.MLUtil.Models;
 using Watchster.MLUtil.Services.Interfaces;
 
 namespace Watchster.MLUtil.TestConsole
 {
-    class Program
+    static class Program
     {
         static void Main()
         {
@@ -22,8 +23,6 @@ namespace Watchster.MLUtil.TestConsole
         {
             var movieRecommender = services.GetRequiredService<IMovieRecommender>();
 
-            var logger = services.GetRequiredService<ILogger<Program>>();
-
             var movieRatingToPredict = new MovieRating()
             {
                 UserId = 1,
@@ -31,7 +30,7 @@ namespace Watchster.MLUtil.TestConsole
             };
 
             var moviePrediction = movieRecommender.PredictMovieRating(movieRatingToPredict);
-            logger.LogInformation($"{moviePrediction.Score}");
+            Console.WriteLine($"      {moviePrediction.Score}");
         }
     }
 }
