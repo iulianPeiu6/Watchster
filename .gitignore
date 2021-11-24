@@ -29,3 +29,6 @@ msbuild.err
 msbuild.wrn
 
 .vs
+
+#Ignore Dataset Files(too large to be pushed on github)
+WatchsterSolution/Watchster.MLUtil/Data/
