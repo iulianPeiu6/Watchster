@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Watchster.SendGridService.TestConsole
+namespace Watchster.MovieImporter
 {
     static class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
             throw new NotImplementedException();
         }
