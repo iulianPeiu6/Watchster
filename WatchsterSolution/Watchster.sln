@@ -17,13 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{DFD8BCED-2375-4597-8843-9DE834FD1A26}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.IMDbService", "Watchster.IMDbService\Watchster.IMDbService.csproj", "{CFD44C88-EED2-4168-97FE-BD1A42103200}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.IMDb", "Watchster.IMDbService\Watchster.IMDb.csproj", "{CFD44C88-EED2-4168-97FE-BD1A42103200}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.MLUtil", "Watchster.MLUtil\Watchster.MLUtil.csproj", "{05B4FA38-2777-47BC-AD2D-3A12D2A23882}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.DataAccess", "Watchster.DataAccess\Watchster.DataAccess.csproj", "{564AA387-E6B9-4FFF-AA1D-086E5B09B4C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.IMDbService.TestConsole", "Watchster.IMDbService.TestConsole\Watchster.IMDbService.TestConsole.csproj", "{03B45B4E-6589-4571-8B53-6ABA003E02E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.IMDb.TestConsole", "Watchster.IMDbService.TestConsole\Watchster.IMDb.TestConsole.csproj", "{03B45B4E-6589-4571-8B53-6ABA003E02E6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.SendGrid.TestConsole", "Watchster.SendGrid.TestConsole\Watchster.SendGrid.TestConsole.csproj", "{9A209C30-4745-4833-9E67-E6F2A85B168E}"
 EndProject

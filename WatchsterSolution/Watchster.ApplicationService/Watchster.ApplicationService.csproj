@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Watchster.IMDbService\Watchster.IMDbService.csproj" />
+    <ProjectReference Include="..\Watchster.IMDbService\Watchster.IMDb.csproj" />
     <ProjectReference Include="..\Watchster.MLUtil\Watchster.MLUtil.csproj" />
     <ProjectReference Include="..\Watchster.SendGrid\Watchster.SendGrid.csproj" />
   </ItemGroup>
