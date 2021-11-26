@@ -38,7 +38,7 @@ namespace Watchster.SendGrid.Services
 
                 logger.LogInformation($"Sending Email from '{mail.Sender.Email}' to '{mail.Receiver.Email}'...");
 
-          
+
                 var message = new SendGridMessage
                 {
                     From = mail.Sender,
@@ -85,7 +85,7 @@ namespace Watchster.SendGrid.Services
             }
         }
 
-        private bool EmailIsValid(string email)
+        private static bool EmailIsValid(string email)
         {
             try
             {

@@ -6,7 +6,7 @@ namespace Watchster.MLUtil.Models
     {
         [LoadColumn(0)]
         public int UserId { get; set; }
-        
+
         [LoadColumn(1)]
         public int MovieId { get; set; }
 

@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using TMDbLib.Client;
-using TMDbLib.Objects.Movies;
 using System.Collections.Generic;
 using System.Linq;
+using TMDbLib.Client;
 using Watchster.TMDb.Models;
 
 namespace Watchster.TMDb.Services
@@ -12,21 +11,12 @@ namespace Watchster.TMDb.Services
     public class TMDbMovieDiscoverService : ITMDbMovieDiscoverService
     {
         private readonly ILogger<TMDbMovieDiscoverService> logger;
-        private readonly TMDbConfig config;
         private readonly TMDbClient TMDbClient;
 
         public TMDbMovieDiscoverService(ILogger<TMDbMovieDiscoverService> logger, IOptions<TMDbConfig> config)
         {
             this.logger = logger;
-            this.config = config.Value;
-            this.TMDbClient = new TMDbClient(this.config.ApiKey);
-        }
-
-        public TMDbMovieDiscoverService(ILogger<TMDbMovieDiscoverService> logger, IOptions<TMDbConfig> config, TMDbClient TMDbClient)
-        {
-            this.logger = logger;
-            this.config = config.Value;
-            this.TMDbClient = TMDbClient;
+            TMDbClient = new TMDbClient(config.Value.ApiKey);
         }
 
         public Models.Movie GetMovie(string id)
@@ -70,10 +60,10 @@ namespace Watchster.TMDb.Services
             {
                 logger.LogInformation($"Start requesting movies after date {date}");
                 var result = TMDbClient.DiscoverMoviesAsync().WherePrimaryReleaseDateIsAfter(date);
-                
+
                 int numOfPages = result.Query().Result.TotalPages;
-                
-                for(int page = 0; page < numOfPages; page++)
+
+                for (int page = 0; page < numOfPages; page++)
                 {
                     var response = result.Query(page).Result;
                     var moviesFromCurrentPage = response.Results
