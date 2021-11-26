@@ -70,7 +70,7 @@ namespace Watchster.MLUtil.Services
             IDataView dataView = mlContext.Data.LoadFromTextFile<MovieRating>(dataPath, hasHeader: true, separatorChar: ',');
 
             logger.LogInformation($"Dataset loaded. Spliting Dataset using {1 - TrainTestRatio}:{TrainTestRatio} Train:Test Ratio");
-
+            
             var dataSplit = mlContext.Data
                 .TrainTestSplit(dataView, testFraction: TrainTestRatio);
 
