@@ -12,7 +12,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\Watchster.IMDbService\Watchster.IMDb.csproj" />
+    <ProjectReference Include="..\Watchster.IMDbService\Watchster.TMDb.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using TMDbLib.Objects.Movies;
-using TMDbLib.Objects.Search;
-using Watchster.IMDb.Services;
-using System.Collections.Generic;
+using Watchster.TMDb.Services;
 
-namespace Watchster.IMDb.TestConsole
+namespace Watchster.TMDb.TestConsole
 {
     static class Program
     {
@@ -17,29 +14,30 @@ namespace Watchster.IMDb.TestConsole
                 .AddLogging(configure => configure.AddConsole())
                 .Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information)
                 .BuildServiceProvider();
+
             var TMDbService = services.GetRequiredService<ITMDbMovieDiscoverService>();
 
-            TestSingleMovieData(TMDbService);
-            //TestPageMovieData(TMDbService);
+            TestGetMovie(TMDbService);
+            TestGetMoviesAfterDate(TMDbService);
         }
 
-        private async static void TestSingleMovieData(ITMDbMovieDiscoverService TMDbService)
+        private static void TestGetMovie(ITMDbMovieDiscoverService TMDbService)
         {
             string id = "47964";
-            Movie movie = await TMDbService.GetSingleMovieDataAsync(id);
+            var movie = TMDbService.GetMovie(id);
             Console.WriteLine($"Movie Title: {movie.Title}");
             Console.WriteLine($"Movie overview: {movie.Overview}");
         }
 
-        private async static void TestPageMovieData(ITMDbMovieDiscoverService TMDbService)
+        private static void TestGetMoviesAfterDate(ITMDbMovieDiscoverService TMDbService)
         {
-            var dateString = "1/1/2021 8:30:00 AM";
+            var dateString = "10/1/2021 8:30:00 AM";
             DateTime date = DateTime.Parse(dateString,
                                       System.Globalization.CultureInfo.InvariantCulture);
-            List<SearchMovie> pages = await TMDbService.GetMoviesDataAfterGivenDateAsync(date);
-            foreach (SearchMovie result in pages)
+            var movies = TMDbService.GetMoviesAfterDate(date);
+            foreach (var movie in movies)
             {
-                Console.WriteLine(result.Title + " " + result.ReleaseDate);
+                Console.WriteLine(movie.Title + " " + movie.ReleaseDate);
             }
         }
     }

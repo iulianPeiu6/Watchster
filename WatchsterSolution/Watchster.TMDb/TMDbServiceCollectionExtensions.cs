@@ -2,9 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using System.Reflection;
-using Watchster.IMDb.Services;
+using Watchster.TMDb.Services;
 
-namespace Watchster.IMDb
+namespace Watchster.TMDb
 {
     public static class TMDbServiceCollectionExtensions
     {

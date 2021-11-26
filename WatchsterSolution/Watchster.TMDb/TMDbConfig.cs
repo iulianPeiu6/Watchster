@@ -1,4 +1,4 @@
-﻿namespace Watchster.IMDb
+﻿namespace Watchster.TMDb
 {
     public class TMDbConfig
     {
