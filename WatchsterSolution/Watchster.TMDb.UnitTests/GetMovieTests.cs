@@ -1,11 +1,5 @@
 using NUnit.Framework;
 using Watchster.TMDb.Services;
-using TMDbLib.Client;
-using FluentAssertions;
-using System;
-using FakeItEasy;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Watchster.TMDb.UnitTests
 {

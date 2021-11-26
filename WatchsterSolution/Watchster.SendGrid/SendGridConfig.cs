@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using SendGrid.Helpers.Mail;
+﻿using SendGrid.Helpers.Mail;
 
 namespace Watchster.SendGrid
 {

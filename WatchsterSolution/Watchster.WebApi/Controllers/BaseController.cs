@@ -9,7 +9,7 @@ namespace Watchster.WebApi.Controllers
     {
         protected readonly IMediator mediator;
 
-        public BaseController(IMediator mediator) 
+        public BaseController(IMediator mediator)
         {
             this.mediator = mediator;
         }

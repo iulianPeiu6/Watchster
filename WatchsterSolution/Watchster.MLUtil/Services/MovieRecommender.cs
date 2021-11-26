@@ -45,7 +45,7 @@ namespace Watchster.MLUtil.Services
         {
             logger.LogInformation($"Loading model from '{modelPath}'...");
             DataViewSchema modelSchema;
- 
+
             model = mlContext.Model.Load(modelPath, out modelSchema);
             predictionEngine = mlContext.Model.CreatePredictionEngine<MovieRating, MovieRatingPrediction>(model);
         }
@@ -61,7 +61,7 @@ namespace Watchster.MLUtil.Services
 
         private (IDataView training, IDataView test) LoadData()
         {
-            
+
 
             var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", "rating.csv");
 
@@ -70,7 +70,7 @@ namespace Watchster.MLUtil.Services
             IDataView dataView = mlContext.Data.LoadFromTextFile<MovieRating>(dataPath, hasHeader: true, separatorChar: ',');
 
             logger.LogInformation($"Dataset loaded. Spliting Dataset using {1 - TrainTestRatio}:{TrainTestRatio} Train:Test Ratio");
-            
+
             var dataSplit = mlContext.Data
                 .TrainTestSplit(dataView, testFraction: TrainTestRatio);
 
@@ -99,7 +99,7 @@ namespace Watchster.MLUtil.Services
             model = trainerEstimator.Fit(trainingDataView);
 
             logger.LogInformation($"Model trained");
-           
+
         }
 
         private void EvaluateModel(IDataView testDataView)
