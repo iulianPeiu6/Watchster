@@ -19,14 +19,14 @@ namespace Watchster.TMDb.Services
             TMDbClient = new TMDbClient(config.Value.ApiKey);
         }
 
-        public Models.Movie GetMovie(string id)
+        public Movie GetMovie(string id)
         {
             try
             {
                 logger.LogInformation($"Start requesting movie {id} from TMDb");
                 var response = this.TMDbClient.GetMovieAsync(id).Result;
 
-                var movie = new Models.Movie
+                var movie = new Movie
                 {
                     ImdbId = response.Id,
                     Title = response.Title,
@@ -53,9 +53,9 @@ namespace Watchster.TMDb.Services
             }
         }
 
-        public List<Models.Movie> GetMoviesAfterDate(DateTime date)
+        public List<Movie> GetMoviesAfterDate(DateTime date)
         {
-            var movies = new List<Models.Movie>();
+            var movies = new List<Movie>();
             try
             {
                 logger.LogInformation($"Start requesting movies after date {date}");
@@ -67,7 +67,7 @@ namespace Watchster.TMDb.Services
                 {
                     var response = result.Query(page).Result;
                     var moviesFromCurrentPage = response.Results
-                        .Select(movie => new Models.Movie
+                        .Select(movie => new Movie
                         {
                             ImdbId = movie.Id,
                             Title = movie.Title,
