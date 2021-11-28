@@ -26,6 +26,11 @@ namespace Watchster.TMDb.Services
                 logger.LogInformation($"Start requesting movie {id} from TMDb");
                 var response = this.TMDbClient.GetMovieAsync(id).Result;
 
+                if (response is null)
+                {
+                    throw new ArgumentException("Movie not found!");
+                }
+
                 var movie = new Movie
                 {
                     ImdbId = response.Id,
@@ -38,11 +43,7 @@ namespace Watchster.TMDb.Services
                     ReleaseDate = response.ReleaseDate,
                     Overview = response.Overview
                 };
-
-                if (movie is null)
-                {
-                    throw new ArgumentException("Movie not found!");
-                }
+                
                 logger.LogInformation($"Movie found: {movie.Title}");
                 return movie;
             }

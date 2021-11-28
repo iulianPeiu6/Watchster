@@ -26,11 +26,11 @@ namespace Watchster.MLUtil.TestConsole
             var movieRatingToPredict = new MovieRating()
             {
                 UserId = 1,
-                MovieId = 7438,
+                MovieId = 2
             };
 
             var moviePrediction = movieRecommender.PredictMovieRating(movieRatingToPredict);
-            Console.WriteLine($"      {moviePrediction.Score}");
+            Console.WriteLine($"\t{moviePrediction.Score}");
         }
     }
 }

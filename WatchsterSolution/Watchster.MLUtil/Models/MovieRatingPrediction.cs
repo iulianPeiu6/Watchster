@@ -2,7 +2,7 @@
 {
     public class MovieRatingPrediction
     {
-        public float Labelb { get; set; }
+        public float Label { get; set; }
         public float Score { get; set; }
     }
 }
