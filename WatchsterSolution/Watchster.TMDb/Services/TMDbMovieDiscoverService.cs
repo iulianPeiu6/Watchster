@@ -54,13 +54,15 @@ namespace Watchster.TMDb.Services
             }
         }
 
-        public List<Movie> GetMoviesAfterDate(DateTime date)
+        public List<Movie> GetMoviesBetweenDates(DateTime from, DateTime to)
         {
             var movies = new List<Movie>();
             try
             {
-                logger.LogInformation($"Start requesting movies after date {date}");
-                var result = TMDbClient.DiscoverMoviesAsync().WherePrimaryReleaseDateIsAfter(date);
+                logger.LogInformation($"Start requesting movies after date {from}");
+                var result = TMDbClient.DiscoverMoviesAsync()
+                    .WherePrimaryReleaseDateIsAfter(from)
+                    .WherePrimaryReleaseDateIsBefore(to);
 
                 int numOfPages = result.Query().Result.TotalPages;
 
@@ -86,6 +88,43 @@ namespace Watchster.TMDb.Services
                 logger.LogInformation($"{movies.Count} new movie(s) queried");
 
                 return movies;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Failed to receive movie data: {ex.Message}", ex);
+                throw;
+            }
+        }
+
+        public (int TotalPages, List<Movie> Movies) GetMoviesBetweenDatesFromPage(DateTime from, DateTime to, int page = 1)
+        {
+            try
+            {
+                logger.LogInformation($"Start requesting movies after date {from}. Page Number: {page}");
+                var result = TMDbClient.DiscoverMoviesAsync()
+                    .WherePrimaryReleaseDateIsAfter(from)
+                    .WherePrimaryReleaseDateIsAfter(to);
+
+                int numOfPages = result.Query().Result.TotalPages;
+
+                var response = result.Query(page).Result;
+                var moviesFromCurrentPage = response.Results
+                    .Select(movie => new Movie
+                    {
+                        TMDbId = movie.Id,
+                        Title = movie.Title,
+                        Genres = movie.GenreIds.Select(genre => new Models.Genre()
+                        {
+                            TMDbId = genre
+                        }).ToList(),
+                        ReleaseDate = movie.ReleaseDate,
+                        Overview = movie.Overview
+                    })
+                    .ToList();
+
+                logger.LogInformation($"{moviesFromCurrentPage.Count} new movie(s) queried in the current page: {page}");
+
+                return (numOfPages, moviesFromCurrentPage);
             }
             catch (Exception ex)
             {

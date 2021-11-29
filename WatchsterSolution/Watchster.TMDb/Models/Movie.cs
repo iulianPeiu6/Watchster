@@ -8,7 +8,7 @@ namespace Watchster.TMDb.Models
         public int TMDbId { get; set; }
         public string Title { get; set; }
         public DateTime? ReleaseDate { get; set; }
-        public List<Genre> Genres { get; set; }
+        public IEnumerable<Genre> Genres { get; set; }
         public string Overview { get; set; }
     }
 }

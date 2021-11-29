@@ -34,7 +34,7 @@ namespace Watchster.TMDb.TestConsole
             var dateString = "10/1/2021 8:30:00 AM";
             DateTime date = DateTime.Parse(dateString,
                                       System.Globalization.CultureInfo.InvariantCulture);
-            var movies = TMDbService.GetMoviesAfterDate(date);
+            var movies = TMDbService.GetMoviesBetweenDates(date, DateTime.Now);
             foreach (var movie in movies)
             {
                 Console.WriteLine(movie.Title + " " + movie.ReleaseDate);
