@@ -43,7 +43,7 @@ namespace Watchster.TMDb.Services
                     ReleaseDate = response.ReleaseDate,
                     Overview = response.Overview
                 };
-                
+
                 logger.LogInformation($"Movie found: {movie.Title}");
                 return movie;
             }

@@ -1,0 +1,11 @@
+﻿{
+  "QuartzSettings": {
+    "StartAt": null,
+    "RerunUnitOfMeasureIsInHours": false,
+    "RerunInHours": 24,
+    "RerunInMinutest": 1
+  },
+  "ConnectionStrings": {
+    "WatchsterDB": ""
+  }
+}
