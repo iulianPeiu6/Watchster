@@ -26,7 +26,7 @@ namespace Watchster.MLUtil.TestConsole
             var movieRatingToPredict = new MovieRating()
             {
                 UserId = 1,
-                MovieId = 2
+                MovieId = 131262
             };
 
             var moviePrediction = movieRecommender.PredictMovieRating(movieRatingToPredict);

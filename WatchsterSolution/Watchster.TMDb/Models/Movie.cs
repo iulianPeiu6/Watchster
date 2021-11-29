@@ -5,10 +5,10 @@ namespace Watchster.TMDb.Models
 {
     public class Movie
     {
-        public int ImdbId { get; set; }
+        public int TMDbId { get; set; }
         public string Title { get; set; }
         public DateTime? ReleaseDate { get; set; }
-        public List<Models.Genre> Genres { get; set; }
+        public List<Genre> Genres { get; set; }
         public string Overview { get; set; }
     }
 }

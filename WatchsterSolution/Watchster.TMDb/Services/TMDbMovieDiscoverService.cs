@@ -33,7 +33,7 @@ namespace Watchster.TMDb.Services
 
                 var movie = new Movie
                 {
-                    ImdbId = response.Id,
+                    TMDbId = response.Id,
                     Title = response.Title,
                     Genres = response.Genres.Select(genre => new Genre()
                     {
@@ -70,7 +70,7 @@ namespace Watchster.TMDb.Services
                     var moviesFromCurrentPage = response.Results
                         .Select(movie => new Movie
                         {
-                            ImdbId = movie.Id,
+                            TMDbId = movie.Id,
                             Title = movie.Title,
                             Genres = movie.GenreIds.Select(genre => new Models.Genre()
                             {
