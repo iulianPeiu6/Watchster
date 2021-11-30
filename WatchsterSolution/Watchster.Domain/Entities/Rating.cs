@@ -10,6 +10,5 @@ namespace Watchster.Domain.Entities
         public Guid MovieId { get; set; }
 
         public double RatingValue { get; set; }
-
     }
 }

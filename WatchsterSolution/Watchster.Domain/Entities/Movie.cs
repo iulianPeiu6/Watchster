@@ -12,7 +12,7 @@ namespace Watchster.Domain.Entities
 
         public DateTime ReleaseDate { get; set; }
 
-        public List<Genre> Genres { get; set; }
+        public ICollection<Genre> Genres { get; set; }
 
         public string Overview { get; set; }
     }
