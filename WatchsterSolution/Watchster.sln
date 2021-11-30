@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31912.275
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestConsoles", "TestConsoles", "{24F07CC9-DD5C-4B32-997B-208195B2AEAB}"
 EndProject
@@ -43,7 +43,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.TMDb.TestConsole"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.TMDb", "Watchster.TMDb\Watchster.TMDb.csproj", "{B18059F2-A120-4239-9190-CE1C2BF1D1E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watchster.TMDb.UnitTests", "Watchster.TMDb.UnitTests\Watchster.TMDb.UnitTests.csproj", "{91FDB51D-CF96-4543-9B33-6736223AEDBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.TMDb.UnitTests", "Watchster.TMDb.UnitTests\Watchster.TMDb.UnitTests.csproj", "{91FDB51D-CF96-4543-9B33-6736223AEDBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watchster.Domain", "Watchster.Domain\Watchster.Domain.csproj", "{FCB2107B-64E2-4785-8D61-69D2DA3A132A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +109,10 @@ Global
 		{91FDB51D-CF96-4543-9B33-6736223AEDBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91FDB51D-CF96-4543-9B33-6736223AEDBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91FDB51D-CF96-4543-9B33-6736223AEDBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB2107B-64E2-4785-8D61-69D2DA3A132A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB2107B-64E2-4785-8D61-69D2DA3A132A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB2107B-64E2-4785-8D61-69D2DA3A132A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB2107B-64E2-4785-8D61-69D2DA3A132A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,6 +135,7 @@ Global
 		{2315E95A-830E-4912-BF2F-B2CF5AB7E7AC} = {24F07CC9-DD5C-4B32-997B-208195B2AEAB}
 		{B18059F2-A120-4239-9190-CE1C2BF1D1E8} = {BDE67BDB-8D87-4A06-8D22-6367D5DAFA24}
 		{91FDB51D-CF96-4543-9B33-6736223AEDBA} = {DC4D6766-44DE-40FC-90C7-531B19E1E1CE}
+		{FCB2107B-64E2-4785-8D61-69D2DA3A132A} = {32CF6F99-EA37-434D-83CB-D0A207507C07}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E7A2B8F0-0680-42ED-A5D7-EE316C9393C9}
