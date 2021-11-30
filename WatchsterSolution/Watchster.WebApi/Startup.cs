@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
-using Watchster.Domain.Context;
+using Watchster.DataAccess.Context;
 
 namespace Watchster.WebApi
 {

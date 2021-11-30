@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Watchster.Domain.Interfaces;
 using Watchster.Domain.Common;
-using Watchster.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Watchster.DataAccess.Context;
+using Watchster.DataAccess.Interfaces;
 
-namespace Watchster.Domain
+namespace Watchster.DataAccess
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {

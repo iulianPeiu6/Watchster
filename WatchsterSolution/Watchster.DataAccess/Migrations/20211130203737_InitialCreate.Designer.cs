@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Watchster.Domain.Context;
+using Watchster.DataAccess.Context;
 
-namespace Watchster.Domain.Migrations
+namespace Watchster.DataAccess.Migrations
 {
     [DbContext(typeof(WatchsterContext))]
-    [Migration("20211130183215_InitialCreate")]
+    [Migration("20211130203737_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

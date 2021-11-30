@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Watchster.Domain.Context;
+using Watchster.DataAccess.Context;
 
-namespace Watchster.Domain.Migrations
+namespace Watchster.DataAccess.Migrations
 {
     [DbContext(typeof(WatchsterContext))]
     partial class WatchsterContextModelSnapshot : ModelSnapshot

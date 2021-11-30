@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Watchster.Domain.Migrations
+namespace Watchster.DataAccess.Migrations
 {
     public partial class InitialCreate : Migration
     {

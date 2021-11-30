@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Watchster.Domain.Entities;
 
-namespace Watchster.Domain.Context
+namespace Watchster.DataAccess.Context
 {
     public sealed class WatchsterContext : DbContext
     {
@@ -12,7 +12,7 @@ namespace Watchster.Domain.Context
         public DbSet<Genre> Genres { get; set; }
 
         public DbSet<Rating> Ratings { get; set; }
-        
+
         public WatchsterContext(DbContextOptions<WatchsterContext> dbContext) : base(dbContext)
         {
 

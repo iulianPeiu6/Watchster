@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Watchster.Domain.Common;
 
-namespace Watchster.Domain.Interfaces
+namespace Watchster.DataAccess.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : BaseEntity
     {
@@ -20,6 +20,6 @@ namespace Watchster.Domain.Interfaces
 
         IQueryable<TEntity> Query();
 
-        IQueryable<TEntity> Query(Expression<Func<TEntity,bool>> expression);
+        IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> expression);
     }
 }
