@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Watchster.Application;
+using Watchster.DataAccess;
 using Watchster.DataAccess.Context;
 
 namespace Watchster.WebApi
@@ -25,19 +27,21 @@ namespace Watchster.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Watchster.WebApi", Version = "v1" });
             });
+
             services.AddApiVersioning(config =>
             {
                 config.DefaultApiVersion = new ApiVersion(1, 0);
                 config.AssumeDefaultVersionWhenUnspecified = true;
                 config.ReportApiVersions = true;
             });
-            services.AddDbContext<WatchsterContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("WatchsterDB")));
+
+            services.AddDataAccess(Configuration);
+
+            services.AddApplication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

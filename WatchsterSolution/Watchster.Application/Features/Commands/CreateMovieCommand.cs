@@ -1,9 +1,11 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
+using Watchster.Domain.Entities;
 
-namespace Watchster.TMDb.Models
+namespace Watchster.Application.Features.Commands
 {
-    public class Movie
+    public class CreateMovieCommand : IRequest<Guid>
     {
         public int TMDbId { get; set; }
         public string Title { get; set; }

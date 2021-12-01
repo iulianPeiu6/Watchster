@@ -1,12 +1,62 @@
-﻿using System;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
+using Watchster.Application.Interfaces;
+using Watchster.DataAccess;
+using Watchster.DataAccess.Context;
+using Watchster.DataAccess.Repositories;
+using Watchster.MovieImporter.Extensions;
+using Watchster.MovieImporter.Settings;
+using Watchster.TMDb;
 
 namespace Watchster.MovieImporter
 {
     static class Program
     {
-        static void Main(string[] args)
+        private const string EnvironmentKey = "DOTNET_ENVIRONMENT";
+        private const string DevelopmentEnvironment = "Development";
+
+        private static readonly string enviroment = Environment.GetEnvironmentVariable(EnvironmentKey) ?? DevelopmentEnvironment;
+
+        static async Task Main()
         {
-            throw new NotImplementedException();
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            IHost host = CreateHostBuilder();
+            await host.RunAsync();
+        }
+
+        private static IHost CreateHostBuilder()
+        {
+            var builder = new ConfigurationBuilder();
+            ConfigurationSetup(builder);
+            IConfigurationRoot configuration = builder.Build();
+
+            IHost host = Host.CreateDefaultBuilder()
+                .UseEnvironment(enviroment)
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddMovieImporter(configuration);
+                })
+                .UseWindowsService()
+                .Build();
+
+            return host;
+        }
+
+        private static void ConfigurationSetup(IConfigurationBuilder builder)
+        {
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            builder.SetBasePath(path)
+                .AddJsonFile("movieimportersettings.json", false, reloadOnChange: true)
+                .AddJsonFile("movieimportersettings.Development.json", true, reloadOnChange: true)
+                .Build();
         }
     }
 }

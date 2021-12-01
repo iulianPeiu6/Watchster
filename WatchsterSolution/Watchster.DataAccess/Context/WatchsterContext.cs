@@ -5,6 +5,8 @@ namespace Watchster.DataAccess.Context
 {
     public sealed class WatchsterContext : DbContext
     {
+        public DbSet<AppSettings> AppSettings { get; set; }
+
         public DbSet<User> Users { get; set; }
 
         public DbSet<Movie> Movies { get; set; }
