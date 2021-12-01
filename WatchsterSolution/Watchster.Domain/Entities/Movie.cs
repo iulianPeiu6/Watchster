@@ -10,7 +10,7 @@ namespace Watchster.Domain.Entities
 
         public string Title { get; set; }
 
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         public ICollection<Genre> Genres { get; set; }
 

@@ -5,56 +5,93 @@ using Watchster.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Watchster.DataAccess.Context;
-using Watchster.DataAccess.Interfaces;
+using System.Threading.Tasks;
+using Watchster.Aplication.Interfaces;
+using Microsoft.ML;
+using System.Reflection;
 
 namespace Watchster.DataAccess
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly WatchsterContext watchsterContext;
+        private readonly WatchsterContext context;
 
         private readonly DbSet<TEntity> dbSet;
 
-        public Repository(WatchsterContext watchsterContext)
+        public Repository(WatchsterContext context)
         {
-            this.watchsterContext = watchsterContext;
-            dbSet = watchsterContext.Set<TEntity>();
+            this.context = context;
+            dbSet = context.Set<TEntity>();
         }
-        public TEntity Add(TEntity entity)
+        public async Task<TEntity> AddAsync(TEntity entity)
         {
-            return dbSet.Add(entity).Entity;
+            if (entity == null)
+            {
+                throw new ArgumentNullException($"{nameof(AddAsync)} entity must not be null");
+            }
+            await context.AddAsync(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
 
-        public TEntity Update(TEntity entity)
+        public async Task<TEntity> Delete(TEntity entity)
         {
+            if (entity == null)
+            {
+                throw new ArgumentNullException($"{nameof(Delete)} entity mult not be null");
+            }
+
+            context.Remove(entity);
+            await context.SaveChangesAsync();
+            return entity;
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        {
+            return await context.Set<TEntity>().AsNoTracking().ToListAsync();
+        }
+
+        public async Task<TEntity> GetByIdAsync(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                throw new ArgumentException($"{nameof(GetByIdAsync)} id must not be empty");
+            }
+
+            return await context.FindAsync<TEntity>(id);
+        }
+
+        public async Task<TEntity> UpdateAsync(TEntity entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException($"{nameof(UpdateAsync)} entity must not be null");
+            }
+
             var updatedEntity = dbSet.Attach(entity).Entity;
-            watchsterContext.Entry(entity).State = EntityState.Modified;
+            context.Entry(entity).State = EntityState.Modified;
+            await context.SaveChangesAsync();
             return updatedEntity;
         }
 
-        public void Delete(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity, Func<TEntity, object> modify)
         {
-            dbSet.Remove(entity);
-        }
-
-        public IEnumerable<TEntity> GetAll()
-        {
-            return dbSet.ToList();
-        }
-
-        public TEntity GetById(Guid id)
-        {
-            return dbSet.Find(id);
+            foreach (PropertyInfo p in modify(entity).GetType().GetProperties())
+{
+                context.Entry(entity).Property(p.Name).IsModified = true;
+            }
+            await context.SaveChangesAsync();
+            return entity;
         }
 
         public IQueryable<TEntity> Query()
         {
-            return dbSet.AsQueryable();
+            return dbSet.AsNoTracking().AsQueryable();
         }
 
         public IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> expression)
         {
-            return dbSet.Where(expression).AsQueryable();
+            return dbSet.AsNoTracking().Where(expression).AsQueryable();
         }
     }
 }

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Watchster.ApplicationService\Watchster.ApplicationService.csproj" />
+    <ProjectReference Include="..\Watchster.Application\Watchster.Application.csproj" />
     <ProjectReference Include="..\Watchster.Domain\Watchster.Domain.csproj" />
   </ItemGroup>
 

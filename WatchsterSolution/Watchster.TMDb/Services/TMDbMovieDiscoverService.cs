@@ -12,11 +12,13 @@ namespace Watchster.TMDb.Services
     {
         private readonly ILogger<TMDbMovieDiscoverService> logger;
         private readonly TMDbClient TMDbClient;
+        private Dictionary<int, string> genres;
 
         public TMDbMovieDiscoverService(ILogger<TMDbMovieDiscoverService> logger, IOptions<TMDbConfig> config)
         {
             this.logger = logger;
             TMDbClient = new TMDbClient(config.Value.ApiKey);
+            genres = new Dictionary<int, string>();
         }
 
         public Movie GetMovie(string id)
@@ -60,6 +62,9 @@ namespace Watchster.TMDb.Services
             try
             {
                 logger.LogInformation($"Start requesting movies after date {from}");
+
+                RefreshGenres();
+
                 var result = TMDbClient.DiscoverMoviesAsync()
                     .WherePrimaryReleaseDateIsAfter(from)
                     .WherePrimaryReleaseDateIsBefore(to);
@@ -76,7 +81,8 @@ namespace Watchster.TMDb.Services
                             Title = movie.Title,
                             Genres = movie.GenreIds.Select(genre => new Models.Genre()
                             {
-                                TMDbId = genre
+                                TMDbId = genre,
+                                Name = genres[genre]
                             }).ToList(),
                             ReleaseDate = movie.ReleaseDate,
                             Overview = movie.Overview
@@ -101,9 +107,15 @@ namespace Watchster.TMDb.Services
             try
             {
                 logger.LogInformation($"Start requesting movies after date {from}. Page Number: {page}");
+
+                if (page == 1)
+                {
+                    RefreshGenres();
+                }
+
                 var result = TMDbClient.DiscoverMoviesAsync()
                     .WherePrimaryReleaseDateIsAfter(from)
-                    .WherePrimaryReleaseDateIsAfter(to);
+                    .WherePrimaryReleaseDateIsBefore(to);
 
                 int numOfPages = result.Query().Result.TotalPages;
 
@@ -115,7 +127,8 @@ namespace Watchster.TMDb.Services
                         Title = movie.Title,
                         Genres = movie.GenreIds.Select(genre => new Models.Genre()
                         {
-                            TMDbId = genre
+                            TMDbId = genre,
+                            Name = genres[genre]
                         }).ToList(),
                         ReleaseDate = movie.ReleaseDate,
                         Overview = movie.Overview
@@ -130,6 +143,16 @@ namespace Watchster.TMDb.Services
             {
                 logger.LogError($"Failed to receive movie data: {ex.Message}", ex);
                 throw;
+            }
+        }
+
+        private void RefreshGenres()
+        {
+            var tmdbGenres = TMDbClient.GetMovieGenresAsync().Result;
+
+            foreach (var genre in tmdbGenres)
+            {
+                genres.Add(genre.Id, genre.Name);
             }
         }
     }

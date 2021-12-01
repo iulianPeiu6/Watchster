@@ -1,9 +1,16 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using Watchster.Application.Interfaces;
+using Watchster.DataAccess;
+using Watchster.DataAccess.Context;
+using Watchster.DataAccess.Repositories;
 using Watchster.MovieImporter.Extensions;
 using Watchster.MovieImporter.Settings;
 using Watchster.TMDb;
@@ -14,7 +21,6 @@ namespace Watchster.MovieImporter
     {
         private const string EnvironmentKey = "DOTNET_ENVIRONMENT";
         private const string DevelopmentEnvironment = "Development";
-        private const string QuartzSettingsSectionName = "QuartzSettings";
 
         private static readonly string enviroment = Environment.GetEnvironmentVariable(EnvironmentKey) ?? DevelopmentEnvironment;
 
@@ -30,14 +36,12 @@ namespace Watchster.MovieImporter
             var builder = new ConfigurationBuilder();
             ConfigurationSetup(builder);
             IConfigurationRoot configuration = builder.Build();
-            var quartzSettings = configuration.GetSection(QuartzSettingsSectionName).Get<QuartzSettings>();
 
             IHost host = Host.CreateDefaultBuilder()
                 .UseEnvironment(enviroment)
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddTMDb();
-                    services.AddQuartz(quartzSettings);
+                    services.AddMovieImporter(configuration);
                 })
                 .UseWindowsService()
                 .Build();

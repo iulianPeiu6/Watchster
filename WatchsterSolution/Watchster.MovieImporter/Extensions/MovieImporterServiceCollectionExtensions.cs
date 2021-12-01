@@ -1,14 +1,31 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MediatR;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using System;
+using Watchster.DataAccess;
 using Watchster.MovieImporter.Job;
 using Watchster.MovieImporter.Settings;
+using Watchster.TMDb;
 
 namespace Watchster.MovieImporter.Extensions
 {
-    public static class QuartzServiceCollectionExtensions
+    public static class MovieImporterServiceCollectionExtensions
     {
-        public static IServiceCollection AddQuartz(this IServiceCollection services, QuartzSettings quartzSettings)
+
+        public static IServiceCollection AddMovieImporter(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddTMDb();
+            services.AddDataAccess(configuration);
+            services.AddMediatR(AppDomain.CurrentDomain.Load("Watchster.Application"));
+
+            var quartzSettings = configuration.GetSection("QuartzSettings").Get<QuartzSettings>();
+            services.AddQuartz(quartzSettings);
+
+            return services;
+        }
+
+        private static IServiceCollection AddQuartz(this IServiceCollection services, QuartzSettings quartzSettings)
         {
             services.AddQuartz(quartzConfigurator =>
             {
@@ -21,11 +38,13 @@ namespace Watchster.MovieImporter.Extensions
                 int minutesRerunInterval = quartzSettings.RerunUnitOfMeasureIsInHours ?
                             quartzSettings.RerunInHours * 60 : quartzSettings.RerunInMinutest;
 
+                var startTime = new DateTimeOffset(quartzSettings.StartAt ?? DateTime.Now);
+
                 quartzConfigurator.ScheduleJob<MovieImporterJob>(trigger => trigger.WithIdentity(triggerKey)
                     .WithSimpleSchedule(options => options.WithIntervalInMinutes(minutesRerunInterval)
                         .WithMisfireHandlingInstructionFireNow()
                         .RepeatForever())
-                    .StartAt(new DateTimeOffset(quartzSettings.StartAt ?? DateTime.Now)),
+                    .StartAt(startTime),
                     job => job.WithIdentity(jobKey)
                         .StoreDurably(false));
             });

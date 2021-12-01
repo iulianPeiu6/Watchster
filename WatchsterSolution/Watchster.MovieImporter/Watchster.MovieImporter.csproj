@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Watchster.Application\Watchster.Application.csproj" />
+    <ProjectReference Include="..\Watchster.DataAccess\Watchster.DataAccess.csproj" />
     <ProjectReference Include="..\Watchster.TMDb\Watchster.TMDb.csproj" />
   </ItemGroup>
 

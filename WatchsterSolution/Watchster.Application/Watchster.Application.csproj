@@ -10,8 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Watchster.Domain\Watchster.Domain.csproj" />
     <ProjectReference Include="..\Watchster.MLUtil\Watchster.MLUtil.csproj" />
     <ProjectReference Include="..\Watchster.SendGrid\Watchster.SendGrid.csproj" />
+    <ProjectReference Include="..\Watchster.TMDb\Watchster.TMDb.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MediatR;
+using Microsoft.Extensions.Logging;
 using Quartz;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Watchster.Application.Features.Commands;
+using Watchster.Application.Features.Queries;
 using Watchster.TMDb.Models;
 using Watchster.TMDb.Services;
 
@@ -13,56 +17,103 @@ namespace Watchster.MovieImporter.Job
     {
         private readonly ILogger<MovieImporterJob> logger;
         private readonly ITMDbMovieDiscoverService movieDiscover;
+        private readonly IMediator mediator;
+        private Domain.Entities.AppSettings movieImporterSettings; 
         private DateTime CurrentDateTime;
 
-        public MovieImporterJob(ILogger<MovieImporterJob> logger, ITMDbMovieDiscoverService movieDiscover)
+        public MovieImporterJob(
+            ILogger<MovieImporterJob> logger, 
+            ITMDbMovieDiscoverService movieDiscover,
+            IMediator mediator)
         {
             this.logger = logger;
             this.movieDiscover = movieDiscover;
+            this.mediator = mediator;
         }
 
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             logger.LogInformation("Starting importing new released movies");
 
             CurrentDateTime = DateTime.Now;
 
-            var lastSyncDateTime = GetLastSyncDateTime();
+            var lastSyncDateTime = await GetLastSyncDateTime();
 
-            var numOfImportedMovies = ImportNewMoviesAfterDate(lastSyncDateTime);
+            var numOfImportedMovies = await ImportNewMoviesAfterDateAsync(lastSyncDateTime);
 
-            UpdateLastSyncDateTime(CurrentDateTime);
+            await UpdateLastSyncDateTime(CurrentDateTime);
 
             logger.LogInformation($"Ended importing new released movies. {numOfImportedMovies} new movie(s) were imported.");
-            return Task.CompletedTask;
         }
 
-        private DateTime GetLastSyncDateTime()
+        private async Task<DateTime> GetLastSyncDateTime()
         {
-            return DateTime.Parse("10/1/2021 8:30:00 AM", System.Globalization.CultureInfo.InvariantCulture);
+            var query = new GetAppSettingsBySectionAndParameterQuery()
+            {
+                Section = "MovieImporter",
+                Parameter = "LastSyncDate"
+            };
+
+            movieImporterSettings = await mediator.Send(query);
+            DateTime lastSyncDate;
+            if (movieImporterSettings.Value is null)
+            {
+                lastSyncDate = DateTime.MinValue;
+            }
+            else
+            {
+                lastSyncDate = DateTime.Parse(movieImporterSettings.Value, CultureInfo.InvariantCulture);
+            }
+            
+            return lastSyncDate;
         }
 
-        private int ImportNewMoviesAfterDate(DateTime lastSyncDateTime)
+        private async Task<int> ImportNewMoviesAfterDateAsync(DateTime lastSyncDateTime)
         {
             var result = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, CurrentDateTime);
-            ImportMovies(result.Movies);
+            await ImportMovies(result.Movies);
 
-            foreach (var page in Enumerable.Range(2, result.TotalPages))
+            foreach (var page in Enumerable.Range(2, result.TotalPages - 1))
             {
                 var movies = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, CurrentDateTime, page).Movies;
-                ImportMovies(movies);
+                await ImportMovies(movies);
             }
             return result.Movies.Count;
         }
 
-        private void ImportMovies(List<Movie> movies)
+        private async Task ImportMovies(List<Movie> movies)
         {
-            throw new NotImplementedException();
+            foreach (var movie in movies)
+            {
+                var command = new CreateMovieCommand
+                {
+                    Title = movie.Title,
+                    Overview = movie.Overview,
+                    TMDbId = movie.TMDbId,
+                    ReleaseDate = movie.ReleaseDate,
+                    Genres = movie.Genres
+                        .ToList()
+                        .Select(genre => new Domain.Entities.Genre
+                        {
+                            TMDbId = genre.TMDbId,
+                            Name = genre.Name
+                        }).ToList()
+                };
+                await mediator.Send(command);
+            }
         }
 
-        private void UpdateLastSyncDateTime(DateTime currentDateTime)
+        private async Task UpdateLastSyncDateTime(DateTime currentDateTime)
         {
-            throw new NotImplementedException();
+            var command = new UpdateAppSettingsCommand
+            {
+                Id = movieImporterSettings.Id,
+                Section = movieImporterSettings.Section,
+                Parameter = movieImporterSettings.Parameter,
+                Description = movieImporterSettings.Description,
+                Value = currentDateTime.ToString()
+            };
+            await mediator.Send(command);
         }
     }
 }
