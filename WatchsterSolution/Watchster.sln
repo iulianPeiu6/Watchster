@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestConsoles", "TestConsoles", "{24F07CC9-DD5C-4B32-997B-208195B2AEAB}"
 EndProject
@@ -47,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.Domain", "Watchst
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.Application", "Watchster.Application\Watchster.Application.csproj", "{44A060AA-1E74-401D-9561-56682A89FBAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.UnitTests", "Database.UnitTests\Database.UnitTests.csproj", "{3CC0615F-D460-4AD8-B71E-4E8F6EC11307}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watchster.DataAccess.UnitTests", "Watchster.DataAccess.UnitTests\Watchster.DataAccess.UnitTests.csproj", "{3CC0615F-D460-4AD8-B71E-4E8F6EC11307}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

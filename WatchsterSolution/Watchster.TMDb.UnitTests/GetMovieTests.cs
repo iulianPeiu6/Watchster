@@ -12,8 +12,9 @@ namespace Watchster.TMDb.UnitTests
 {
     public class GetMovieDataTests
     {
-        private readonly TMDbMovieDiscoverService TMDbService;
         /*
+        private readonly TMDbMovieDiscoverService TMDbService;
+        
         public GetMovieDataTests()
         {
             
