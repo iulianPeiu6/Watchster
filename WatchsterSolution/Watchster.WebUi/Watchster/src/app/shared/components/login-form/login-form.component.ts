@@ -21,8 +21,6 @@ export class LoginFormComponent {
   async onSubmit(e: Event) {
     e.preventDefault();
     const { email, password } = this.formData;
-    {{console.error(email);}}
-    {{console.log(password);}}
     this.loading = true;
 
     const result = await this.authService.logIn(email, password);
