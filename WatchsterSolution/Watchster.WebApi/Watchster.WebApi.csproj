@@ -7,14 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EzPasswordValidator" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Watchster.ApplicationService\Watchster.ApplicationService.csproj" />
+    <ProjectReference Include="..\Watchster.Application\Watchster.Application.csproj" />
     <ProjectReference Include="..\Watchster.DataAccess\Watchster.DataAccess.csproj" />
+    <ProjectReference Include="..\Watchster.Domain\Watchster.Domain.csproj" />
   </ItemGroup>
 
 </Project>

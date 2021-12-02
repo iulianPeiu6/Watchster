@@ -1,13 +1,13 @@
-using NUnit.Framework;
-using Watchster.SendGrid.Services;
+using FakeItEasy;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Watchster.SendGrid.Models;
+using Microsoft.Extensions.Options;
+using NUnit.Framework;
+using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
-using FakeItEasy;
-using Microsoft.Extensions.Options;
-using FluentAssertions;
-using SendGrid;
+using Watchster.SendGrid.Models;
+using Watchster.SendGrid.Services;
 
 namespace Watchster.SendGrid.UnitTests
 {

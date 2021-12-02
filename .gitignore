@@ -29,3 +29,11 @@ msbuild.err
 msbuild.wrn
 
 .vs
+
+#Ignore Dataset Files(too large to be pushed on github)
+WatchsterSolution/Watchster.MLUtil/Data/tag.csv
+WatchsterSolution/Watchster.MLUtil/Data/rating.csv
+WatchsterSolution/Watchster.MLUtil/Data/movie.csv
+WatchsterSolution/Watchster.MLUtil/Data/link.csv
+WatchsterSolution/Watchster.MLUtil/Data/genome_tags.csv
+WatchsterSolution/Watchster.MLUtil/Data/genome_scores.csv
