@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Watchster.Domain.Common;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using Watchster.DataAccess.Context;
+using System.Reflection;
 using System.Threading.Tasks;
 using Watchster.Aplication.Interfaces;
-using Microsoft.ML;
-using System.Reflection;
+using Watchster.DataAccess.Context;
+using Watchster.Domain.Common;
 
 namespace Watchster.DataAccess
 {
@@ -77,7 +76,7 @@ namespace Watchster.DataAccess
         public async Task<TEntity> UpdateAsync(TEntity entity, Func<TEntity, object> modify)
         {
             foreach (PropertyInfo p in modify(entity).GetType().GetProperties())
-{
+            {
                 context.Entry(entity).Property(p.Name).IsModified = true;
             }
             await context.SaveChangesAsync();

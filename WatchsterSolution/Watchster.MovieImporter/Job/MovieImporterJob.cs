@@ -18,11 +18,11 @@ namespace Watchster.MovieImporter.Job
         private readonly ILogger<MovieImporterJob> logger;
         private readonly ITMDbMovieDiscoverService movieDiscover;
         private readonly IMediator mediator;
-        private Domain.Entities.AppSettings movieImporterSettings; 
+        private Domain.Entities.AppSettings movieImporterSettings;
         private DateTime CurrentDateTime;
 
         public MovieImporterJob(
-            ILogger<MovieImporterJob> logger, 
+            ILogger<MovieImporterJob> logger,
             ITMDbMovieDiscoverService movieDiscover,
             IMediator mediator)
         {
@@ -64,7 +64,7 @@ namespace Watchster.MovieImporter.Job
             {
                 lastSyncDate = DateTime.Parse(movieImporterSettings.Value, CultureInfo.InvariantCulture);
             }
-            
+
             return lastSyncDate;
         }
 

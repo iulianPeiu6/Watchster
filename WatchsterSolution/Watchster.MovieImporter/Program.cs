@@ -1,19 +1,10 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using Watchster.Application.Interfaces;
-using Watchster.DataAccess;
-using Watchster.DataAccess.Context;
-using Watchster.DataAccess.Repositories;
 using Watchster.MovieImporter.Extensions;
-using Watchster.MovieImporter.Settings;
-using Watchster.TMDb;
 
 namespace Watchster.MovieImporter
 {

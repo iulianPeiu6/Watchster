@@ -1,18 +1,12 @@
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
-using System.Text;
 using Watchster.Application;
 using Watchster.DataAccess;
-using Watchster.DataAccess.Context;
 
 namespace Watchster.WebApi
 {
@@ -43,9 +37,7 @@ namespace Watchster.WebApi
 
             services.AddDataAccess(Configuration);
 
-
-
-            services.AddApplication();
+            services.AddApplication(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
