@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
+using Watchster.Application.Models;
 
 namespace Watchster.WebApi.Controllers.v1
 {
@@ -25,6 +26,7 @@ namespace Watchster.WebApi.Controllers.v1
             try
             {
                 var response = await mediator.Send(command);
+
                 return Ok(response);
             }
             catch (Exception ex)
@@ -41,6 +43,12 @@ namespace Watchster.WebApi.Controllers.v1
             try
             {
                 var response = await mediator.Send(command);
+
+                if (response.ErrorMessage == Error.WrongEmailOrPassword)
+                {
+                    return Unauthorized(response);
+                }
+
                 return Ok(response);
             }
             catch (Exception ex)

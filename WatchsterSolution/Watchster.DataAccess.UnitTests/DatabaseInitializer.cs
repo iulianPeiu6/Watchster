@@ -10,7 +10,7 @@ namespace Database.UnitTests
     {
         public static void Initialize(WatchsterContext context)
         {
-            if(context.Movies.Any() && context.Users.Any() && context.Genres.Any() && context.Ratings.Any() && context.AppSettings.Any())
+            if (context.Movies.Any() && context.Users.Any() && context.Genres.Any() && context.Ratings.Any() && context.AppSettings.Any())
             {
                 return;
             }
@@ -35,7 +35,7 @@ namespace Database.UnitTests
                 Email = "UserTestEmail@yahoo.com",
                 Password = "TestPassword",
                 IsSubscribed = true,
-                RegistrationDate = new DateTime(2021,12,1),
+                RegistrationDate = new DateTime(2021, 12, 1),
                 UserRatings = User1Ratings
             };
             var genres = new[]
@@ -94,6 +94,6 @@ namespace Database.UnitTests
             context.Genres.AddRange(genres);
             context.SaveChanges();
         }
-        
+
     }
 }

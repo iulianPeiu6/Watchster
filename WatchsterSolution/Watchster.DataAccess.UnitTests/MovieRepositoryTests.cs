@@ -145,7 +145,7 @@ namespace Database.UnitTests
         [Test]
         public void Given_Expression_When_MoviesPopulateDatabase_ThenQueryShouldReturnAQueryableCollectionOfMoviesRespectingThatExpression()
         {
-            Expression<Func<Movie,bool>> expression = movie => movie.TMDbId < 3;
+            Expression<Func<Movie, bool>> expression = movie => movie.TMDbId < 3;
 
             var result = repository.Query(expression).ToList();
 

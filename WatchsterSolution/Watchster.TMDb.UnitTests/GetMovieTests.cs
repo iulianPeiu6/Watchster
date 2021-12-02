@@ -1,13 +1,3 @@
-using NUnit.Framework;
-using Watchster.TMDb.Services;
-using FakeItEasy;
-using FluentAssertions;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
-using System.Configuration;
-using Microsoft.Extensions.Configuration;
-
 namespace Watchster.TMDb.UnitTests
 {
     public class GetMovieDataTests

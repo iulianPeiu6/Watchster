@@ -33,7 +33,7 @@ namespace Database.UnitTests
                 Email = "Unit Test Email",
                 Password = "Unit Test Password",
                 IsSubscribed = true,
-                RegistrationDate = new DateTime(2021,12,4),
+                RegistrationDate = new DateTime(2021, 12, 4),
                 UserRatings = UserTestRatings
             };
         }
