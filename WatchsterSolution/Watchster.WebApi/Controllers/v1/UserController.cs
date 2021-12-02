@@ -1,37 +1,61 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
-using Watchster.WebApi.Models;
+using System.Threading.Tasks;
+using Watchster.Application.Features.Commands;
 
 namespace Watchster.WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
     public class UserController : BaseController
     {
-        public UserController(IMediator mediator) : base(mediator)
+        private readonly ILogger<UserController> logger;
+
+        public UserController(IMediator mediator, ILogger<UserController> logger) : base(mediator)
         {
+            this.logger = logger;
         }
 
         [HttpPost]
         [Route("Register")]
-        public IActionResult Register([FromBody] User user)
+        public async Task<IActionResult> RegisterAsync([FromBody] CreateUserCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await mediator.Send(command);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpPost]
         [Route("Authenticate")]
-        public IActionResult Authenticate([FromBody] UserAuthenticationDetails user)
+        public async Task<IActionResult> AuthenticateAsync([FromBody] AuthenticateUserCommand command)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await mediator.Send(command);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
-        [HttpPatch]
-        [Route("Update")]
-        public IActionResult Update(Guid userId, [FromBody] User user)
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpPatch]
+        //[Route("Update")]
+        //public IActionResult Update(Guid userId, [FromBody] User user)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         [HttpDelete]
         [Route("Delete")]

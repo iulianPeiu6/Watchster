@@ -19,7 +19,7 @@ namespace Watchster.Application.Features.Commands
         {
             var appSettings = new AppSettings
             {
-                Id = request.Id, 
+                Id = request.Id,
                 Section = request.Section,
                 Parameter = request.Parameter,
                 Description = request.Description,
