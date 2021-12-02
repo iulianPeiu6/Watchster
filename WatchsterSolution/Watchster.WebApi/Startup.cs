@@ -6,8 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text;
 using Watchster.Application;
 using Watchster.DataAccess;
 using Watchster.DataAccess.Context;
@@ -40,6 +42,8 @@ namespace Watchster.WebApi
             });
 
             services.AddDataAccess(Configuration);
+
+
 
             services.AddApplication();
         }

@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using Watchster.Application.Interfaces;
 using Watchster.MLUtil;
 using Watchster.SendGrid;
 using Watchster.TMDb;
+using Watchster.Jwt;
 
 namespace Watchster.Application
 {
@@ -16,6 +16,7 @@ namespace Watchster.Application
             services.AddSendGrid();
             services.AddTMDb();
             services.AddMLUtil();
+            services.AddJwt();
         }
     }
 }
