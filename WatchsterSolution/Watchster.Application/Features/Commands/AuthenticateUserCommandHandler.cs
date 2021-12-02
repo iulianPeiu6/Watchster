@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Watchster.Application.Authentication.Models;
 using Watchster.Application.Interfaces;
+using Watchster.Application.Models;
 using Watchster.Jwt;
 
 namespace Watchster.Application.Features.Commands
@@ -42,7 +43,7 @@ namespace Watchster.Application.Features.Commands
                 var response = new UserAuthenticationResult();
                 if (user is null)
                 {
-                    response.ErrorMessage = "Wrong email or password";
+                    response.ErrorMessage = Error.WrongEmailOrPassword;
                     return response;
                 }
 
