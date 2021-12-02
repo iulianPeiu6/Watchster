@@ -6,8 +6,6 @@ namespace Watchster.Application.Models
     {
         public User User { get; set; }
 
-        public string JwtToken { get; set; }
-
         public string ErrorMessage { get; set; }
     }
 }
