@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
+import { HttpClient } from "@angular/common/http";
+
+
 
 export interface IUser {
   email: string;
@@ -15,6 +18,9 @@ const defaultUser = {
 @Injectable()
 export class AuthService {
   private _user: IUser | null = defaultUser;
+  private token: any;
+  private errorMessage: any;
+
   get loggedIn(): boolean {
     return !!this._user;
   }
@@ -24,14 +30,23 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private http: HttpClient) { }
 
   async logIn(email: string, password: string) {
 
     try {
       // Send request
-      this._user = { ...defaultUser, email };
-      this.router.navigate([this._lastAuthenticatedPath]);
+      this.http.post<any>('/api/1/User/Authenticate', { email: email, password: password }).subscribe({
+        next: data => {
+          this._user = data.user;
+          this.token = data.jwtToken;
+          this.router.navigate([this._lastAuthenticatedPath]);
+        },
+        error: error => {
+          this.errorMessage = error.message;
+          console.error(error);
+        }
+      })
 
       return {
         isOk: true,
@@ -66,9 +81,17 @@ export class AuthService {
   async createAccount(email: string, password: string) {
     try {
       // Send request
-      console.log(email, password);
+      this.http.post<any>('/api/1/User/Register', { email: email, password: password, isSubscribed: true }).subscribe({
+        next: data => {
+          this._user = data.user;
+          this.router.navigate(['/create-account']);
+        },
+        error: error => {
+          this.errorMessage = error.message;
+          console.error(error);
+        }
+      })
 
-      this.router.navigate(['/create-account']);
       return {
         isOk: true
       };
@@ -117,6 +140,7 @@ export class AuthService {
 
   async logOut() {
     this._user = null;
+    this.token = null;
     this.router.navigate(['/login-form']);
   }
 }

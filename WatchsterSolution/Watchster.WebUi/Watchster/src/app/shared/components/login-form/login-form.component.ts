@@ -26,7 +26,7 @@ export class LoginFormComponent {
     const result = await this.authService.logIn(email, password);
     if (!result.isOk) {
       this.loading = false;
-      notify(result.message, 'error', 2000);
+      //notify(result.message, 'error', 2000);
     }
   }
 
