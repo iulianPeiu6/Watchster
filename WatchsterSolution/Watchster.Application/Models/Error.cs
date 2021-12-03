@@ -2,6 +2,6 @@
 {
     public static class Error
     {
-        public static string WrongEmailOrPassword = "Wrong email or password";
+        public const string WrongEmailOrPassword = "Wrong email or password";
     }
 }

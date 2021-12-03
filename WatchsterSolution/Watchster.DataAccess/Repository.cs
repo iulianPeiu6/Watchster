@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using Vanguard;
 using Watchster.Aplication.Interfaces;
 using Watchster.DataAccess.Context;
 using Watchster.Domain.Common;
@@ -24,10 +25,8 @@ namespace Watchster.DataAccess
         }
         public async Task<TEntity> AddAsync(TEntity entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException($"{nameof(AddAsync)} entity must not be null");
-            }
+            Guard.ArgumentNotNull(entity, nameof(entity));
+
             await context.AddAsync(entity);
             await context.SaveChangesAsync();
             return entity;
@@ -35,10 +34,7 @@ namespace Watchster.DataAccess
 
         public async Task<TEntity> Delete(TEntity entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException($"{nameof(Delete)} entity mult not be null");
-            }
+            Guard.ArgumentNotNull(entity, nameof(entity));
 
             context.Remove(entity);
             await context.SaveChangesAsync();
@@ -52,20 +48,14 @@ namespace Watchster.DataAccess
 
         public async Task<TEntity> GetByIdAsync(Guid id)
         {
-            if (id == Guid.Empty)
-            {
-                throw new ArgumentException($"{nameof(GetByIdAsync)} id must not be empty");
-            }
+            Guard.ArgumentNotNullOrEmpty(id, nameof(id));
 
             return await context.FindAsync<TEntity>(id);
         }
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException($"{nameof(UpdateAsync)} entity must not be null");
-            }
+            Guard.ArgumentNotNull(entity, nameof(entity));
 
             var updatedEntity = dbSet.Attach(entity).Entity;
             context.Entry(entity).State = EntityState.Modified;

@@ -19,7 +19,7 @@ namespace Database.UnitTests
         {
             repository = new Repository<Rating>(context);
 
-            var rating = new Rating
+            newRating = new Rating
             {
                 Id = Guid.Parse("94b44832-3990-4508-8d6f-c2a6eb831fa9"),
                 UserId = Guid.Parse("56db7a89-9b32-4f36-ba80-b3ac182cef53"),

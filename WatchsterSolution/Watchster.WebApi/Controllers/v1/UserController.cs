@@ -58,13 +58,6 @@ namespace Watchster.WebApi.Controllers.v1
             }
         }
 
-        //[HttpPatch]
-        //[Route("Update")]
-        //public IActionResult Update(Guid userId, [FromBody] User user)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         [HttpDelete]
         [Route("Delete")]
         public IActionResult Delete(Guid userId)

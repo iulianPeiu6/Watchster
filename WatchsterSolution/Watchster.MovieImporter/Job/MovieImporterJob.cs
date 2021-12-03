@@ -94,7 +94,6 @@ namespace Watchster.MovieImporter.Job
                     TMDbId = movie.TMDbId,
                     ReleaseDate = movie.ReleaseDate,
                     Genres = movie.Genres
-                        .ToList()
                         .Select(genre => new Domain.Entities.Genre
                         {
                             TMDbId = genre.TMDbId,

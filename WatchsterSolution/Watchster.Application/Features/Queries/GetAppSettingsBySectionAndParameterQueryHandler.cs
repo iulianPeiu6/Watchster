@@ -24,7 +24,7 @@ namespace Watchster.Application.Features.Queries
 
             if (appSettings == null)
             {
-                throw new Exception("The requested settings do not exist");
+                throw new ArgumentException("The requested settings do not exist");
             }
 
             return Task.Run(() => appSettings);

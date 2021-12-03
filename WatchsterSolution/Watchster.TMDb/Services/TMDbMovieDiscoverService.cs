@@ -150,6 +150,8 @@ namespace Watchster.TMDb.Services
         {
             var tmdbGenres = TMDbClient.GetMovieGenresAsync().Result;
 
+            genres = new();
+
             foreach (var genre in tmdbGenres)
             {
                 genres.Add(genre.Id, genre.Name);
