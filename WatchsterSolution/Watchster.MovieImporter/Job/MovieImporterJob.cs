@@ -73,7 +73,7 @@ namespace Watchster.MovieImporter.Job
             var result = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, CurrentDateTime);
             await ImportMovies(result.Movies);
 
-            foreach (var page in Enumerable.Range(2, result.TotalPages - 1))
+            foreach (var page in Enumerable.Range(2, result.TotalPages - 2))
             {
                 var movies = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, CurrentDateTime, page).Movies;
                 await ImportMovies(movies);
