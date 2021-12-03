@@ -17,6 +17,7 @@ namespace Database.UnitTests
         }
         public void Dispose()
         {
+            GC.SuppressFinalize(this);
             context.Database.EnsureDeleted();
             context.Dispose();
         }
