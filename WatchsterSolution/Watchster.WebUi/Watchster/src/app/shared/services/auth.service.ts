@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
 
-
-
 export interface IUser {
+  //id: string;
   email: string;
+  //token: string;
+  //isSubscribed: boolean;
   avatarUrl?: string
 }
 
@@ -19,7 +20,6 @@ const defaultUser = {
 export class AuthService {
   private _user: IUser | null = defaultUser;
   private token: any;
-  private errorMessage: any;
 
   get loggedIn(): boolean {
     return !!this._user;
@@ -36,21 +36,16 @@ export class AuthService {
 
     try {
       // Send request
-      this.http.post<any>('/api/1/User/Authenticate', { email: email, password: password }).subscribe({
-        next: data => {
-          this._user = data.user;
-          this.token = data.jwtToken;
-          this.router.navigate([this._lastAuthenticatedPath]);
-        },
-        error: error => {
-          this.errorMessage = error.message;
-          console.error(error);
-        }
-      })
+      const response = await this.http
+        .post<any>('/api/1/User/Authenticate', { email: email, password: password })
+        .toPromise()
+
+      //save user details
+      this.router.navigate(['/home']);
 
       return {
         isOk: true,
-        data: this._user
+        message: "Authenticated Successfully!"
       };
     }
     catch {
@@ -81,16 +76,9 @@ export class AuthService {
   async createAccount(email: string, password: string) {
     try {
       // Send request
-      this.http.post<any>('/api/1/User/Register', { email: email, password: password, isSubscribed: true }).subscribe({
-        next: data => {
-          this._user = data.user;
-          this.router.navigate(['/create-account']);
-        },
-        error: error => {
-          this.errorMessage = error.message;
-          console.error(error);
-        }
-      })
+      const response = await this.http
+        .post<any>('/api/1/User/Register', { email: email, password: password, isSubscribed: true })
+        .toPromise()
 
       return {
         isOk: true

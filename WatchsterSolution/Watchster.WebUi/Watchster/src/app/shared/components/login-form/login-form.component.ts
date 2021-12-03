@@ -14,6 +14,8 @@ import { AuthService } from '../../services';
 })
 export class LoginFormComponent {
   loading = false;
+  authFailed = true;
+  authFailedMsg = "Wrong email or password!";
   formData: any = {};
 
   constructor(private authService: AuthService, private router: Router) { }
@@ -24,16 +26,16 @@ export class LoginFormComponent {
     this.loading = true;
 
     const result = await this.authService.logIn(email, password);
-    if (!result.isOk) {
-      this.loading = false;
-      //notify(result.message, 'error', 2000);
-    }
+
+    this.loading = false;
+    notify(result.message, result.isOk ? 'success' : 'error', 2000);
   }
 
   onCreateAccountClick = () => {
     this.router.navigate(['/create-account']);
   }
 }
+
 @NgModule({
   imports: [
     CommonModule,
