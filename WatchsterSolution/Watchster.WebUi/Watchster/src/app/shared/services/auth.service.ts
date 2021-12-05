@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
+import { HttpClient } from "@angular/common/http";
 
 export interface IUser {
+  //id: string;
   email: string;
+  //token: string;
+  //isSubscribed: boolean;
   avatarUrl?: string
 }
 
@@ -15,6 +19,8 @@ const defaultUser = {
 @Injectable()
 export class AuthService {
   private _user: IUser | null = defaultUser;
+  private token: any;
+
   get loggedIn(): boolean {
     return !!this._user;
   }
@@ -24,18 +30,22 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private http: HttpClient) { }
 
   async logIn(email: string, password: string) {
 
     try {
       // Send request
-      this._user = { ...defaultUser, email };
-      this.router.navigate([this._lastAuthenticatedPath]);
+      const response = await this.http
+        .post<any>('/api/1/User/Authenticate', { email: email, password: password })
+        .toPromise()
+
+      //save user details
+      this.router.navigate(['/home']);
 
       return {
         isOk: true,
-        data: this._user
+        message: "Authenticated Successfully!"
       };
     }
     catch {
@@ -66,9 +76,10 @@ export class AuthService {
   async createAccount(email: string, password: string) {
     try {
       // Send request
-      console.log(email, password);
+      const response = await this.http
+        .post<any>('/api/1/User/Register', { email: email, password: password, isSubscribed: true })
+        .toPromise()
 
-      this.router.navigate(['/create-account']);
       return {
         isOk: true
       };
@@ -117,6 +128,7 @@ export class AuthService {
 
   async logOut() {
     this._user = null;
+    this.token = null;
     this.router.navigate(['/login-form']);
   }
 }
