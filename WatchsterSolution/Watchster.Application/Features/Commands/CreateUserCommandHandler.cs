@@ -1,4 +1,5 @@
-﻿using EzPasswordValidator.Validators;
+﻿using EzPasswordValidator.Checks;
+using EzPasswordValidator.Validators;
 using MediatR;
 using System;
 using System.Net.Mail;
@@ -67,7 +68,7 @@ namespace Watchster.Application.Features.Commands
         }
         private static bool PasswordRespectsContraints(string password)
         {
-            var validator = new PasswordValidator();
+            var validator = new PasswordValidator(CheckTypes.Length);
             validator.SetLengthBounds(6, 32);
             return validator.Validate(password);
         }

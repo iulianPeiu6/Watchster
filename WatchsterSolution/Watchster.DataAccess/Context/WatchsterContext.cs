@@ -15,6 +15,8 @@ namespace Watchster.DataAccess.Context
 
         public DbSet<Rating> Ratings { get; set; }
 
+        public DbSet<ResetPasswordCode> ResetPasswordCodes { get; set; }
+
         public WatchsterContext(DbContextOptions<WatchsterContext> dbContext) : base(dbContext)
         {
 

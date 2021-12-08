@@ -58,12 +58,84 @@ namespace Watchster.WebApi.Controllers.v1
             }
         }
 
-        //[HttpPatch]
-        //[Route("Update")]
-        //public IActionResult Update(Guid userId, [FromBody] User user)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        [HttpPatch]
+        [Route("SendEmailChangePassword")]                                              //modify name
+        public async Task<IActionResult> SendEmailChangePasswordAsync([FromBody] GenerateAndSaveResetPasswordIDCommand command)
+        {
+            try
+            {
+                var responseSaveResetPasswordCode = await mediator.Send(command);
+
+                if (responseSaveResetPasswordCode.ErrorMessage == Error.EmailNotFound)
+                {
+                    return NotFound(new { Message = responseSaveResetPasswordCode.ErrorMessage });
+                }
+
+                var commandSendMail = new SendResetMailCommand
+                {
+                    Result = responseSaveResetPasswordCode.resetPasswordCode,
+                    Endpoint = command.Endpoint
+                };
+
+                var responseSendMail = await mediator.Send(commandSendMail);
+
+                if (responseSendMail == Error.EmailNotSent)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, responseSendMail);
+                }
+                return Ok(new { Message = responseSendMail });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("VerifyPasswordCode")]
+        public async Task<IActionResult> VerifyPasswordCodeAsync([FromBody] VerifyPasswordCodeCommand command)
+        {
+            //TODO : Verifiy expiration date
+            try
+            {
+                var codeIsValid = await mediator.Send(command);
+
+                if (!codeIsValid)
+                {
+                    return Unauthorized(new { Message = Error.WrongPasswordChangeCode });
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPatch]
+        [Route("ChangeNewPassword")]
+        public async Task<IActionResult> ChangeNewPasswordAsync([FromBody] ChangeUserPasswordCommand command)
+        {
+            try
+            {
+                var response = await mediator.Send(command);
+
+                if (!response.Status)
+                {
+                    return Unauthorized(response.ErrorMessage);
+                }
+
+                return Ok("Password changed!");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
 
         [HttpDelete]
         [Route("Delete")]
