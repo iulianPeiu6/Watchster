@@ -49,7 +49,7 @@ namespace Watchster.Application.Features.Commands
             return response;
         }
 
-        private bool IsValid(CreateUserCommand request)
+        private static bool IsValid(CreateUserCommand request)
         {
             return EmailIsValid(request.Email) && PasswordRespectsContraints(request.Password);
         }

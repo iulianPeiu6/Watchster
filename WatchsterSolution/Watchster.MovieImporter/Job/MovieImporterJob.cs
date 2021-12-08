@@ -72,13 +72,15 @@ namespace Watchster.MovieImporter.Job
         {
             var result = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, CurrentDateTime);
             await ImportMovies(result.Movies);
+            int numOfMoviesImported = result.Movies.Count;
 
             foreach (var page in Enumerable.Range(2, result.TotalPages - 1))
             {
                 var movies = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, CurrentDateTime, page).Movies;
                 await ImportMovies(movies);
+                numOfMoviesImported += movies.Count;
             }
-            return result.Movies.Count;
+            return numOfMoviesImported;
         }
 
         private async Task ImportMovies(List<Movie> movies)
@@ -92,7 +94,6 @@ namespace Watchster.MovieImporter.Job
                     TMDbId = movie.TMDbId,
                     ReleaseDate = movie.ReleaseDate,
                     Genres = movie.Genres
-                        .ToList()
                         .Select(genre => new Domain.Entities.Genre
                         {
                             TMDbId = genre.TMDbId,

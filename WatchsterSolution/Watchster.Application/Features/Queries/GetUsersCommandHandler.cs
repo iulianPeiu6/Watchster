@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Watchster.Application.Interfaces;
 using Watchster.Domain.Entities;
 
-namespace Watchster.Application.Features.Commands
+namespace Watchster.Application.Features.Queries
 {
     class GetUsersCommandHandler : IRequestHandler<GetUsersCommand, IEnumerable<User>>
     {

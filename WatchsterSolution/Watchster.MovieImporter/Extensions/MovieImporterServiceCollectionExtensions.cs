@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using System;
+using Watchster.Application;
 using Watchster.DataAccess;
 using Watchster.MovieImporter.Job;
 using Watchster.MovieImporter.Settings;
@@ -15,9 +16,9 @@ namespace Watchster.MovieImporter.Extensions
 
         public static IServiceCollection AddMovieImporter(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTMDb();
+            services.AddApplication(configuration);
+
             services.AddDataAccess(configuration);
-            services.AddMediatR(AppDomain.CurrentDomain.Load("Watchster.Application"));
 
             var quartzSettings = configuration.GetSection("QuartzSettings").Get<QuartzSettings>();
             services.AddQuartz(quartzSettings);
