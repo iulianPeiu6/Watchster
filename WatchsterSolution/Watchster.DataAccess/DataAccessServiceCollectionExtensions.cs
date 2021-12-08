@@ -18,6 +18,7 @@ namespace Watchster.DataAccess
             services.AddScoped<IAppSettingsRepository, AppSettingsRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IResetPasswordCodeRepository, ResetPasswordCodeRepository>();
             return services;
         }
     }

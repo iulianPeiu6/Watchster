@@ -3,17 +3,20 @@ import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
 
 export interface IUser {
-  //id: string;
+  id: string;
   email: string;
-  //token: string;
-  //isSubscribed: boolean;
+  token: string;
+  isSubscribed: boolean;
   avatarUrl?: string
 }
 
 const defaultPath = '/';
 const defaultUser = {
   email: 'sandra@example.com',
-  avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png'
+  avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png',
+  id: '1',
+  isSubscribed: true,
+  token: '1'
 };
 
 @Injectable()
@@ -37,8 +40,16 @@ export class AuthService {
     try {
       // Send request
       const response = await this.http
-        .post<any>('/api/1/User/Authenticate', { email: email, password: password })
+        .post<IUser>('/api/1/User/Authenticate', { email: email, password: password })
         .toPromise()
+      
+        if(this._user){
+          this._user.email = response.email;
+          this._user.avatarUrl = response.avatarUrl;
+          this._user.id = response.id;
+          this._user.isSubscribed = response.isSubscribed;
+          this._user.token = response.token;
+          }
 
       //save user details
       this.router.navigate(['/home']);
@@ -77,8 +88,16 @@ export class AuthService {
     try {
       // Send request
       const response = await this.http
-        .post<any>('/api/1/User/Register', { email: email, password: password, isSubscribed: true })
+        .post<IUser>('/api/1/User/Register', { email: email, password: password, isSubscribed: true })
         .toPromise()
+
+      if(this._user){
+      this._user.email = response.email;
+      this._user.avatarUrl = response.avatarUrl;
+      this._user.id = response.id;
+      this._user.isSubscribed = response.isSubscribed;
+      this._user.token = response.token;
+      }
 
       return {
         isOk: true
