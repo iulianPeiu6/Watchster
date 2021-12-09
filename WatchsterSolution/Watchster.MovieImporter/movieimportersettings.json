@@ -6,7 +6,7 @@
     "RerunInMinutest": 1
   },
   "ConnectionStrings": {
-    "WatchsterDB": "Server=IS1300141;Database=WatchsterDB;Trusted_Connection=True;"
+    "WatchsterDB": "Server=localhost\\SQLEXPRESS01;Database=WatchsterDB;Trusted_Connection=True;"
   },
   "Authentication": {
     "Issuer": "Watchster",
