@@ -1,14 +1,20 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
+using Watchster.Application.Features.Queries;
 
 namespace Watchster.WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
     public class MovieController : BaseController
     {
-        public MovieController(IMediator mediator) : base(mediator)
+        private readonly ILogger<MovieController> logger;
+        public MovieController(IMediator mediator, ILogger<MovieController> logger) : base(mediator)
         {
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -30,6 +36,30 @@ namespace Watchster.WebApi.Controllers.v1
         public IActionResult AddRating(Guid movieId, Guid userId, decimal rating)
         {
             throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("GetFromPage")]
+        public async Task<IActionResult> GetFromPage([FromQuery] GetMoviesFromPageCommand command)
+        {
+            try
+            {
+                var response = await mediator.Send(command);
+                
+                if(response.ErrorMessage!=null)
+                {
+                    return Unauthorized(new { Message = response.ErrorMessage });
+                }
+                else
+                {
+                    return Ok(new { Message = response });
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }

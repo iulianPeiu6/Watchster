@@ -1,4 +1,5 @@
-﻿using Watchster.Domain.Common;
+﻿using System;
+using Watchster.Domain.Common;
 
 namespace Watchster.Domain.Entities
 {
@@ -7,5 +8,7 @@ namespace Watchster.Domain.Entities
         public int TMDbId { get; set; }
 
         public string Name { get; set; }
+
+        public Guid MovieId { get; set; }
     }
 }

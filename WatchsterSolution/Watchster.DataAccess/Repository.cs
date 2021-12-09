@@ -14,9 +14,9 @@ namespace Watchster.DataAccess
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly WatchsterContext context;
+        protected readonly WatchsterContext context;
 
-        private readonly DbSet<TEntity> dbSet;
+        protected readonly DbSet<TEntity> dbSet;
 
         public Repository(WatchsterContext context)
         {
