@@ -20,10 +20,11 @@ export class ResetPasswordFormComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   async onSubmit(e: Event) {
+    
     e.preventDefault();
     const { email } = this.formData;
     this.loading = true;
-
+    
     const result = await this.authService.resetPassword(email);
     this.loading = false;
 

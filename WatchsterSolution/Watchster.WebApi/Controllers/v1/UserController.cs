@@ -59,7 +59,7 @@ namespace Watchster.WebApi.Controllers.v1
         }
 
         [HttpPatch]
-        [Route("SendEmailChangePassword")]                                              //modify name
+        [Route("SendEmailChangePassword")]                                              
         public async Task<IActionResult> SendEmailChangePasswordAsync([FromBody] GenerateAndSaveResetPasswordIDCommand command)
         {
             try
@@ -125,10 +125,10 @@ namespace Watchster.WebApi.Controllers.v1
 
                 if (!response.Status)
                 {
-                    return Unauthorized(response.ErrorMessage);
+                    return Unauthorized(new { Message = response.ErrorMessage });
                 }
 
-                return Ok("Password changed!");
+                return Ok(new { Message = "Password changed!" });
             }
             catch (Exception ex)
             {
