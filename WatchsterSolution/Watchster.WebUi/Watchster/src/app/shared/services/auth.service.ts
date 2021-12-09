@@ -1,31 +1,33 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
+import { throwError } from 'rxjs';
 
 export interface IUser {
-  id: string;
-  email: string;
-  token: string;
-  isSubscribed: boolean;
-  avatarUrl?: string
+  email: string,
+  password: string,
+  isSubscribed: boolean,
+  registrationDate: string,
+  userRatings: string,
+  id: string
+}
+
+export class LoginResponse {
+  constructor(public user: IUser, public jwtToken: string, public errorMessage: string) { }
+}
+
+export class MessageResponse {
+  constructor(public message: string) { }
 }
 
 const defaultPath = '/';
-const defaultUser = {
-  email: 'sandra@example.com',
-  avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png',
-  id: '1',
-  isSubscribed: true,
-  token: '1'
-};
+const resetLinkDomain = "localhost:4200/#/change-password";
 
 @Injectable()
 export class AuthService {
-  private _user: IUser | null = defaultUser;
-  private token: any;
-
+  private _user: LoginResponse | undefined;
   get loggedIn(): boolean {
-    return !!this._user;
+    return this._user == undefined ? false : true;
   }
 
   private _lastAuthenticatedPath: string = defaultPath;
@@ -40,16 +42,12 @@ export class AuthService {
     try {
       // Send request
       const response = await this.http
-        .post<IUser>('/api/1/User/Authenticate', { email: email, password: password })
+        .post<LoginResponse>('/api/1/User/Authenticate', { email: email, password: password })
         .toPromise()
-      
-        if(this._user){
-          this._user.email = response.email;
-          this._user.avatarUrl = response.avatarUrl;
-          this._user.id = response.id;
-          this._user.isSubscribed = response.isSubscribed;
-          this._user.token = response.token;
-          }
+
+        if(this._user == undefined){
+          this._user = response;
+        }
 
       //save user details
       this.router.navigate(['/home']);
@@ -88,16 +86,20 @@ export class AuthService {
     try {
       // Send request
       const response = await this.http
-        .post<IUser>('/api/1/User/Register', { email: email, password: password, isSubscribed: true })
+        .post<LoginResponse>('/api/1/User/Register', { email: email, password: password, isSubscribed: true })
         .toPromise()
 
-      if(this._user){
-      this._user.email = response.email;
-      this._user.avatarUrl = response.avatarUrl;
-      this._user.id = response.id;
-      this._user.isSubscribed = response.isSubscribed;
-      this._user.token = response.token;
+      if(response.errorMessage == "Invalid Data")
+      {
+        return {
+          isOk: false,
+          message: "Failed to create account"
+        };
       }
+
+      if(this._user == undefined){
+          this._user = response;
+        }
 
       return {
         isOk: true
@@ -111,16 +113,22 @@ export class AuthService {
     }
   }
 
-  async changePassword(email: string, recoveryCode: string) {
+  async changePassword(password: string, recoveryCode: string) {
     try {
       // Send request
-      console.log(email, recoveryCode);
+      const response = await this.http
+        .patch<MessageResponse>('/api/1/User/ChangeNewPassword', { code: recoveryCode, password: password} )
+        .toPromise()
 
+      if(response.message == "The given code does not exist")
+        throw throwError("not found");
+      
       return {
         isOk: true
       };
     }
-    catch {
+    catch (e){
+      console.log(e);
       return {
         isOk: false,
         message: "Failed to change password"
@@ -128,13 +136,39 @@ export class AuthService {
     };
   }
 
-  async resetPassword(email: string) {
+  async verifyPassword(recoveryCode: string) {
     try {
-      // Send request
-      console.log(email);
+      const response = await this.http
+        .post<MessageResponse>('/api/1/User/VerifyPasswordCode', { code: recoveryCode} )
+        .toPromise()
+
+      if (response.message == "The given code does not exist")
+        throw throwError("not found");
 
       return {
         isOk: true
+      };
+    }
+    catch (e){
+      return {
+        isOk: false,
+        message: "Failed to access change password page"
+      }
+    };
+  }
+
+  async resetPassword(email: string) {
+    try {
+      // Send request
+      const response = await this.http
+        .patch<MessageResponse>('/api/1/User/SendEmailChangePassword', { email: email, endpoint: resetLinkDomain} )
+        .toPromise()
+
+      console.log(response);
+
+      return {
+        isOk: true,
+        message: "Email was sent!"
       };
     }
     catch {
@@ -146,8 +180,7 @@ export class AuthService {
   }
 
   async logOut() {
-    this._user = null;
-    this.token = null;
+    this._user = undefined;
     this.router.navigate(['/login-form']);
   }
 }

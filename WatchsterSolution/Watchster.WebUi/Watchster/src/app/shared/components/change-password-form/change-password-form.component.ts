@@ -17,28 +17,34 @@ export class ChangePasswordFormComponent implements OnInit {
   formData: any = {};
   recoveryCode: string = '';
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { 
+    // const result = this.authService.verifyPassword(this.recoveryCode);
+    // console.log(result);
+  }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.recoveryCode = params.get('recoveryCode') || '';
-    });
+    this.recoveryCode = this.router.url.split('/')[2];
   }
 
   async onSubmit(e: Event) {
     e.preventDefault();
     const { password } = this.formData;
     this.loading = true;
-
     const result = await this.authService.changePassword(password, this.recoveryCode);
     this.loading = false;
 
     if (result.isOk) {
+      notify("Password successfully changed!", 'success', 2500);
+      await this.delay(2500);
       this.router.navigate(['/login-form']);
     } else {
       notify(result.message, 'error', 2000);
     }
   }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
 
   confirmPassword = (e: ValidationCallbackData) => {
     return e.value === this.formData.password;
