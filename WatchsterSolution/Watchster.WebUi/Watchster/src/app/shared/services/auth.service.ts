@@ -45,11 +45,9 @@ export class AuthService {
         .post<LoginResponse>('/api/1/User/Authenticate', { email: email, password: password })
         .toPromise()
 
-        if(this._user == undefined){
-          this._user = response;
-        }
-
-      //save user details
+      if(this._user == undefined){
+        this._user = response;
+      }
       this.router.navigate(['/home']);
 
       return {
