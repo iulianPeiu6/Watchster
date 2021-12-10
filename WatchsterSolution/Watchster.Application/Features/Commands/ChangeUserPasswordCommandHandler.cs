@@ -32,7 +32,7 @@ namespace Watchster.Application.Features.Commands
                 {
                     return new ChangePasswordResult
                     {
-                        ErrorMessage = Error.WrongPasswordChangeCode,
+                        ErrorMessage = Error.WrongPassChangeCode,
                         Status = false
                     };
                 }
@@ -44,7 +44,7 @@ namespace Watchster.Application.Features.Commands
                 {
                     return new ChangePasswordResult
                     {
-                        ErrorMessage = Error.WrongPasswordChangeCode,
+                        ErrorMessage = Error.WrongPassChangeCode,
                         Status = false
                     };
                 }
@@ -53,7 +53,7 @@ namespace Watchster.Application.Features.Commands
                 {
                     return new ChangePasswordResult
                     {
-                        ErrorMessage = Error.InvalidPassword,
+                        ErrorMessage = Error.InvalidPass,
                         Status = false
                     };
                 }

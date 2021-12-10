@@ -43,7 +43,7 @@ namespace Watchster.Application.Features.Commands
                 var response = new UserAuthenticationResult();
                 if (user is null)
                 {
-                    response.ErrorMessage = Error.WrongEmailOrPassword;
+                    response.ErrorMessage = Error.WrongEmailOrPass;
                     return response;
                 }
 

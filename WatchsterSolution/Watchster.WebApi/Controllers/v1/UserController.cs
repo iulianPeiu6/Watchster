@@ -44,7 +44,7 @@ namespace Watchster.WebApi.Controllers.v1
             {
                 var response = await mediator.Send(command);
 
-                if (response.ErrorMessage == Error.WrongEmailOrPassword)
+                if (response.ErrorMessage == Error.WrongEmailOrPass)
                 {
                     return Unauthorized(response);
                 }
@@ -96,14 +96,14 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("VerifyPasswordCode")]
         public async Task<IActionResult> VerifyPasswordCodeAsync([FromBody] VerifyPasswordCodeCommand command)
         {
-            //TODO : Verifiy expiration date
+            
             try
             {
                 var codeIsValid = await mediator.Send(command);
 
                 if (!codeIsValid)
                 {
-                    return Unauthorized(new { Message = Error.WrongPasswordChangeCode });
+                    return Unauthorized(new { Message = Error.WrongPassChangeCode });
                 }
 
                 return Ok();
