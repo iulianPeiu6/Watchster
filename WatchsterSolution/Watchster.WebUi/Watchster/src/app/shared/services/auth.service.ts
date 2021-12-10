@@ -4,12 +4,10 @@ import { HttpClient } from "@angular/common/http";
 import { throwError } from 'rxjs';
 
 export interface IUser {
+  id: string,
   email: string,
-  password: string,
   isSubscribed: boolean,
-  registrationDate: string,
-  userRatings: string,
-  id: string
+  registrationDate: string
 }
 
 export class LoginResponse {

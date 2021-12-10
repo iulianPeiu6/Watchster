@@ -47,7 +47,14 @@ namespace Watchster.Application.Features.Commands
                     return response;
                 }
 
-                response.User = user;
+                response.User = new UserDetails
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    IsSubscribed = user.IsSubscribed,
+                    RegistrationDate = user.RegistrationDate
+                };
+
                 response.JwtToken = GenerateToken(request.Email, request.Password);
                 return response;
             });

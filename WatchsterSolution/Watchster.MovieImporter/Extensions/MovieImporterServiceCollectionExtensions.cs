@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using System;
@@ -7,7 +6,6 @@ using Watchster.Application;
 using Watchster.DataAccess;
 using Watchster.MovieImporter.Job;
 using Watchster.MovieImporter.Settings;
-using Watchster.TMDb;
 
 namespace Watchster.MovieImporter.Extensions
 {

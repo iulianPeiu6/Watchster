@@ -1,20 +1,20 @@
-﻿using MediatR;
-using Watchster.WebApi.Controllers.v1;
-using FakeItEasy;
+﻿using FakeItEasy;
+using FluentAssertions;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Watchster.Application.Features.Queries;
-using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
+using Watchster.WebApi.Controllers.v1;
 
 namespace Watchster.WebApi.UnitTests.GetMoviesFromPage
 {
-    public class MovieControllerTests
+    public class GetMoviesFromPageTests
     {
         private readonly MovieController controller;
         private readonly IMediator mediator;
 
-        public MovieControllerTests()
+        public GetMoviesFromPageTests()
         {
             var logger = A.Fake<ILogger<MovieController>>();
             mediator = A.Fake<IMediator>();

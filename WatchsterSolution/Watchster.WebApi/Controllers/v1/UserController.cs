@@ -59,7 +59,7 @@ namespace Watchster.WebApi.Controllers.v1
         }
 
         [HttpPatch]
-        [Route("SendEmailChangePassword")]                                              
+        [Route("SendEmailChangePassword")]
         public async Task<IActionResult> SendEmailChangePasswordAsync([FromBody] GenerateAndSaveResetPasswordIDCommand command)
         {
             try
@@ -96,7 +96,7 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("VerifyPasswordCode")]
         public async Task<IActionResult> VerifyPasswordCodeAsync([FromBody] VerifyPasswordCodeCommand command)
         {
-            
+
             try
             {
                 var codeIsValid = await mediator.Send(command);

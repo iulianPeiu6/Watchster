@@ -1,10 +1,10 @@
-﻿using Watchster.Domain.Entities;
+﻿using Watchster.Application.Models;
 
 namespace Watchster.Application.Authentication.Models
 {
     public class UserAuthenticationResult
     {
-        public User User { get; set; }
+        public UserDetails User { get; set; }
 
         public string JwtToken { get; set; }
 

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Watchster.Application.Interfaces;
-using Watchster.Application.Models;
 using Watchster.DataAccess.Context;
 using Watchster.Domain.Entities;
 
@@ -20,14 +19,14 @@ namespace Watchster.DataAccess.Repositories
         {
             int movieTotalPages = await GetTotalPages();
             int skipMovies = (page - 1) * MOVIE_PAGE_SIZE;
-            if(page<= 0 || page > movieTotalPages)
+            if (page <= 0 || page > movieTotalPages)
             {
                 throw new ArgumentException("Invalid Page Value");
             }
 
             List<Movie> movies = await context.Set<Movie>().AsNoTracking().OrderBy(movie => movie.TMDbId).Skip(skipMovies).Take(MOVIE_PAGE_SIZE).ToListAsync();
 
-            return movies;          
+            return movies;
         }
 
         public async Task<int> GetTotalPages()

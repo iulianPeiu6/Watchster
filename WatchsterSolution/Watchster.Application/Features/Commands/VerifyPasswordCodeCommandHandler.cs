@@ -29,7 +29,7 @@ namespace Watchster.Application.Features.Commands
 
                 if ((DateTime.Now - user.expirationDate).TotalSeconds < 3600)
                     return true;
-                
+
                 return false;
             });
         }

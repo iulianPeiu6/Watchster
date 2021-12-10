@@ -23,12 +23,15 @@ export class HeaderComponent implements OnInit {
   @Input()
   title!: string;
 
-  user: LoginResponse | undefined = { user: {email: "",
-    password: "",
-    isSubscribed: true,
-    registrationDate: "",
-    userRatings: "",
-    id: "" }, jwtToken: "", errorMessage: "" };
+  user: LoginResponse | undefined = { 
+    user: {
+      id: "",
+      email: "",
+      isSubscribed: true,
+      registrationDate: ""
+    }, 
+    jwtToken: "", 
+    errorMessage: "" };
 
   userMenuItems = [{
     text: 'Profile',

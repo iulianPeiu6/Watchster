@@ -44,7 +44,13 @@ namespace Watchster.Application.Features.Commands
 
             await repository.AddAsync(user);
 
-            response.User = user;
+            response.User = new UserDetails
+            {
+                Id = user.Id,
+                Email = user.Email,
+                IsSubscribed = user.IsSubscribed,
+                RegistrationDate = user.RegistrationDate
+            };
 
             return response;
         }
