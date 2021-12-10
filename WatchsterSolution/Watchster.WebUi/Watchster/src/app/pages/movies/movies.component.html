@@ -1,0 +1,44 @@
+<h2 class="content-block">Movies</h2>
+
+<dx-data-grid class="dx-card wide-card"
+  [dataSource]="dataSource"
+  [showBorders]="false"
+  [focusedRowEnabled]="true"
+  [focusedRowIndex]="0"
+  [columnAutoWidth]="true"
+  [columnHidingEnabled]="true">
+
+  <dxo-load-panel 
+    [height]="100" 
+    [width]="250"
+    [enabled]="loadingVisible">
+  </dxo-load-panel>
+
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxi-column
+    dataField="tmDbId"
+    [width]="90"
+    caption="TMDb ID"
+    [hidingPriority]="1">
+  </dxi-column>
+  <dxi-column
+    dataField="title"
+    [width]="250"
+    caption="Title"
+    [hidingPriority]="2">
+  </dxi-column>
+  <dxi-column
+    dataField="releaseDate"
+    caption="Release Date"
+    dataType="date"
+    [hidingPriority]="3">
+  </dxi-column>
+  <dxi-column
+    dataField="genres"
+    caption="Genres"
+    [hidingPriority]="4">
+  </dxi-column>
+</dx-data-grid>
