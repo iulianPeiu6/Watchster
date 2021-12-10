@@ -9,12 +9,10 @@ namespace Watchster.Application.Features.Commands
 {
     public class VerifyPasswordCodeCommandHandler : IRequestHandler<VerifyPasswordCodeCommand, Boolean>
     {
-        private readonly IUserRepository userRepository;
         private readonly IResetPasswordCodeRepository resetPasswordCodeRepository;
 
-        public VerifyPasswordCodeCommandHandler(IUserRepository userRepository, IResetPasswordCodeRepository resetPasswordCodeRepository)
+        public VerifyPasswordCodeCommandHandler(IResetPasswordCodeRepository resetPasswordCodeRepository)
         {
-            this.userRepository = userRepository;
             this.resetPasswordCodeRepository = resetPasswordCodeRepository;
         }
         public Task<bool> Handle(VerifyPasswordCodeCommand request, CancellationToken cancellationToken)
@@ -29,8 +27,10 @@ namespace Watchster.Application.Features.Commands
                     return false;
                 }
 
-                return true;
-
+                if ((DateTime.Now - user.expirationDate).TotalSeconds < 3600)
+                    return true;
+                
+                return false;
             });
         }
     }
