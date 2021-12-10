@@ -46,14 +46,11 @@ namespace Watchster.WebApi.Controllers.v1
             {
                 var response = await mediator.Send(command);
                 
-                if(response.ErrorMessage!=null)
-                {
-                    return Unauthorized(new { Message = response.ErrorMessage });
-                }
-                else
-                {
-                    return Ok(new { Message = response });
-                }
+                return Ok(response);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest();
             }
             catch (Exception ex)
             {
