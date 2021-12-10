@@ -106,7 +106,7 @@ namespace Watchster.WebApi.Controllers.v1
                     return Unauthorized(new { Message = Error.WrongPassChangeCode });
                 }
 
-                return Ok();
+                return Ok(new { Message = "Valid code" });
             }
             catch (Exception ex)
             {

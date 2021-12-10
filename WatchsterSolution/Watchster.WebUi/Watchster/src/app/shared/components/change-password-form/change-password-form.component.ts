@@ -18,12 +18,13 @@ export class ChangePasswordFormComponent implements OnInit {
   recoveryCode: string = '';
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { 
-    // const result = this.authService.verifyPassword(this.recoveryCode);
-    // console.log(result);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.recoveryCode = this.router.url.split('/')[2];
+    const result = await this.authService.verifyPassword(this.recoveryCode);
+    if(!result.isOk)
+      this.router.navigate(['/login-form']);
   }
 
   async onSubmit(e: Event) {
