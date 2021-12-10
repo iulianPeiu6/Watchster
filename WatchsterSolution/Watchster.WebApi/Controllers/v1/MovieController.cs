@@ -45,11 +45,11 @@ namespace Watchster.WebApi.Controllers.v1
             try
             {
                 var response = await mediator.Send(command);
-                
                 return Ok(response);
             }
             catch (ArgumentException ex)
             {
+                logger.LogError("Unexpected Error: ", ex.Message);
                 return BadRequest();
             }
             catch (Exception ex)

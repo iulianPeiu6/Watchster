@@ -32,7 +32,8 @@ namespace Watchster.DataAccess.Repositories
 
         public async Task<int> GetTotalPages()
         {
-            int TotalMovies = context.Set<Movie>().OrderBy(movie => movie.TMDbId).Count();
+            List<Movie> movies = await context.Set<Movie>().ToListAsync();
+            int TotalMovies = movies.Count;
             return TotalMovies / MOVIE_PAGE_SIZE;
         }
     }
