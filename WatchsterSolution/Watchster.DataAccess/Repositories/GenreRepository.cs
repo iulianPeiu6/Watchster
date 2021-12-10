@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Watchster.DataAccess.Repositories
         }
         public async Task<IList<Genre>> GetGenresByMovieId(Guid movieId)
         {
-            List<Genre> genres = context.Set<Genre>().Where(genre => genre.MovieId == movieId).ToList();
+            List<Genre> genres = await context.Set<Genre>().Where(genre => genre.MovieId == movieId).ToListAsync();
 
             return genres;
         }
