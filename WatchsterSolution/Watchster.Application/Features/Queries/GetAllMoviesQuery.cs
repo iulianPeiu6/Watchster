@@ -1,10 +1,10 @@
 ﻿using MediatR;
+using System.Collections.Generic;
 using Watchster.Application.Models;
 
 namespace Watchster.Application.Features.Queries
 {
-    public class GetMoviesFromPageCommand : IRequest<GetMoviesResponse>
+    public  class GetAllMoviesQuery : IRequest<IEnumerable<MovieDetails>>
     {
-        public int Page { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Watchster.Application.Features.Commands
         public int TMDbId { get; set; }
         public string Title { get; set; }
         public DateTime? ReleaseDate { get; set; }
-        public ICollection<Genre> Genres { get; set; }
+        public IEnumerable<string> Genres { get; set; }
         public string Overview { get; set; }
     }
 }
