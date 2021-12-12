@@ -5,6 +5,8 @@ namespace Watchster.Application.Models
 {
     public class MovieDetails
     {
+        public Guid Id { get; set; } 
+
         public int TMDbId { get; set; }
 
         public string Title { get; set; }

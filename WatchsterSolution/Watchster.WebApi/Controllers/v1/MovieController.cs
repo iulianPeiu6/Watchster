@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Queries;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Watchster.WebApi.Controllers.v1
 {
@@ -19,9 +20,24 @@ namespace Watchster.WebApi.Controllers.v1
 
         [HttpGet]
         [Route("GetAll")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var query = new GetAllMoviesQuery();
+                var response = await mediator.Send(query);
+                return Ok(response);
+            }
+            catch (ArgumentException ex)
+            {
+                logger.LogError("Unexpected Error: ", ex.Message);
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpGet]
@@ -40,7 +56,7 @@ namespace Watchster.WebApi.Controllers.v1
 
         [HttpGet]
         [Route("GetFromPage")]
-        public async Task<IActionResult> GetFromPage([FromQuery] GetMoviesFromPageCommand command)
+        public async Task<IActionResult> GetFromPage([FromQuery] GetMoviesFromPageQuery command)
         {
             try
             {

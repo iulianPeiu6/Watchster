@@ -7,16 +7,16 @@ using Watchster.Application.Models;
 
 namespace Watchster.Application.Features.Queries
 {
-    public class GetMoviesFromPageCommandHandler : IRequestHandler<GetMoviesFromPageCommand, GetMoviesResponse>
+    public class GetMoviesFromPageQueryHandler : IRequestHandler<GetMoviesFromPageQuery, GetMoviesResponse>
     {
         private readonly IMovieRepository movieRepository;
 
-        public GetMoviesFromPageCommandHandler(IMovieRepository movieRepository)
+        public GetMoviesFromPageQueryHandler(IMovieRepository movieRepository)
         {
             this.movieRepository = movieRepository;
         }
 
-        public async Task<GetMoviesResponse> Handle(GetMoviesFromPageCommand request, CancellationToken cancellationToken)
+        public async Task<GetMoviesResponse> Handle(GetMoviesFromPageQuery request, CancellationToken cancellationToken)
         {
             int totalPages = await movieRepository.GetTotalPages();
 

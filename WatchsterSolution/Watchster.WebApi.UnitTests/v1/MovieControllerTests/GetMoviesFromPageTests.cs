@@ -29,7 +29,7 @@ namespace Watchster.WebApi.UnitTests.GetMoviesFromPage
         [Test]
         public void Given_MovieController_When_GetMoviesFromPageIsCalledWithValidPageNumberCommand_Then_ShouldReturnOkResponse()
         {
-            GetMoviesFromPageCommand command = new GetMoviesFromPageCommand
+            GetMoviesFromPageQuery command = new GetMoviesFromPageQuery
             {
                 Page = 1
             };
