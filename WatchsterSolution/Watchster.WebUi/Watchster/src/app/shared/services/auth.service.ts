@@ -19,7 +19,7 @@ export class MessageResponse {
 }
 
 const defaultPath = '/';
-const resetLinkDomain = location.origin + "/#/change-password";
+const resetLinkDomain = location.origin + "/change-password";
 
 @Injectable()
 export class AuthService {
