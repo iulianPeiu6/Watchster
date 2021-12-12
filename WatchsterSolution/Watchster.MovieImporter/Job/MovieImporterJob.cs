@@ -20,6 +20,7 @@ namespace Watchster.MovieImporter.Job
         private readonly IMediator mediator;
         private Domain.Entities.AppSettings movieImporterSettings;
         private DateTime CurrentDateTime;
+        private DateTime UpperBoundIntervalSearch;
 
         public MovieImporterJob(
             ILogger<MovieImporterJob> logger,
@@ -36,6 +37,7 @@ namespace Watchster.MovieImporter.Job
             logger.LogInformation("Starting importing new released movies");
 
             CurrentDateTime = DateTime.Now;
+            UpperBoundIntervalSearch = CurrentDateTime.AddDays(-1);
 
             var lastSyncDateTime = await GetLastSyncDateTime();
 
@@ -70,13 +72,13 @@ namespace Watchster.MovieImporter.Job
 
         private async Task<int> ImportNewMoviesAfterDateAsync(DateTime lastSyncDateTime)
         {
-            var result = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, CurrentDateTime);
+            var result = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, UpperBoundIntervalSearch);
             await ImportMovies(result.Movies);
             int numOfMoviesImported = result.Movies.Count;
 
             foreach (var page in Enumerable.Range(2, result.TotalPages - 1))
             {
-                var movies = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, CurrentDateTime, page).Movies;
+                var movies = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, UpperBoundIntervalSearch, page).Movies;
                 await ImportMovies(movies);
                 numOfMoviesImported += movies.Count;
             }
@@ -99,7 +101,7 @@ namespace Watchster.MovieImporter.Job
             }
         }
 
-        private async Task UpdateLastSyncDateTime(DateTime currentDateTime)
+        private async Task UpdateLastSyncDateTime(DateTime date)
         {
             var command = new UpdateAppSettingsCommand
             {
@@ -107,7 +109,7 @@ namespace Watchster.MovieImporter.Job
                 Section = movieImporterSettings.Section,
                 Parameter = movieImporterSettings.Parameter,
                 Description = movieImporterSettings.Description,
-                Value = currentDateTime.ToString()
+                Value = date.ToString()
             };
             await mediator.Send(command);
         }
