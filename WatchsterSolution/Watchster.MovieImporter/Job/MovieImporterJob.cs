@@ -93,12 +93,7 @@ namespace Watchster.MovieImporter.Job
                     Overview = movie.Overview,
                     TMDbId = movie.TMDbId,
                     ReleaseDate = movie.ReleaseDate,
-                    Genres = movie.Genres
-                        .Select(genre => new Domain.Entities.Genre
-                        {
-                            TMDbId = genre.TMDbId,
-                            Name = genre.Name
-                        }).ToList()
+                    Genres = movie.Genres.Select(genre => genre.Name)
                 };
                 await mediator.Send(command);
             }

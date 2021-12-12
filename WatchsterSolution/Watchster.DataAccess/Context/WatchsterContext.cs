@@ -11,8 +11,6 @@ namespace Watchster.DataAccess.Context
 
         public DbSet<Movie> Movies { get; set; }
 
-        public DbSet<Genre> Genres { get; set; }
-
         public DbSet<Rating> Ratings { get; set; }
 
         public DbSet<ResetPasswordCode> ResetPasswordCodes { get; set; }

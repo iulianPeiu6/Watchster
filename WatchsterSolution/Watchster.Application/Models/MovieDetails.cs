@@ -11,7 +11,7 @@ namespace Watchster.Application.Models
 
         public DateTime? ReleaseDate { get; set; }
 
-        public IList<string> Genres { get; set; }
+        public string Genres { get; set; }
 
         public decimal AverageRating { get; set; }
 

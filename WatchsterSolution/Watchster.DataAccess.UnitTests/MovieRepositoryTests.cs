@@ -18,21 +18,13 @@ namespace Database.UnitTests
         public MovieRepositoryTests()
         {
             repository = new Repository<Movie>(context);
-            Genre genre = new Genre()
-            {
-                Id = Guid.Parse("175fb27d-cc8d-4db7-acbc-70d5301f511e"),
-                TMDbId = 3,
-                Name = "Romance"
-            };
-            List<Genre> newMovieGenres = new List<Genre>();
-            newMovieGenres.Add(genre);
             newMovie = new Movie
             {
                 Id = Guid.Parse("85abe305-307b-4b7f-81cc-cf5a24b1aaf7"),
                 TMDbId = 3,
                 Title = "New Movie Title",
                 ReleaseDate = new DateTime(2010, 9, 9),
-                Genres = newMovieGenres,
+                Genres = "Crime, Action",
                 Overview = "Unit test movie"
             };
         }
@@ -63,23 +55,13 @@ namespace Database.UnitTests
         [Test]
         public void Given_Movie_When_MovieIsInDatabase_Then_DeleteShouldReturnATaskConcerningDeletedMovie()
         {
-            var genre = new Genre
-            {
-                Id = Guid.Parse("9f05681f-80a7-4d69-8e0a-3dcf65a87919"),
-                TMDbId = 1,
-                Name = "Action"
-            };
-
-            List<Genre> Movie1Genres = new List<Genre>();
-            Movie1Genres.Add(genre);
-
             var movie = new Movie
             {
                 TMDbId = 1,
                 Id = Guid.Parse("1e8a1085-1b1f-4c7c-b630-7086732f7ffc"),
                 Title = "Action Movie",
                 ReleaseDate = new DateTime(2009, 5, 5),
-                Genres = Movie1Genres,
+                Genres = "Crime, Action",
                 Overview = "This is a movie for tests, it's genre is only Action"
             };
 

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Watchster.Application.Interfaces;
@@ -24,7 +25,7 @@ namespace Watchster.Application.Features.Commands
                 Overview = request.Overview,
                 TMDbId = request.TMDbId,
                 ReleaseDate = request.ReleaseDate,
-                Genres = request.Genres
+                Genres = string.Join(",", request.Genres)
             };
 
             await repository.AddAsync(movie);

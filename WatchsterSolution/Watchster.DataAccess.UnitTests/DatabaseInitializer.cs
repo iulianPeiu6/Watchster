@@ -10,7 +10,7 @@ namespace Database.UnitTests
     {
         public static void Initialize(WatchsterContext context)
         {
-            if (context.Movies.Any() && context.Users.Any() && context.Genres.Any() && context.Ratings.Any() && context.AppSettings.Any())
+            if (context.Movies.Any() && context.Users.Any() && context.Ratings.Any() && context.AppSettings.Any())
             {
                 return;
             }
@@ -38,26 +38,6 @@ namespace Database.UnitTests
                 RegistrationDate = new DateTime(2021, 12, 1),
                 UserRatings = User1Ratings
             };
-            var genres = new[]
-            {
-                new Genre
-                {
-                    Id = Guid.Parse("9f05681f-80a7-4d69-8e0a-3dcf65a87919"),
-                    TMDbId = 1,
-                    Name = "Action"
-                },
-                new Genre
-                {
-                    Id = Guid.Parse("0dc9ed89-6ff9-4cce-a94d-68557b178893"),
-                    TMDbId = 2,
-                    Name = "Comedy"
-                }
-            };
-            List<Genre> Movie1Genres = new List<Genre>();
-            Movie1Genres.Add(genres[0]);
-            List<Genre> Movie2Genres = new List<Genre>();
-            Movie2Genres.Add(genres[0]);
-            Movie2Genres.Add(genres[1]);
             var movies = new[]
             {
                 new Movie
@@ -66,7 +46,7 @@ namespace Database.UnitTests
                     Id = Guid.Parse("1e8a1085-1b1f-4c7c-b630-7086732f7ffc"),
                     Title = "Action Movie",
                     ReleaseDate = new DateTime(2009,5,5),
-                    Genres = Movie1Genres,
+                    Genres = "Crime, Action",
                     Overview = "This is a movie for tests, it's genre is only Action"
                 },
                 new Movie
@@ -75,7 +55,7 @@ namespace Database.UnitTests
                     Id = Guid.Parse("121fdd7c-6671-4db9-b631-5145667287d8"),
                     Title = "Action-Comedy Movie",
                     ReleaseDate = new DateTime(2021,10,4),
-                    Genres = Movie2Genres,
+                    Genres = "Crime, Action",
                     Overview = "This is a movie for tests, it's genre is Action and Comedy"
                 }
             };
@@ -91,7 +71,6 @@ namespace Database.UnitTests
             context.Movies.AddRange(movies);
             context.Users.Add(user);
             context.Ratings.Add(rating);
-            context.Genres.AddRange(genres);
             context.SaveChanges();
         }
 
