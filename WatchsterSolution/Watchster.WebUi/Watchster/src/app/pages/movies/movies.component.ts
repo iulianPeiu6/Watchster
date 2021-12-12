@@ -2,9 +2,10 @@ import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
 import 'devextreme/data/odata/store';
 import { Movie, MovieService } from '../../shared/services';
 import ArrayStore from 'devextreme/data/array_store';
-import { DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxLoadPanelModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxLoadPanelModule } from 'devextreme-angular';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   templateUrl: 'movies.component.html'
@@ -15,7 +16,7 @@ export class MoviesComponent implements OnInit {
   movies: Movie[];
   loadingVisible = false;
 
-  constructor(private movieService: MovieService, ) {
+  constructor(private movieService: MovieService) {
     this.loadingVisible = true;
     this.dataSource =  new ArrayStore({
       key: ["tmDbId"],
@@ -37,6 +38,7 @@ export class MoviesComponent implements OnInit {
 
 @NgModule({
   imports: [
+    BrowserModule,
     CommonModule,
     DxLoadIndicatorModule,
     DxLoadPanelModule, 
@@ -44,6 +46,7 @@ export class MoviesComponent implements OnInit {
     CommonModule,
     RouterModule,
     DxFormModule,
+    DxButtonModule,
     DxLoadIndicatorModule],
   exports: [MoviesComponent],
   declarations: [MoviesComponent],

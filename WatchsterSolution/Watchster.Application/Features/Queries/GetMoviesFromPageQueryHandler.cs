@@ -27,6 +27,7 @@ namespace Watchster.Application.Features.Queries
                 TotalPages = totalPages,
                 Movies = movies.Select(movie => new MovieDetails
                 {
+                    Id = movie.Id,
                     TMDbId = movie.TMDbId,
                     Title = movie.Title,
                     ReleaseDate = movie.ReleaseDate,

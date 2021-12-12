@@ -8,8 +8,8 @@ import { FooterModule, ResetPasswordFormModule, CreateAccountFormModule, ChangeP
 import { AuthService, ScreenService, AppInfoService, MovieService } from './shared/services';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
-import { DxLoadPanelModule } from 'devextreme-angular';
 import { MoviesModule } from './pages/movies/movies.component';
+import { MovieModule } from './pages/movie/movie.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,8 @@ import { MoviesModule } from './pages/movies/movies.component';
     LoginFormModule,
     UnauthenticatedContentModule,
     AppRoutingModule,
-    MoviesModule
+    MoviesModule,
+    MovieModule
   ],
   providers: [AuthService, ScreenService, AppInfoService, MovieService],
   bootstrap: [AppComponent]

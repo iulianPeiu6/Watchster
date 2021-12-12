@@ -6,13 +6,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
+import { MovieComponent } from './pages/movie/movie.component';
 
 const routes: Routes = [
-  {
-    path: 'movies',
-    component: MoviesComponent,
-    canActivate: [ AuthGuardService ]
-  },
   {
     path: 'profile',
     component: ProfileComponent,
@@ -41,6 +37,16 @@ const routes: Routes = [
   {
     path: 'change-password/:recoveryCode',
     component: ChangePasswordFormComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'movies',
+    component: MoviesComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'movie/:id',
+    component: MovieComponent,
     canActivate: [ AuthGuardService ]
   },
   {

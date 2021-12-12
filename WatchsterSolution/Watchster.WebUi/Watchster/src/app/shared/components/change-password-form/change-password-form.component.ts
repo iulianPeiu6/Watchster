@@ -17,7 +17,7 @@ export class ChangePasswordFormComponent implements OnInit {
   formData: any = {};
   recoveryCode: string = '';
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { 
+  constructor(private authService: AuthService, private router: Router) { 
   }
 
   async ngOnInit() {

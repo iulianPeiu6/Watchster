@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 export class Movie {
   constructor(
+    public id: string,
     public tmDbId: number, 
     public title: string, 
     public releaseDate: Date, 
