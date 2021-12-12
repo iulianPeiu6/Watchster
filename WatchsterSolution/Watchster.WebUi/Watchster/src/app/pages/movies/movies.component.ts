@@ -17,7 +17,10 @@ export class MoviesComponent implements OnInit {
 
   constructor(private movieService: MovieService, ) {
     this.loadingVisible = true;
-    this.dataSource = new ArrayStore();
+    this.dataSource =  new ArrayStore({
+      key: ["tmDbId"],
+      data: new Array<Movie>()
+    });
     this.movies = new Array<Movie>();
   }
   async ngOnInit() {
