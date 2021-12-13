@@ -2,7 +2,7 @@
 using System.Text;
 using Watchster.Application.Interfaces;
 
-namespace Watchster.Application.Utils
+namespace Watchster.Application.Utils.Cryptography
 {
     public class CryptographyService : ICryptographyService
     {

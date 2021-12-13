@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using System;
 using System.Collections.Generic;
-using Watchster.Domain.Entities;
 
 namespace Watchster.Application.Features.Commands
 {

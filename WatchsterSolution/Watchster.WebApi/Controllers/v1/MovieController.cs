@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Queries;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Watchster.WebApi.Controllers.v1
 {

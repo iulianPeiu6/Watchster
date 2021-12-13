@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Watchster.MLUtil\Watchster.MLUtil.csproj" />
+    <ProjectReference Include="..\Watchster.Application\Watchster.Application.csproj" />
   </ItemGroup>
 
 </Project>
