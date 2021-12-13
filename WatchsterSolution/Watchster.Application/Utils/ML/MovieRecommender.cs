@@ -5,6 +5,8 @@ using Microsoft.ML.Trainers;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Watchster.Application.Features.Queries;
 using Watchster.Application.Interfaces;
 using Watchster.Application.Utils.ML.Models;
 
@@ -33,7 +35,7 @@ namespace Watchster.Application.Utils.ML
             }
             else
             {
-                ConstructMoviePredictModel();
+                ConstructMoviePredictModelAsync().Wait();
             }
         }
 
@@ -52,22 +54,30 @@ namespace Watchster.Application.Utils.ML
             predictionEngine = mlContext.Model.CreatePredictionEngine<MovieRating, MovieRatingPrediction>(model);
         }
 
-        private void ConstructMoviePredictModel()
+        private async Task ConstructMoviePredictModelAsync()
         {
-            (IDataView trainingDataView, IDataView testDataView) = LoadData();
+            (IDataView trainingDataView, IDataView testDataView) = await LoadDataAsync();
             BuildAndTrainModel(trainingDataView);
             EvaluateModel(testDataView);
             predictionEngine = mlContext.Model.CreatePredictionEngine<MovieRating, MovieRatingPrediction>(model);
             SaveModel(trainingDataView.Schema);
         }
 
-        private (IDataView training, IDataView test) LoadData()
+        private async Task<(IDataView training, IDataView test)> LoadDataAsync()
         {
+            var ratings = await mediator.Send(new GetAllRatingsQuery());
+            var dataset = ratings.Select(ratings => new MovieRating
+            {
+                MovieId = ratings.MovieId,
+                UserId = ratings.UserId,
+                Label = ratings.RatingValue,
+            });
+
             var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", "rating.csv");
 
             logger.LogInformation($"Loading Dataset from '{dataPath}'...");
 
-            IDataView dataView = mlContext.Data.LoadFromTextFile<MovieRating>(dataPath, hasHeader: true, separatorChar: ',');
+            IDataView dataView = mlContext.Data.LoadFromEnumerable<MovieRating>(dataset);
 
             logger.LogInformation($"Dataset loaded. Spliting Dataset using {1 - TrainTestRatio}:{TrainTestRatio} Train:Test Ratio");
 
