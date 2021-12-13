@@ -15,18 +15,25 @@ namespace Watchster.Application.Utils.ML
     public class MovieRecommender : IMovieRecommender
     {
         private readonly ILogger<MovieRecommender> logger;
-        private readonly Mediator mediator;
+        private readonly IMediator mediator;
         private readonly MLContext mlContext;
         private ITransformer model;
         private PredictionEngine<MovieRating, MovieRatingPrediction> predictionEngine;
         private const double TrainTestRatio = 0.2;
         private readonly string modelPath;
 
-        public MovieRecommender(ILogger<MovieRecommender> logger)
+        public MovieRecommender(ILogger<MovieRecommender> logger, IMediator mediator)
         {
             this.logger = logger;
+            this.mediator = mediator;
             mlContext = new MLContext();
-            modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "MovieRecommenderModel.zip");
+            modelPath = Path.Combine(Environment.CurrentDirectory, 
+                "..", 
+                "Watchster.Application", 
+                "Utils",
+                "ML",
+                "Data",
+                "MovieRecommenderModel.zip");
 
             if (File.Exists(modelPath))
             {
@@ -68,9 +75,9 @@ namespace Watchster.Application.Utils.ML
             var ratings = await mediator.Send(new GetAllRatingsQuery());
             var dataset = ratings.Select(ratings => new MovieRating
             {
-                MovieId = ratings.MovieId,
-                UserId = ratings.UserId,
-                Label = ratings.RatingValue,
+                MovieId = ratings.MovieId.ToString(),
+                UserId = ratings.UserId.ToString(),
+                Label = (float)ratings.RatingValue,
             });
 
             var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", "rating.csv");

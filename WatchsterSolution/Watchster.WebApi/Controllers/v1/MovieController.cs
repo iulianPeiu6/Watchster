@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Queries;
+using Watchster.Application.Interfaces;
+using Watchster.Application.Utils.ML.Models;
 
 namespace Watchster.WebApi.Controllers.v1
 {
@@ -12,9 +14,15 @@ namespace Watchster.WebApi.Controllers.v1
     public class MovieController : BaseController
     {
         private readonly ILogger<MovieController> logger;
-        public MovieController(IMediator mediator, ILogger<MovieController> logger) : base(mediator)
+        private readonly IMovieRecommender movieRecommender;
+
+        public MovieController(
+            IMediator mediator, 
+            ILogger<MovieController> logger, 
+            IMovieRecommender movieRecommender): base(mediator)
         {
             this.logger = logger;
+            this.movieRecommender = movieRecommender;
         }
 
         [HttpGet]
@@ -44,6 +52,28 @@ namespace Watchster.WebApi.Controllers.v1
         public IActionResult GetRecommendations(Guid userId)
         {
             throw new NotImplementedException();
+        }
+
+        //Used for testing
+        [HttpGet]
+        [Route("GetPrediction")]
+        public IActionResult GetRecommendations(Guid userId, Guid movieId)
+        {
+            try
+            {
+                var movie = new MovieRating
+                {
+                    UserId = userId.ToString(),
+                    MovieId = movieId.ToString()
+                };
+
+                return Ok(movieRecommender.PredictMovieRating(movie));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpPost]

@@ -6,12 +6,12 @@ namespace Watchster.Application.Utils.ML.Models
     public class MovieRating
     {
         [LoadColumn(0)]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         [LoadColumn(1)]
-        public Guid MovieId { get; set; }
+        public string MovieId { get; set; }
 
         [LoadColumn(2)]
-        public double Label { get; set; }
+        public float Label { get; set; }
     }
 }
