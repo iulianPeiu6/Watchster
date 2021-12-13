@@ -1,6 +1,6 @@
-﻿using Watchster.MLUtil.Models;
+﻿using Watchster.Application.Utils.ML.Models;
 
-namespace Watchster.MLUtil.Services.Interfaces
+namespace Watchster.Application.Interfaces
 {
     public interface IMovieRecommender
     {

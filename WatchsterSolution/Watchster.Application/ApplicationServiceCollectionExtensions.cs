@@ -6,9 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
 using Watchster.Application.Interfaces;
-using Watchster.Application.Utils;
+using Watchster.Application.Utils.Cryptography;
+using Watchster.Application.Utils.ML;
 using Watchster.Jwt;
-using Watchster.MLUtil;
 using Watchster.SendGrid;
 using Watchster.TMDb;
 

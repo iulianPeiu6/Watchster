@@ -1,8 +1,8 @@
 using FakeItEasy;
 using FluentAssertions;
 using NUnit.Framework;
-using Watchster.MLUtil.Models;
-using Watchster.MLUtil.Services.Interfaces;
+using Watchster.Application.Interfaces;
+using Watchster.Application.Utils.ML.Models;
 
 namespace Watchster.MLUtil.UnitTests
 {
@@ -37,7 +37,7 @@ namespace Watchster.MLUtil.UnitTests
 
             var moviePrediction = movieRecommender.PredictMovieRating(movieRatingToPredict);
 
-            moviePrediction.Score.Should().BeInRange(0.0f, 5.0f);
+            moviePrediction.Score.Should().BeInRange(0.0f, 10.0f);
         }
     }
 }

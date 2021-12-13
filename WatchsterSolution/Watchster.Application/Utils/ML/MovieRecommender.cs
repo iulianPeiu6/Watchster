@@ -1,28 +1,39 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MediatR;
+using Microsoft.Extensions.Logging;
 using Microsoft.ML;
 using Microsoft.ML.Trainers;
 using System;
 using System.IO;
 using System.Linq;
-using Watchster.MLUtil.Models;
-using Watchster.MLUtil.Services.Interfaces;
+using System.Threading.Tasks;
+using Watchster.Application.Features.Queries;
+using Watchster.Application.Interfaces;
+using Watchster.Application.Utils.ML.Models;
 
-namespace Watchster.MLUtil.Services
+namespace Watchster.Application.Utils.ML
 {
     public class MovieRecommender : IMovieRecommender
     {
         private readonly ILogger<MovieRecommender> logger;
+        private readonly IMediator mediator;
         private readonly MLContext mlContext;
         private ITransformer model;
         private PredictionEngine<MovieRating, MovieRatingPrediction> predictionEngine;
         private const double TrainTestRatio = 0.2;
         private readonly string modelPath;
 
-        public MovieRecommender(ILogger<MovieRecommender> logger)
+        public MovieRecommender(ILogger<MovieRecommender> logger, IMediator mediator)
         {
             this.logger = logger;
+            this.mediator = mediator;
             mlContext = new MLContext();
-            modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "MovieRecommenderModel.zip");
+            modelPath = Path.Combine(Environment.CurrentDirectory, 
+                "..", 
+                "Watchster.Application", 
+                "Utils",
+                "ML",
+                "Data",
+                "MovieRecommenderModel.zip");
 
             if (File.Exists(modelPath))
             {
@@ -31,7 +42,7 @@ namespace Watchster.MLUtil.Services
             }
             else
             {
-                ConstructMoviePredictModel();
+                ConstructMoviePredictModelAsync().Wait();
             }
         }
 
@@ -50,24 +61,30 @@ namespace Watchster.MLUtil.Services
             predictionEngine = mlContext.Model.CreatePredictionEngine<MovieRating, MovieRatingPrediction>(model);
         }
 
-        private void ConstructMoviePredictModel()
+        private async Task ConstructMoviePredictModelAsync()
         {
-            (IDataView trainingDataView, IDataView testDataView) = LoadData();
+            (IDataView trainingDataView, IDataView testDataView) = await LoadDataAsync();
             BuildAndTrainModel(trainingDataView);
             EvaluateModel(testDataView);
             predictionEngine = mlContext.Model.CreatePredictionEngine<MovieRating, MovieRatingPrediction>(model);
             SaveModel(trainingDataView.Schema);
         }
 
-        private (IDataView training, IDataView test) LoadData()
+        private async Task<(IDataView training, IDataView test)> LoadDataAsync()
         {
-
+            var ratings = await mediator.Send(new GetAllRatingsQuery());
+            var dataset = ratings.Select(ratings => new MovieRating
+            {
+                MovieId = ratings.MovieId.ToString(),
+                UserId = ratings.UserId.ToString(),
+                Label = (float)ratings.RatingValue,
+            });
 
             var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", "rating.csv");
 
             logger.LogInformation($"Loading Dataset from '{dataPath}'...");
 
-            IDataView dataView = mlContext.Data.LoadFromTextFile<MovieRating>(dataPath, hasHeader: true, separatorChar: ',');
+            IDataView dataView = mlContext.Data.LoadFromEnumerable<MovieRating>(dataset);
 
             logger.LogInformation($"Dataset loaded. Spliting Dataset using {1 - TrainTestRatio}:{TrainTestRatio} Train:Test Ratio");
 

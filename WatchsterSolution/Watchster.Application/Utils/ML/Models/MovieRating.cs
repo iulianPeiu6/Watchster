@@ -1,14 +1,15 @@
 ﻿using Microsoft.ML.Data;
+using System;
 
-namespace Watchster.MLUtil.Models
+namespace Watchster.Application.Utils.ML.Models
 {
     public class MovieRating
     {
         [LoadColumn(0)]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [LoadColumn(1)]
-        public int MovieId { get; set; }
+        public string MovieId { get; set; }
 
         [LoadColumn(2)]
         public float Label { get; set; }

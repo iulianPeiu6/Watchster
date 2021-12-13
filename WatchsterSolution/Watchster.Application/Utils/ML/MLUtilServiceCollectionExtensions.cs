@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Watchster.MLUtil.Services;
-using Watchster.MLUtil.Services.Interfaces;
+using Watchster.Application.Interfaces;
 
-namespace Watchster.MLUtil
+namespace Watchster.Application.Utils.ML
 {
     public static class MLUtilServiceCollectionExtensions
     {

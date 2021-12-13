@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Watchster.Application.Models
 {
     public class MovieDetails
     {
-        public Guid Id { get; set; } 
+        public Guid Id { get; set; }
 
         public int TMDbId { get; set; }
 

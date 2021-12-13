@@ -1,4 +1,4 @@
-﻿namespace Watchster.MLUtil.Models
+﻿namespace Watchster.Application.Utils.ML.Models
 {
     public class MovieRatingPrediction
     {

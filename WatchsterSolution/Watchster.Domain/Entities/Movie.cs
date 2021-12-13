@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Watchster.Domain.Common;
 
 namespace Watchster.Domain.Entities
