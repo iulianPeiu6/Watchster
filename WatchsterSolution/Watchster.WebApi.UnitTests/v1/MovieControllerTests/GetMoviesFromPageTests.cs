@@ -18,7 +18,7 @@ namespace Watchster.WebApi.UnitTests.GetMoviesFromPage
         {
             var logger = A.Fake<ILogger<MovieController>>();
             mediator = A.Fake<IMediator>();
-            controller = new MovieController(mediator, logger);
+            controller = new MovieController(mediator, logger, null);
         }
 
         [SetUp]
