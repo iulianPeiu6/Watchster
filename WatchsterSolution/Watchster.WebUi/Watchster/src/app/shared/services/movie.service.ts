@@ -41,4 +41,11 @@ export class MovieService {
 
     return allMovies;
   }
+
+  async getMovie(id: string) {
+    const response = await this.http
+    .get<Movie>('/api/1/Movie/GetMovie', { params: { id: id } })
+    .toPromise()
+    return response;
+  }
 }

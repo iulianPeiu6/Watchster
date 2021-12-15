@@ -1,20 +1,31 @@
 import { Component, NgModule, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { MovieService } from "src/app/shared/services";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Movie, MovieService } from "src/app/shared/services";
 
 @Component({
     templateUrl: 'movie.component.html'
 })
   
 export class MovieComponent implements OnInit {
-    movieId: string;
-    constructor(private movieService: MovieService, private router: Router) {
-        this.movieId = this.router.url.split('/')[2];
+    movieId: string | null;
+    movie: Movie | undefined;
+    loadingVisible = false;
+    constructor(private movieService: MovieService, private router: Router, private activatedRoute: ActivatedRoute) {
+        this.movieId = this.activatedRoute.snapshot.queryParamMap.get('id');
         console.log(this.movieId);
+
     }
 
     async ngOnInit() {
-        // ToDo: Load Movie Details 
+        /*this.loadingVisible = true;
+        this.movie = await this.movieService.getMovie(id);
+    
+        this.dataSource =  new ArrayStore({
+          key: ["tmDbId"],
+          data: this.movies
+        });
+        this.loadingVisible = false;
+        */
     }
 }
 
