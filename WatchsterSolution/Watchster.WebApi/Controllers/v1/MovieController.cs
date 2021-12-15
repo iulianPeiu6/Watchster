@@ -103,5 +103,30 @@ namespace Watchster.WebApi.Controllers.v1
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("GetMovie")]
+        public async Task<IActionResult> GetMovie([FromQuery] Guid id)
+        {
+            try
+            {
+                GetMovieByIdQuery query = new GetMovieByIdQuery
+                {
+                    guid = id,
+                };
+                var response = await mediator.Send(query);
+                return Ok(response);
+            }
+            catch (ArgumentException ex)
+            {
+                logger.LogError("Unexpected Error: ", ex.Message);
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }
