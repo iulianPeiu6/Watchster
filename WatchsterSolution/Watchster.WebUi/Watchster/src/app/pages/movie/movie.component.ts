@@ -46,7 +46,7 @@ export class MovieComponent implements OnInit {
         this.movieWrap = (await this.movieService.getMovie(this.movieId));
         this.movie = this.movieWrap.movie;
         this.loadingVisible = false;
-        console.log(this.movie);
+        console.log(this.movie)
     }
 }
 

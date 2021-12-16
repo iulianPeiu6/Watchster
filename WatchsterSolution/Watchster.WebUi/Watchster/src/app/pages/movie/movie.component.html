@@ -1,3 +1,11 @@
+<ul>
+    <li> Title: {{movie == undefined ? '' : movie.title}}</li>
+    <li> ReleaseDate: {{movie == undefined ? '' : movie.releaseDate}}</li>
+    <li> Genres: {{movie == undefined ? '' : movie.genres}}</li>
+    <li> OverView: {{movie == undefined ? '' : movie.overview}}</li>
+</ul>
+
+
 <form class="login-form">
     <ngb-rating [max]="5" [(rate)]="starRating" [readonly]="false" ></ngb-rating>
     <dx-form [formData]="formData" [disabled]="loading">
