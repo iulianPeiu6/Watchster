@@ -1,12 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-
+	<ProjectGuid>{8445caba-f061-4525-a7ac-a96c66e3cc85}</ProjectGuid>
+	<TargetFramework>net5.0</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="coverlet.msbuild" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="FakeItEasy" Version="7.2.0" />
     <PackageReference Include="Faker.Net" Version="1.5.150" />
     <PackageReference Include="FluentAssertions" Version="6.2.0" />
@@ -15,6 +19,7 @@
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="coverlet.collector" Version="3.0.2" />
+    <PackageReference Include="OpenCover" Version="4.7.1221" />
   </ItemGroup>
 
   <ItemGroup>
