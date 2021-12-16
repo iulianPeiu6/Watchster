@@ -1,0 +1,8 @@
+<form class="login-form">
+    <ngb-rating [max]="5" [(rate)]="starRating" [readonly]="false" ></ngb-rating>
+    <dx-form [formData]="formData" [disabled]="loading">
+        <dxi-item itemType="button">
+            <dxo-button-options text="Add rating" width="100%" [onClick]="addRating"></dxo-button-options>
+        </dxi-item>
+    </dx-form>
+</form>

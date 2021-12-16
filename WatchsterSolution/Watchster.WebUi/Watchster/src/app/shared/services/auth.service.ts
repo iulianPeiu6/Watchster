@@ -9,6 +9,13 @@ export interface IUser {
   isSubscribed: boolean,
   registrationDate: string
 }
+export class serverMessages {
+  public static UserNotFound : string = "User does not exist in database";
+  public static MovieNotFound : string = "Movie does not exist in database";
+  public static RatingNotInRange : string = "Rating value is not between 0 and 10";
+  public static MovieAlreadyRated : string = "Current Movie was already rated by the user";
+}
+
 
 export class LoginResponse {
   constructor(public user: IUser, public jwtToken: string, public errorMessage: string) { }
@@ -23,7 +30,7 @@ const resetLinkDomain = location.origin + "/change-password";
 
 @Injectable()
 export class AuthService {
-  private _user: LoginResponse | undefined;
+  public _user: LoginResponse | undefined;
   get loggedIn(): boolean {
     return this._user == undefined ? false : true;
   }
