@@ -7,7 +7,8 @@ export interface IUser {
   id: string,
   email: string,
   isSubscribed: boolean,
-  registrationDate: string
+  registrationDate: string,
+  numberOfTotalGivenRatings: number
 }
 
 export class LoginResponse {
@@ -19,13 +20,13 @@ export class MessageResponse {
 }
 
 const defaultPath = '/';
-const resetLinkDomain = location.origin + "/change-password";
+const resetLinkDomain = location.origin + "/#/change-password";
 
 @Injectable()
 export class AuthService {
-  private _user: LoginResponse | undefined;
+  private userLogingDetails: LoginResponse | undefined;
   get loggedIn(): boolean {
-    return this._user == undefined ? false : true;
+    return this.userLogingDetails == undefined ? false : true;
   }
 
   private _lastAuthenticatedPath: string = defaultPath;
@@ -43,8 +44,8 @@ export class AuthService {
         .post<LoginResponse>('/api/1/User/Authenticate', { email: email, password: password })
         .toPromise()
 
-      if(this._user == undefined){
-        this._user = response;
+      if(this.userLogingDetails == undefined){
+        this.userLogingDetails = response;
       }
       this.router.navigate(['/home']);
 
@@ -64,10 +65,16 @@ export class AuthService {
   async getUser() {
     try {
       // Send request
+      var userId: string = this.userLogingDetails?.user.id!;
 
+      const response = await this.http
+        .get<IUser>('/api/1/User/GetUser', { params: { userId: userId } })
+        .toPromise()
+
+      console.log(response);
       return {
         isOk: true,
-        data: this._user
+        data: response
       };
     }
     catch {
@@ -93,8 +100,8 @@ export class AuthService {
         };
       }
 
-      if(this._user == undefined){
-          this._user = response;
+      if(this.userLogingDetails == undefined){
+          this.userLogingDetails = response;
         }
 
       return {
@@ -176,7 +183,7 @@ export class AuthService {
   }
 
   async logOut() {
-    this._user = undefined;
+    this.userLogingDetails = undefined;
     this.router.navigate(['/login-form']);
   }
 }
