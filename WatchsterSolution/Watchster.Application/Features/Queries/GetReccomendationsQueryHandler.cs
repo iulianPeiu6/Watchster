@@ -47,7 +47,7 @@ namespace Watchster.Application.Features.Queries
                 movieRatings.Add(movieRating);
             }
 
-            var reccomendations = new List<ReccomendationDetails>();
+            var recommendations = new List<ReccomendationDetails>();
 
             foreach (MovieRating movieRating in movieRatings)
             {
@@ -68,15 +68,15 @@ namespace Watchster.Application.Features.Queries
                         Overview = movie.Overview,
                         Score = prediction.Score
                     };
-                    reccomendations.Add(reccomendationDetails);
+                    recommendations.Add(reccomendationDetails);
                 }
             }
 
-            reccomendations.OrderBy(reccomendation => reccomendation.Score);
+            recommendations = recommendations.OrderBy(reccomendation => reccomendation.Score).ToList();
 
             return new GetRecommendationsResponse
             {
-                Recommendations = reccomendations.Take(100).ToList()
+                Recommendations = recommendations.Take(100).ToList()
             };
         }
     }

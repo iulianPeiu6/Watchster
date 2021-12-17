@@ -15,15 +15,12 @@ namespace Watchster.WebApi.Controllers.v1
     public class MovieController : BaseController
     {
         private readonly ILogger<MovieController> logger;
-        private readonly IMovieRecommender movieRecommender;
 
         public MovieController(
             IMediator mediator,
-            ILogger<MovieController> logger,
-            IMovieRecommender movieRecommender) : base(mediator)
+            ILogger<MovieController> logger) : base(mediator)
         {
             this.logger = logger;
-            this.movieRecommender = movieRecommender;
         }
 
         [HttpGet]
@@ -40,11 +37,6 @@ namespace Watchster.WebApi.Controllers.v1
             {
                 logger.LogError("Unexpected Error: ", ex.Message);
                 return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -66,11 +58,6 @@ namespace Watchster.WebApi.Controllers.v1
                 logger.LogError("Unexpected Error: ", ex.Message);
                 return BadRequest();
             }
-            catch (Exception ex)
-            {
-                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
         }
 
         [HttpGet]
@@ -86,11 +73,6 @@ namespace Watchster.WebApi.Controllers.v1
             {
                 logger.LogError("Unexpected Error: ", ex.Message);
                 return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -116,47 +98,34 @@ namespace Watchster.WebApi.Controllers.v1
                 logger.LogError("Unexpected Error: ", ex.Message);
                 return BadRequest();
             }
-            catch (Exception ex)
-            {
-                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
         }
         [HttpPost]
         [Route("AddRating")]
         public async Task<IActionResult> AddRating([FromBody] AddRatingCommand command)
         {
-            try
+            var response = await mediator.Send(command);
+
+            if (response.ErrorMessage == Error.MovieNotFound)
             {
-                var response = await mediator.Send(command);
-
-                if (response.ErrorMessage == Error.MovieNotFound)
-                {
-                    return NotFound(new { Message = Error.MovieNotFound });
-                }
-
-                if (response.ErrorMessage == Error.UserNotFound)
-                {
-                    return NotFound(new { Message = Error.UserNotFound });
-                }
-
-                if (response.ErrorMessage == Error.MovieAlreadyRated)
-                {
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { Message = Error.MovieAlreadyRated });
-                }
-
-                if (response.ErrorMessage == Error.RatingNotInRange)
-                {
-                    return BadRequest(new { Message = Error.RatingNotInRange });
-                }
-
-                return StatusCode(StatusCodes.Status201Created, new { Message = "Rating added!" });
+                return NotFound(new { Message = Error.MovieNotFound });
             }
-            catch (Exception ex)
+
+            if (response.ErrorMessage == Error.UserNotFound)
             {
-                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return NotFound(new { Message = Error.UserNotFound });
             }
+
+            if (response.ErrorMessage == Error.MovieAlreadyRated)
+            {
+                return StatusCode(StatusCodes.Status406NotAcceptable, new { Message = Error.MovieAlreadyRated });
+            }
+
+            if (response.ErrorMessage == Error.RatingNotInRange)
+            {
+                return BadRequest(new { Message = Error.RatingNotInRange });
+            }
+
+            return StatusCode(StatusCodes.Status201Created, new { Message = "Rating added!" });
         }
     }
 }

@@ -36,6 +36,7 @@ namespace Watchster.WebApi.Controllers.v1
             }
             catch (ArgumentException)
             {
+                logger.LogInformation("User not found!");
                 return NotFound(new { Message = "User not found!" });
             }
         }
