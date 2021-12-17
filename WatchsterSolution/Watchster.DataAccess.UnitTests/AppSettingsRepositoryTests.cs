@@ -6,18 +6,19 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Watchster.DataAccess;
+using Watchster.DataAccess.Repositories;
 using Watchster.Domain.Entities;
 
 namespace Database.UnitTests
 {
     public class AppSettingsRepositoryTests : DatabaseTestBase
     {
-        private readonly Repository<AppSettings> repository;
+        private readonly AppSettingsRepository repository;
         private readonly AppSettings newAppSettings;
 
         public AppSettingsRepositoryTests()
         {
-            repository = new Repository<AppSettings>(context);
+            repository = new AppSettingsRepository(context);
             newAppSettings = new AppSettings()
             {
                 Id = 2,

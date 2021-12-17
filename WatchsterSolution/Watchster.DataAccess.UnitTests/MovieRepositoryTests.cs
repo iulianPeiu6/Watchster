@@ -6,18 +6,19 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Watchster.DataAccess;
+using Watchster.DataAccess.Repositories;
 using Watchster.Domain.Entities;
 
 namespace Database.UnitTests
 {
     public class MovieRepositoryTests : DatabaseTestBase
     {
-        private readonly Repository<Movie> repository;
+        private readonly MovieRepository repository;
         private readonly Movie newMovie;
 
         public MovieRepositoryTests()
         {
-            repository = new Repository<Movie>(context);
+            repository = new MovieRepository(context);
             newMovie = new Movie
             {
                 Id = 3,

@@ -4,7 +4,7 @@ using Watchster.Domain.Entities;
 
 namespace Watchster.DataAccess.Repositories
 {
-    internal class RatingRepository : Repository<Rating>, IRatingRepository
+    public class RatingRepository : Repository<Rating>, IRatingRepository
     {
         public RatingRepository(WatchsterContext context) : base(context)
         {
