@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
 using Watchster.Application.Models;
+using Watchster.Application.Features.Queries;
 
 namespace Watchster.WebApi.Controllers.v1
 {
@@ -17,6 +18,28 @@ namespace Watchster.WebApi.Controllers.v1
         public UserController(IMediator mediator, ILogger<UserController> logger) : base(mediator)
         {
             this.logger = logger;
+        }
+
+
+        [HttpGet]
+        [Route("GetUser")]
+        public async Task<IActionResult> GetUser(Guid userId)
+        {
+            try
+            {
+                var query = new GetUserDetailsQuery { UserId = userId };
+                var response = await mediator.Send(query);
+                return Ok(response);
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(new { Message = "User not found!" });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpPost]
