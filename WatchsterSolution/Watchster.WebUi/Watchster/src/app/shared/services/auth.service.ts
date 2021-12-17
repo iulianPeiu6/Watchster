@@ -31,7 +31,7 @@ const resetLinkDomain = location.origin + "/#/change-password";
 
 @Injectable()
 export class AuthService {
-  private userLogingDetails: LoginResponse | undefined;
+  public userLogingDetails: LoginResponse | undefined;
   get loggedIn(): boolean {
     return this.userLogingDetails == undefined ? false : true;
   }

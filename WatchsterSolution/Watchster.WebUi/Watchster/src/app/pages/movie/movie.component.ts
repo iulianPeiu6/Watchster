@@ -36,7 +36,8 @@ export class MovieComponent implements OnInit {
     
 
     addRating = async () => {
-        var response = await this.movieService.addRating(this.authService._user == undefined ? "" : this.authService._user.user.id ,this.movieId, this.starRating);
+        let userId = this.authService.userLogingDetails?.user.id!
+        var response = await this.movieService.addRating(userId ,this.movieId, this.starRating);
         switch(response.message) {
             case serverMessages.RatingNotInRange: {notify(serverMessages.RatingNotInRange, this.errorNotify, 2000); break;}
             case serverMessages.UserNotFound: {notify(serverMessages.UserNotFound, this.errorNotify, 2000); break;}
