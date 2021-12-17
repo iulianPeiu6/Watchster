@@ -30,7 +30,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         [Test]
         public void Given_MovieController_When_GetReccomendationsIsCalledWhileUserRatedAtLeastAMovie_Then_ShouldReturnOkResponse()
         {
-            var result = controller.GetRecommendations(Guid.Parse("8B36A8F5-0A04-4B4C-5107-08D9BB4D6F09")).Result;
+            var result = controller.GetRecommendations(1).Result;
             result.Should().BeOfType<OkObjectResult>();
         }
 
@@ -44,7 +44,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         [Test]
         public void Given_MovieController_When_GetReccomendationsIsCalled_Then_QueryShouldHaveHappenedOnce()
         {
-            var result = controller.GetRecommendations(Guid.Parse("8B36A8F5-0A04-4B4C-5107-08D9BB4D6F09"));
+            var result = controller.GetRecommendations(1);
             A.CallTo(() => mediator.Send(A<GetReccomendationsQuery>._, default)).MustHaveHappenedOnceExactly();
         }
     }
