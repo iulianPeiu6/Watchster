@@ -11,7 +11,7 @@ using Watchster.Domain.Entities;
 
 namespace Watchster.Application.Features.Queries
 {
-    public class GetReccomendationsQueryHandler : IRequestHandler<GetReccomendationsQuery, GetReccomendationsResponse>
+    public class GetReccomendationsQueryHandler : IRequestHandler<GetReccomendationsQuery, GetRecommendationsResponse>
     {
         private readonly IRatingRepository ratingRepository;
         private readonly IMovieRepository movieRepository;
@@ -24,14 +24,20 @@ namespace Watchster.Application.Features.Queries
             this.movieRecommender = movieReccomender;
         }
 
-        public async Task<GetReccomendationsResponse> Handle(GetReccomendationsQuery request, CancellationToken cancellationToken)
+        public async Task<GetRecommendationsResponse> Handle(GetReccomendationsQuery request, CancellationToken cancellationToken)
         { 
             if (await ratingRepository.GetByIdAsync(request.UserId) == null)
             {
                 throw new ArgumentException("The specified user does not have any ratings in the database");
             }
-            var movieIds = ratingRepository.Query().Select(rating => rating.MovieId).Distinct().ToList();
+
+            var movieIds = ratingRepository.Query()
+                .Select(rating => rating.MovieId)
+                .Distinct()
+                .ToList();
+
             var movieRatings = new List<MovieRating>();
+
             foreach(var id in movieIds)
             {
                 var movieRating = new MovieRating
@@ -41,7 +47,9 @@ namespace Watchster.Application.Features.Queries
                 };
                 movieRatings.Add(movieRating);
             }
-            List<ReccomendationDetails> reccomendations = new List<ReccomendationDetails>();
+
+            var reccomendations = new List<ReccomendationDetails>();
+
             foreach(MovieRating movieRating in movieRatings)
             {
                 MovieRatingPrediction prediction = movieRecommender.PredictMovieRating(movieRating);
@@ -67,20 +75,10 @@ namespace Watchster.Application.Features.Queries
 
             reccomendations.OrderBy(reccomendation => reccomendation.Score);
 
-            if(reccomendations.Count > 100)
+            return new GetRecommendationsResponse
             {
-                return new GetReccomendationsResponse
-                {
-                    reccomendations = reccomendations.Take(100).ToList()
-                };
-            }
-            else
-            {
-                return new GetReccomendationsResponse
-                {
-                    reccomendations = reccomendations
-                };
-            }
+                Recommendations = reccomendations.Take(100).ToList()
+            };
         }
     }
 }
