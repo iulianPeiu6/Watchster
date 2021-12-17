@@ -51,9 +51,27 @@ namespace Watchster.WebApi.Controllers.v1
 
         [HttpGet]
         [Route("GetRecommendations")]
-        public IActionResult GetRecommendations(Guid userId)
+        public async Task<IActionResult> GetRecommendations(Guid userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                GetReccomendationsQuery query = new GetReccomendationsQuery
+                {
+                    UserId = userId
+                };
+                var response = await mediator.Send(query);
+                return Ok(response);
+            }
+            catch (ArgumentException ex)
+            {
+                logger.LogError("Unexpected Error: ", ex.Message);
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         //Used for testing

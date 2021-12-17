@@ -36,5 +36,16 @@ namespace Watchster.WebApi.UnitTests.GetMoviesFromPage
             var result = controller.GetFromPage(command).Result;
             result.Should().BeOfType<OkObjectResult>();
         }
+
+        [Test]
+        public void Given_MovieController_When_GetMoviesFromPageIsCalled_Then_QueryShouldHaveHappenedOnce()
+        {
+            GetMoviesFromPageQuery command = new GetMoviesFromPageQuery
+            {
+                Page = 1
+            };
+            var result = controller.GetFromPage(command);
+            A.CallTo(() => mediator.Send(A<GetMoviesFromPageQuery>._, default)).MustHaveHappenedOnceExactly();
+        }
     }
 }
