@@ -1,7 +1,6 @@
 import { Component, NgModule, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Movie, MovieService, MovieWrapper } from "../../shared/services";
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Movie, MovieService, GetMovieResponse } from "../../shared/services";
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import { AuthService, serverMessages } from "../../shared/services";
@@ -19,14 +18,20 @@ export class MovieComponent implements OnInit {
     loading = false;
     movieId: string;
     movie: Movie | undefined;
-    movieWrap : MovieWrapper | undefined;
     loadingVisible = false;
     starRating : number = 0;
     errorNotify: string = 'error';
     successNotify: string = 'success';
-
+    colCountByScreen!: object;
+    movieOverview!: string;
     constructor(private movieService: MovieService, private router: Router, private authService:  AuthService) {
         this.movieId = this.router.url.split('/')[2];
+        this.colCountByScreen = {
+            xs: 1,
+            sm: 1,
+            md: 2,
+            lg: 2
+          };
     }
     
 
@@ -43,16 +48,17 @@ export class MovieComponent implements OnInit {
 
     async ngOnInit() {
         this.loadingVisible = true;
-        this.movieWrap = (await this.movieService.getMovie(this.movieId));
-        this.movie = this.movieWrap.movie;
+        this.movie = await this.movieService.getMovie(this.movieId);
         this.loadingVisible = false;
+        this.movieOverview = this.movie.overview
         console.log(this.movie)
     }
 }
 
 @NgModule({
-    imports: [NgbModule, DxFormModule,
-    DxLoadIndicatorModule],
+    imports: [
+        DxFormModule,
+        DxLoadIndicatorModule],
     exports: [MovieComponent],
     declarations: [MovieComponent],
     providers: [],

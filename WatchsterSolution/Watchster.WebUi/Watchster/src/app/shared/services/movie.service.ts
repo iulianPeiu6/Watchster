@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class Movie {
   constructor(
     public id: string,
-    public tmDbId: number, 
+    public tMDbId: number, 
     public title: string, 
     public releaseDate: Date, 
     public genres: string[],
@@ -13,7 +13,7 @@ export class Movie {
   }
 }
 
-export class MovieWrapper {
+export class GetMovieResponse {
   constructor(public movie: Movie, public errorMessage: string){
   }
 }
@@ -53,9 +53,9 @@ export class MovieService {
 
   async getMovie(id: string) {
     const response = await this.http
-    .get<MovieWrapper>('/api/1/Movie/GetMovie', { params: { id: id } })
+    .get<GetMovieResponse>('/api/1/Movie/GetMovie', { params: { id: id } })
     .toPromise()
-    return response;
+    return response.movie;
   }
 
   async addRating(userId: string, idMovie: string, rating: number) {

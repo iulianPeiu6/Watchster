@@ -1,16 +1,39 @@
-<ul>
-    <li> Title: {{movie == undefined ? '' : movie.title}}</li>
-    <li> ReleaseDate: {{movie == undefined ? '' : movie.releaseDate}}</li>
-    <li> Genres: {{movie == undefined ? '' : movie.genres}}</li>
-    <li> OverView: {{movie == undefined ? '' : movie.overview}}</li>
-</ul>
+<div class="content-block dx-card responsive-paddings">
+  <div class="form-avatar">
+    <img src="../../../assets/images/yet-another-avatar-image.png"/>
+  </div>
+  <span [innerText]="movieOverview"></span>
+</div>
 
+<div class="content-block dx-card responsive-paddings">
+  <dx-form
+    [formData]="movie"
+    labelLocation="top"
+    [colCountByScreen]="colCountByScreen">
 
-<form class="login-form">
-    <ngb-rating [max]="5" [(rate)]="starRating" [readonly]="false" ></ngb-rating>
-    <dx-form [formData]="formData" [disabled]="loading">
-        <dxi-item itemType="button">
-            <dxo-button-options text="Add rating" width="100%" [onClick]="addRating"></dxo-button-options>
-        </dxi-item>
-    </dx-form>
-</form>
+    <dxi-item 
+      dataField="id"
+      [editorOptions]="{ readOnly: true }">
+    </dxi-item>
+    <dxi-item 
+      dataField="tmDbId"
+      [editorOptions]="{ readOnly: true }">
+    </dxi-item>
+    <dxi-item 
+      dataField="title"
+      [editorOptions]="{ readOnly: true }">
+    </dxi-item>
+    <dxi-item 
+      dataField="releaseDate"
+      [editorOptions]="{ readOnly: true }">
+    </dxi-item>
+    <dxi-item 
+      dataField="genres"
+      [editorOptions]="{ readOnly: true }">
+    </dxi-item>
+    <dxi-item 
+      dataField="averageRating"
+      [editorOptions]="{ readOnly: true }">
+    </dxi-item>
+  </dx-form>
+</div>
