@@ -16,7 +16,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         {
             var logger = A.Fake<ILogger<MovieController>>();
             mediator = A.Fake<IMediator>();
-            controller = new MovieController(mediator, logger, null);
+            controller = new MovieController(mediator, logger);
         }
 
         [SetUp]
