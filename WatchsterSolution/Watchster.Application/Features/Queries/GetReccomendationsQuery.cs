@@ -10,6 +10,6 @@ namespace Watchster.Application.Features.Queries
 {
     public class GetReccomendationsQuery: IRequest<GetReccomendationsResponse>
     {
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

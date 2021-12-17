@@ -75,8 +75,8 @@ namespace Watchster.Application.Utils.ML
             var ratings = await mediator.Send(new GetAllRatingsQuery());
             var dataset = ratings.Select(ratings => new MovieRating
             {
-                MovieId = ratings.MovieId.ToString(),
-                UserId = ratings.UserId.ToString(),
+                MovieId = ratings.MovieId,
+                UserId = ratings.UserId,
                 Label = (float)ratings.RatingValue,
             });
 

@@ -1,6 +1,9 @@
-﻿namespace Watchster.Application.Models
+﻿
+using Watchster.Domain.Entities;
+
+namespace Watchster.Application.Models
 {
-    public class ReccomendationDetails : MovieDetails
+    public class ReccomendationDetails : Movie
     {
         public float Score { get; set; }
     }

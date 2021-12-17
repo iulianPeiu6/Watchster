@@ -51,7 +51,7 @@ namespace Watchster.WebApi.Controllers.v1
 
         [HttpGet]
         [Route("GetRecommendations")]
-        public async Task<IActionResult> GetRecommendations(Guid userId)
+        public async Task<IActionResult> GetRecommendations(int userId)
         {
             try
             {
@@ -77,14 +77,14 @@ namespace Watchster.WebApi.Controllers.v1
         //Used for testing
         [HttpGet]
         [Route("GetPrediction")]
-        public IActionResult GetRecommendations(Guid userId, Guid movieId)
+        public IActionResult GetRecommendations(int userId, int movieId)
         {
             try
             {
                 var movie = new MovieRating
                 {
-                    UserId = userId.ToString(),
-                    MovieId = movieId.ToString()
+                    UserId = userId,
+                    MovieId = movieId
                 };
 
                 return Ok(movieRecommender.PredictMovieRating(movie));

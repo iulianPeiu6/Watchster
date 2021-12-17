@@ -30,14 +30,14 @@ namespace Watchster.Application.Features.Queries
             {
                 throw new ArgumentException("The specified user does not have any ratings in the database");
             }
-            List<Guid> movieIds = ratingRepository.Query().Select(rating => rating.MovieId).Distinct().ToList();
-            List<MovieRating> movieRatings = new List<MovieRating>();
-            foreach(Guid id in movieIds)
+            var movieIds = ratingRepository.Query().Select(rating => rating.MovieId).Distinct().ToList();
+            var movieRatings = new List<MovieRating>();
+            foreach(var id in movieIds)
             {
-                MovieRating movieRating = new MovieRating
+                var movieRating = new MovieRating
                 {
-                    UserId = request.UserId.ToString(),
-                    MovieId = id.ToString()
+                    UserId = request.UserId,
+                    MovieId = id
                 };
                 movieRatings.Add(movieRating);
             }
@@ -47,14 +47,17 @@ namespace Watchster.Application.Features.Queries
                 MovieRatingPrediction prediction = movieRecommender.PredictMovieRating(movieRating);
                 if(!float.IsNaN(prediction.Score))
                 {
-                    Movie movie = await movieRepository.GetByIdAsync(Guid.Parse(movieRating.MovieId));
-                    ReccomendationDetails reccomendationDetails = new ReccomendationDetails
+                    var movie = await movieRepository.GetByIdAsync(movieRating.MovieId);
+                    var reccomendationDetails = new ReccomendationDetails
                     {
                         Id = movie.Id,
                         TMDbId = movie.TMDbId,
                         Title = movie.Title,
                         ReleaseDate = movie.ReleaseDate,
                         Genres = movie.Genres,
+                        PosterUrl = movie.PosterUrl,
+                        Popularity = movie.Popularity,
+                        TMDbVoteAverage = movie.TMDbVoteAverage,
                         Overview = movie.Overview,
                         Score = prediction.Score
                     };
