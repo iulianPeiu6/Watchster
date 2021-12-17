@@ -27,9 +27,9 @@ namespace Watchster.Application.Utils.ML
             this.logger = logger;
             this.mediator = mediator;
             mlContext = new MLContext();
-            modelPath = Path.Combine(Environment.CurrentDirectory, 
-                "..", 
-                "Watchster.Application", 
+            modelPath = Path.Combine(Environment.CurrentDirectory,
+                "..",
+                "Watchster.Application",
                 "Utils",
                 "ML",
                 "Data",

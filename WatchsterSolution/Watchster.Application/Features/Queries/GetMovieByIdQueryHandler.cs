@@ -1,10 +1,8 @@
 ﻿using MediatR;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Watchster.Application.Interfaces;
 using Watchster.Application.Models;
-using Watchster.Domain.Entities;
 
 namespace Watchster.Application.Features.Queries
 {

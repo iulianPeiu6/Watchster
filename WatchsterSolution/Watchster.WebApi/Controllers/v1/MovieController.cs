@@ -8,7 +8,6 @@ using Watchster.Application.Features.Commands;
 using Watchster.Application.Features.Queries;
 using Watchster.Application.Interfaces;
 using Watchster.Application.Models;
-using Watchster.Application.Utils.ML.Models;
 
 namespace Watchster.WebApi.Controllers.v1
 {
@@ -19,9 +18,9 @@ namespace Watchster.WebApi.Controllers.v1
         private readonly IMovieRecommender movieRecommender;
 
         public MovieController(
-            IMediator mediator, 
-            ILogger<MovieController> logger, 
-            IMovieRecommender movieRecommender): base(mediator)
+            IMediator mediator,
+            ILogger<MovieController> logger,
+            IMovieRecommender movieRecommender) : base(mediator)
         {
             this.logger = logger;
             this.movieRecommender = movieRecommender;
@@ -74,28 +73,6 @@ namespace Watchster.WebApi.Controllers.v1
             }
         }
 
-        //Used for testing
-        [HttpGet]
-        [Route("GetPrediction")]
-        public IActionResult GetRecommendations(int userId, int movieId)
-        {
-            try
-            {
-                var movie = new MovieRating
-                {
-                    UserId = userId,
-                    MovieId = movieId
-                };
-
-                return Ok(movieRecommender.PredictMovieRating(movie));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
         [HttpGet]
         [Route("GetFromPage")]
         public async Task<IActionResult> GetFromPage([FromQuery] GetMoviesFromPageQuery command)
@@ -128,7 +105,7 @@ namespace Watchster.WebApi.Controllers.v1
                     Id = id,
                 };
                 var response = await mediator.Send(query);
-                if(response.ErrorMessage == Error.MovieNotFound)
+                if (response.ErrorMessage == Error.MovieNotFound)
                 {
                     return NotFound(new { Message = Error.MovieNotFound });
                 }
@@ -158,17 +135,17 @@ namespace Watchster.WebApi.Controllers.v1
                     return NotFound(new { Message = Error.MovieNotFound });
                 }
 
-                if(response.ErrorMessage == Error.UserNotFound)
+                if (response.ErrorMessage == Error.UserNotFound)
                 {
                     return NotFound(new { Message = Error.UserNotFound });
                 }
 
                 if (response.ErrorMessage == Error.MovieAlreadyRated)
                 {
-                  return StatusCode(StatusCodes.Status406NotAcceptable, new { Message = Error.MovieAlreadyRated });
+                    return StatusCode(StatusCodes.Status406NotAcceptable, new { Message = Error.MovieAlreadyRated });
                 }
 
-                if(response.ErrorMessage == Error.RatingNotInRange)
+                if (response.ErrorMessage == Error.RatingNotInRange)
                 {
                     return BadRequest(new { Message = Error.RatingNotInRange });
                 }

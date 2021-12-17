@@ -28,7 +28,7 @@ namespace Watchster.Application.Features.Queries
             {
                 throw new ArgumentException("The specified user does not have any ratings in the database");
             }
-            
+
             var numberOfTotalRatingsGiven = ratingRepository.Query(rating => rating.UserId == request.UserId)
                 .ToList()
                 .Count;

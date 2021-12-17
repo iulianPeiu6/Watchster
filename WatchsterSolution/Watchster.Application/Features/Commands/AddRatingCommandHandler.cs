@@ -1,8 +1,5 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Watchster.Application.Interfaces;
@@ -35,7 +32,7 @@ namespace Watchster.Application.Features.Commands
             var response = new AddRatingResponse();
 
             var userInstance = await userRepository.GetByIdAsync(request.userId);
-            
+
             if (userInstance is null)
             {
                 response.ErrorMessage = Error.UserNotFound;
@@ -45,7 +42,7 @@ namespace Watchster.Application.Features.Commands
 
             var movieInstance = await movieRepository.GetByIdAsync(request.movieId);
 
-            if(movieInstance is null)
+            if (movieInstance is null)
             {
                 response.ErrorMessage = Error.MovieNotFound;
                 response.IsSuccess = false;
@@ -56,7 +53,7 @@ namespace Watchster.Application.Features.Commands
                 .Query(rating => (rating.MovieId == request.movieId) && (rating.UserId == request.userId))
                 .FirstOrDefault();
 
-            if(ratingInstance is not null)
+            if (ratingInstance is not null)
             {
                 response.ErrorMessage = Error.MovieAlreadyRated;
                 response.IsSuccess = false;
@@ -69,10 +66,10 @@ namespace Watchster.Application.Features.Commands
                 response.IsSuccess = false;
                 return response;
             }
-            
+
             await ratingRepository.AddAsync(rating);
             response.IsSuccess = true;
-            return response;   
+            return response;
         }
     }
 }

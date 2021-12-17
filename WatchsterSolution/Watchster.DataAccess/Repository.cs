@@ -48,7 +48,7 @@ namespace Watchster.DataAccess
 
         public async Task<TEntity> GetByIdAsync(int id)
         {
-            Guard.ArgumentInRange(id, 1,int.MaxValue, nameof(id));
+            Guard.ArgumentInRange(id, 1, int.MaxValue, nameof(id));
 
             return await context.FindAsync<TEntity>(id);
         }

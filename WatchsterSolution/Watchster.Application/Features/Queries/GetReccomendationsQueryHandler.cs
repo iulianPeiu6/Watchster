@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Watchster.Application.Interfaces;
 using Watchster.Application.Models;
 using Watchster.Application.Utils.ML.Models;
-using Watchster.Domain.Entities;
 
 namespace Watchster.Application.Features.Queries
 {
@@ -25,7 +24,7 @@ namespace Watchster.Application.Features.Queries
         }
 
         public async Task<GetRecommendationsResponse> Handle(GetReccomendationsQuery request, CancellationToken cancellationToken)
-        { 
+        {
             if (await ratingRepository.GetByIdAsync(request.UserId) == null)
             {
                 throw new ArgumentException("The specified user does not have any ratings in the database");
@@ -38,7 +37,7 @@ namespace Watchster.Application.Features.Queries
 
             var movieRatings = new List<MovieRating>();
 
-            foreach(var id in movieIds)
+            foreach (var id in movieIds)
             {
                 var movieRating = new MovieRating
                 {
@@ -50,10 +49,10 @@ namespace Watchster.Application.Features.Queries
 
             var reccomendations = new List<ReccomendationDetails>();
 
-            foreach(MovieRating movieRating in movieRatings)
+            foreach (MovieRating movieRating in movieRatings)
             {
                 MovieRatingPrediction prediction = movieRecommender.PredictMovieRating(movieRating);
-                if(!float.IsNaN(prediction.Score))
+                if (!float.IsNaN(prediction.Score))
                 {
                     var movie = await movieRepository.GetByIdAsync(movieRating.MovieId);
                     var reccomendationDetails = new ReccomendationDetails

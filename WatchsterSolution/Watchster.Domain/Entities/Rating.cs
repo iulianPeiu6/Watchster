@@ -1,5 +1,4 @@
-﻿using System;
-using Watchster.Domain.Common;
+﻿using Watchster.Domain.Common;
 
 namespace Watchster.Domain.Entities
 {

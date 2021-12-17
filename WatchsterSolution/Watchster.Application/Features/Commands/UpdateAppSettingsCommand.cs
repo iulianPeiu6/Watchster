@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using System;
 using Watchster.Domain.Entities;
 
 namespace Watchster.Application.Features.Commands

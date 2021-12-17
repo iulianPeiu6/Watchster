@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
 using Watchster.Application.Models;
 
 namespace Watchster.Application.Features.Queries

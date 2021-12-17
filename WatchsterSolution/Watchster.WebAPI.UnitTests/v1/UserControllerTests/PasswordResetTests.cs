@@ -68,7 +68,5 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
 
             action.Should().ThrowAsync<AggregateException>();
         }
-
-
     }
 }

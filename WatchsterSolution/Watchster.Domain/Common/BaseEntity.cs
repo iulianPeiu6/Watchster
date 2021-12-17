@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Watchster.Domain.Common
+﻿namespace Watchster.Domain.Common
 {
     public abstract class BaseEntity
     {
