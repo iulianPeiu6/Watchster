@@ -77,7 +77,7 @@ namespace Watchster.MovieImporter.Job
             await ImportMovies(result.Movies);
             int numOfMoviesImported = result.Movies.Count;
 
-            foreach (var page in Enumerable.Range(2, result.TotalPages - 1))
+            foreach (var page in Enumerable.Range(2, result.TotalPages - 2))
             {
                 var movies = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, UpperBoundIntervalSearch, page).Movies;
                 await ImportMovies(movies);

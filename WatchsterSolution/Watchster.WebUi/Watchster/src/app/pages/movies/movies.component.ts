@@ -19,7 +19,7 @@ export class MoviesComponent implements OnInit {
   constructor(private movieService: MovieService) {
     this.loadingVisible = true;
     this.dataSource =  new ArrayStore({
-      key: ["tmDbId"],
+      key: ["id"],
       data: new Array<Movie>()
     });
     this.movies = new Array<Movie>();

@@ -24,7 +24,7 @@ namespace Watchster.DataAccess.Repositories
                 throw new ArgumentException("Invalid Page Value");
             }
 
-            List<Movie> movies = await context.Set<Movie>().AsNoTracking().OrderBy(movie => movie.TMDbId).Skip(skipMovies).Take(MOVIE_PAGE_SIZE).ToListAsync();
+            List<Movie> movies = await context.Set<Movie>().AsNoTracking().OrderBy(movie => movie.Id).Skip(skipMovies).Take(MOVIE_PAGE_SIZE).ToListAsync();
 
             return movies;
         }

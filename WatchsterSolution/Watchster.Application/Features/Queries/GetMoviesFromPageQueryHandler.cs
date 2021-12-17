@@ -25,16 +25,21 @@ namespace Watchster.Application.Features.Queries
             return new GetMoviesResponse
             {
                 TotalPages = totalPages,
-                Movies = movies.Select(movie => new MovieDetails
-                {
-                    Id = movie.Id,
-                    TMDbId = movie.TMDbId,
-                    Title = movie.Title,
-                    ReleaseDate = movie.ReleaseDate,
-                    Genres = movie.Genres,
-                    Overview = movie.Overview,
-                }).ToList(),
+                Movies = movies
             };
+            //return new GetMoviesResponse
+            //{
+            //    TotalPages = totalPages,
+            //    Movies = movies.Select(movie => new MovieDetails
+            //    {
+            //        Id = movie.Id,
+            //        TMDbId = movie.TMDbId,
+            //        Title = movie.Title,
+            //        ReleaseDate = movie.ReleaseDate,
+            //        Genres = movie.Genres,
+            //        Overview = movie.Overview,
+            //    }).ToList(),
+            //};
         }
     }
 }

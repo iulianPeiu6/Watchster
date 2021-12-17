@@ -9,6 +9,9 @@ export class Movie {
     public releaseDate: Date, 
     public genres: string[],
     public averageRating: number,
+    public posterUrl: string,
+    public popularity: number,
+    public tmDbVoteAverage: number,
     public overview: string) { 
   }
 }
