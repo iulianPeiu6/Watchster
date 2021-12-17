@@ -21,6 +21,7 @@ namespace Watchster.MovieImporter.Job
         private Domain.Entities.AppSettings movieImporterSettings;
         private DateTime CurrentDateTime;
         private DateTime UpperBoundIntervalSearch;
+        private const string TMDB_POSTER_ENDPOINT = "https://image.tmdb.org/t/p/original";
 
         public MovieImporterJob(
             ILogger<MovieImporterJob> logger,
@@ -95,7 +96,10 @@ namespace Watchster.MovieImporter.Job
                     Overview = movie.Overview,
                     TMDbId = movie.TMDbId,
                     ReleaseDate = movie.ReleaseDate,
-                    Genres = movie.Genres.Select(genre => genre.Name)
+                    Genres = movie.Genres.Select(genre => genre.Name),
+                    Popularity = movie.Popularity,
+                    TMDbVoteAverage = movie.VoteAverage,
+                    PosterUrl = $"{TMDB_POSTER_ENDPOINT}{movie.PosterPath}"
                 };
                 await mediator.Send(command);
             }

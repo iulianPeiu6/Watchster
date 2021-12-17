@@ -24,7 +24,10 @@ namespace Watchster.Application.Features.Commands
                 Overview = request.Overview,
                 TMDbId = request.TMDbId,
                 ReleaseDate = request.ReleaseDate,
-                Genres = string.Join(",", request.Genres)
+                Genres = string.Join(",", request.Genres),
+                PosterUrl = request.PosterUrl,
+                Popularity = request.Popularity,
+                TMDbVoteAverage = request.TMDbVoteAverage
             };
 
             await repository.AddAsync(movie);

@@ -10,6 +10,9 @@ namespace Watchster.Application.Features.Commands
         public string Title { get; set; }
         public DateTime? ReleaseDate { get; set; }
         public IEnumerable<string> Genres { get; set; }
+        public string PosterUrl { get; set; }
+        public double Popularity { get; set; }
+        public double TMDbVoteAverage { get; set; }
         public string Overview { get; set; }
     }
 }

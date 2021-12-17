@@ -13,7 +13,6 @@ namespace Watchster.TMDb.Services
         private readonly ILogger<TMDbMovieDiscoverService> logger;
         private readonly TMDbClient TMDbClient;
         private Dictionary<int, string> genres;
-        private const string TMDb_Poster_ENDPOINT = "https://image.tmdb.org/t/p/original";
 
         public TMDbMovieDiscoverService(ILogger<TMDbMovieDiscoverService> logger, IOptions<TMDbConfig> config)
         {
