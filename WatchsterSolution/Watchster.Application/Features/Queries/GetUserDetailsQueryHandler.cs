@@ -39,7 +39,7 @@ namespace Watchster.Application.Features.Queries
                 Email = user.Email,
                 IsSubscribed = user.IsSubscribed,
                 RegistrationDate = user.RegistrationDate,
-                NumberOfTotalRatingsGiven = numberOfTotalRatingsGiven,
+                NumberOfTotalGivenRatings = numberOfTotalRatingsGiven,
             };
         }
     }

@@ -16,6 +16,6 @@ namespace Watchster.Application.Models
 
         public DateTime RegistrationDate { get; set; }
 
-        public int NumberOfTotalRatingsGiven { get; set; }
+        public int NumberOfTotalGivenRatings { get; set; }
     }
 }

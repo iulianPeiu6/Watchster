@@ -22,8 +22,8 @@ namespace Watchster.WebApi.Controllers.v1
 
 
         [HttpGet]
-        [Route("GetUserDetails")]
-        public async Task<IActionResult> GetUserDetails(Guid userId)
+        [Route("GetUser")]
+        public async Task<IActionResult> GetUser(Guid userId)
         {
             try
             {
