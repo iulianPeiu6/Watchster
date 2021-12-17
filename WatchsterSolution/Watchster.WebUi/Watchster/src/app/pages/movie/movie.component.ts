@@ -24,6 +24,8 @@ export class MovieComponent implements OnInit {
     successNotify: string = 'success';
     colCountByScreen!: object;
     movieOverview!: string;
+    moviePosterUrl!: string;
+
     constructor(private movieService: MovieService, private router: Router, private authService:  AuthService) {
         this.movieId = this.router.url.split('/')[2];
         this.colCountByScreen = {
@@ -51,8 +53,9 @@ export class MovieComponent implements OnInit {
         this.loadingVisible = true;
         this.movie = await this.movieService.getMovie(this.movieId);
         this.loadingVisible = false;
-        this.movieOverview = this.movie.overview
-        console.log(this.movie)
+        this.movieOverview = this.movie.overview;
+        this.moviePosterUrl = this.movie.posterUrl;
+        console.log(this.movie);
     }
 }
 
