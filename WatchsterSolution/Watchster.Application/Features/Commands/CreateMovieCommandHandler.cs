@@ -7,7 +7,7 @@ using Watchster.Domain.Entities;
 
 namespace Watchster.Application.Features.Commands
 {
-    public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Guid>
+    public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, int>
     {
         private readonly IMovieRepository repository;
 
@@ -16,7 +16,7 @@ namespace Watchster.Application.Features.Commands
             this.repository = repository;
         }
 
-        public async Task<Guid> Handle(CreateMovieCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateMovieCommand request, CancellationToken cancellationToken)
         {
             var movie = new Movie
             {

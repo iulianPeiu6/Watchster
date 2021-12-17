@@ -10,5 +10,8 @@ namespace Watchster.TMDb.Models
         public DateTime? ReleaseDate { get; set; }
         public ICollection<Genre> Genres { get; set; }
         public string Overview { get; set; }
+        public string PosterPath { get; set; }
+        public double Popularity { get; set; }
+        public double VoteAverage { get; set; }
     }
 }

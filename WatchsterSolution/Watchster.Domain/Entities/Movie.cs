@@ -13,6 +13,12 @@ namespace Watchster.Domain.Entities
 
         public string Genres { get; set; }
 
+        public string PosterUrl { get; set; }
+
+        public double Popularity { get; set; }
+
+        public double TMDbVoteAverage { get; set; }
+
         public string Overview { get; set; }
     }
 }

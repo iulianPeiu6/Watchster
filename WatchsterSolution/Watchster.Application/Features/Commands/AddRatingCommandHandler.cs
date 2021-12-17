@@ -34,10 +34,8 @@ namespace Watchster.Application.Features.Commands
             };
             var response = new AddRatingResponse();
 
-            var userInstance = await Task.Run(async () =>
-            {
-                return userRepository.Query(user => user.Id == request.userId).FirstOrDefault();
-            });
+            var userInstance = await userRepository.GetByIdAsync(request.userId);
+            
             if (userInstance is null)
             {
                 response.ErrorMessage = Error.UserNotFound;
@@ -45,10 +43,7 @@ namespace Watchster.Application.Features.Commands
                 return response;
             }
 
-            var movieInstance = await Task.Run(async () =>
-            {
-                return movieRepository.Query(movie => movie.Id == request.movieId).FirstOrDefault();
-            });
+            var movieInstance = await movieRepository.GetByIdAsync(request.movieId);
 
             if(movieInstance is null)
             {
@@ -57,10 +52,9 @@ namespace Watchster.Application.Features.Commands
                 return response;
             }
 
-            var ratingInstance = await Task.Run(async () =>
-            {
-                return ratingRepository.Query(rating => (rating.MovieId == request.movieId) && (rating.UserId == request.userId)).FirstOrDefault();
-            });
+            var ratingInstance = ratingRepository
+                .Query(rating => (rating.MovieId == request.movieId) && (rating.UserId == request.userId))
+                .FirstOrDefault();
 
             if(ratingInstance is not null)
             {

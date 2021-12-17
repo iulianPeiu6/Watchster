@@ -23,7 +23,7 @@ namespace Watchster.WebApi.Controllers.v1
 
         [HttpGet]
         [Route("GetUser")]
-        public async Task<IActionResult> GetUser(Guid userId)
+        public async Task<IActionResult> GetUser(int userId)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace Watchster.WebApi.Controllers.v1
                 var response = await mediator.Send(query);
                 return Ok(response);
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
                 return NotFound(new { Message = "User not found!" });
             }

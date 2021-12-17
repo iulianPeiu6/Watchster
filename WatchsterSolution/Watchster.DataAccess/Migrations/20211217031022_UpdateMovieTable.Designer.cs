@@ -10,8 +10,8 @@ using Watchster.DataAccess.Context;
 namespace Watchster.DataAccess.Migrations
 {
     [DbContext(typeof(WatchsterContext))]
-    [Migration("20211208152648_CreateResetPasswordCodeTable")]
-    partial class CreateResetPasswordCodeTable
+    [Migration("20211217031022_UpdateMovieTable")]
+    partial class UpdateMovieTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,9 +23,10 @@ namespace Watchster.DataAccess.Migrations
 
             modelBuilder.Entity("Watchster.Domain.Entities.AppSettings", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -44,35 +45,23 @@ namespace Watchster.DataAccess.Migrations
                     b.ToTable("AppSettings");
                 });
 
-            modelBuilder.Entity("Watchster.Domain.Entities.Genre", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("MovieId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TMDbId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("Genres");
-                });
-
             modelBuilder.Entity("Watchster.Domain.Entities.Movie", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Genres")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Overview")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Popularity")
+                        .HasColumnType("float");
+
+                    b.Property<string>("PosterUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ReleaseDate")
@@ -80,6 +69,9 @@ namespace Watchster.DataAccess.Migrations
 
                     b.Property<int>("TMDbId")
                         .HasColumnType("int");
+
+                    b.Property<double>("TMDbVoteAverage")
+                        .HasColumnType("float");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -91,18 +83,19 @@ namespace Watchster.DataAccess.Migrations
 
             modelBuilder.Entity("Watchster.Domain.Entities.Rating", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
 
                     b.Property<double>("RatingValue")
                         .HasColumnType("float");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -113,9 +106,10 @@ namespace Watchster.DataAccess.Migrations
 
             modelBuilder.Entity("Watchster.Domain.Entities.ResetPasswordCode", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
@@ -133,9 +127,10 @@ namespace Watchster.DataAccess.Migrations
 
             modelBuilder.Entity("Watchster.Domain.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -154,13 +149,6 @@ namespace Watchster.DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Watchster.Domain.Entities.Genre", b =>
-                {
-                    b.HasOne("Watchster.Domain.Entities.Movie", null)
-                        .WithMany("Genres")
-                        .HasForeignKey("MovieId");
-                });
-
             modelBuilder.Entity("Watchster.Domain.Entities.Rating", b =>
                 {
                     b.HasOne("Watchster.Domain.Entities.User", null)
@@ -168,11 +156,6 @@ namespace Watchster.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Watchster.Domain.Entities.Movie", b =>
-                {
-                    b.Navigation("Genres");
                 });
 
             modelBuilder.Entity("Watchster.Domain.Entities.User", b =>

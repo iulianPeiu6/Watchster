@@ -13,6 +13,7 @@ namespace Watchster.TMDb.Services
         private readonly ILogger<TMDbMovieDiscoverService> logger;
         private readonly TMDbClient TMDbClient;
         private Dictionary<int, string> genres;
+        private const string TMDb_Poster_ENDPOINT = "https://image.tmdb.org/t/p/original";
 
         public TMDbMovieDiscoverService(ILogger<TMDbMovieDiscoverService> logger, IOptions<TMDbConfig> config)
         {
@@ -43,6 +44,9 @@ namespace Watchster.TMDb.Services
                         Name = genre.Name
                     }).ToList(),
                     ReleaseDate = response.ReleaseDate,
+                    Popularity = response.Popularity,
+                    PosterPath = response.PosterPath,
+                    VoteAverage = response.VoteAverage,
                     Overview = response.Overview
                 };
 
@@ -79,12 +83,15 @@ namespace Watchster.TMDb.Services
                         {
                             TMDbId = movie.Id,
                             Title = movie.Title,
-                            Genres = movie.GenreIds.Select(genre => new Models.Genre()
+                            Genres = movie.GenreIds.Select(genre => new Genre()
                             {
                                 TMDbId = genre,
                                 Name = genres[genre]
                             }).ToList(),
                             ReleaseDate = movie.ReleaseDate,
+                            Popularity = movie.Popularity,
+                            PosterPath = movie.PosterPath,
+                            VoteAverage = movie.VoteAverage,
                             Overview = movie.Overview
                         })
                         .ToList();
@@ -131,6 +138,9 @@ namespace Watchster.TMDb.Services
                             Name = genres[genre]
                         }).ToList(),
                         ReleaseDate = movie.ReleaseDate,
+                        Popularity = movie.Popularity,
+                        PosterPath = movie.PosterPath,
+                        VoteAverage = movie.VoteAverage,
                         Overview = movie.Overview
                     })
                     .ToList();

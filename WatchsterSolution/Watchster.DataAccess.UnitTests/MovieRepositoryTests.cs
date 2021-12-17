@@ -20,7 +20,7 @@ namespace Database.UnitTests
             repository = new Repository<Movie>(context);
             newMovie = new Movie
             {
-                Id = Guid.Parse("85abe305-307b-4b7f-81cc-cf5a24b1aaf7"),
+                Id = 3,
                 TMDbId = 3,
                 Title = "New Movie Title",
                 ReleaseDate = new DateTime(2010, 9, 9),
@@ -58,7 +58,7 @@ namespace Database.UnitTests
             var movie = new Movie
             {
                 TMDbId = 1,
-                Id = Guid.Parse("1e8a1085-1b1f-4c7c-b630-7086732f7ffc"),
+                Id = 1,
                 Title = "Action Movie",
                 ReleaseDate = new DateTime(2009, 5, 5),
                 Genres = "Crime, Action",
@@ -81,7 +81,7 @@ namespace Database.UnitTests
         [Test]
         public void Given_MovieId_When_MovieIdIsInDatabase_Then_GetByIdAsyncShouldReturnATaskConcerningThatMovie()
         {
-            var id = Guid.Parse("1e8a1085-1b1f-4c7c-b630-7086732f7ffc");
+            var id = 1;
 
             var result = repository.GetByIdAsync(id);
 
@@ -91,7 +91,7 @@ namespace Database.UnitTests
         [Test]
         public void Given_MovieId_When_MovieIdIsNull_Then_GetByIdAsyncShouldThrowArgumentException()
         {
-            Guid id = Guid.Empty;
+            int id = -1;
 
             Action result = () => repository.GetByIdAsync(id).Wait();
 

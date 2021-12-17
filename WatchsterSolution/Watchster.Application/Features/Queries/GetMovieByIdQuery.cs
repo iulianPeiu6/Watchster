@@ -7,7 +7,7 @@ namespace Watchster.Application.Features.Queries
 {
     public class GetMovieByIdQuery : IRequest<MovieResult>
     {
-       public Guid guid { get; set; }
+       public int Id { get; set; }
     }
  
 }

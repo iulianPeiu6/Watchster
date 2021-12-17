@@ -21,15 +21,15 @@ namespace Database.UnitTests
 
             var rating = new Rating
             {
-                UserId = Guid.Parse("56db7a89-9b32-4f36-ba80-b3ac182cef53"),
-                MovieId = Guid.Parse("121fdd7c-6671-4db9-b631-5145667287d8"),
+                UserId = 1,
+                MovieId = 1,
                 RatingValue = 9.10
             };
             List<Rating> UserTestRatings = new List<Rating>();
 
             newUser = new User()
             {
-                Id = Guid.Parse("d12fc476-2491-4bcd-8ccb-d3c796a32191"),
+                Id = 1,
                 Email = "Unit Test Email",
                 Password = "Unit Test Password",
                 IsSubscribed = true,
@@ -66,15 +66,15 @@ namespace Database.UnitTests
         {
             var rating = new Rating
             {
-                UserId = Guid.Parse("56db7a89-9b32-4f36-ba80-b3ac182cef53"),
-                MovieId = Guid.Parse("121fdd7c-6671-4db9-b631-5145667287d8"),
+                UserId = 1,
+                MovieId = 2,
                 RatingValue = 8.9
             };
             List<Rating> UserRatings = new List<Rating>();
             UserRatings.Add(rating);
             var User = new User
             {
-                Id = Guid.Parse("56db7a89-9b32-4f36-ba80-b3ac182cef53"),
+                Id = 3,
                 Email = "UserTestEmail@yahoo.com",
                 Password = "TestPassword",
                 IsSubscribed = true,
@@ -98,7 +98,7 @@ namespace Database.UnitTests
         [Test]
         public void Given_UserId_When_UserIdIsInDatabase_Then_GetByIdAsyncShouldReturnATaskConcerningThatUser()
         {
-            var id = Guid.Parse("d12fc476-2491-4bcd-8ccb-d3c796a32191");
+            var id = 1;
 
             var result = repository.GetByIdAsync(id);
 
@@ -108,7 +108,7 @@ namespace Database.UnitTests
         [Test]
         public void Given_UserId_When_UserIdIsNull_Then_GetByIdAsyncShouldThrowArgumentException()
         {
-            Guid id = Guid.Empty;
+            var id = -1;
 
             Action result = () => repository.GetByIdAsync(id).Wait();
 

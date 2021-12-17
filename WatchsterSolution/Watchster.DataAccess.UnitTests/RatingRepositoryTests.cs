@@ -21,9 +21,9 @@ namespace Database.UnitTests
 
             newRating = new Rating
             {
-                Id = Guid.Parse("94b44832-3990-4508-8d6f-c2a6eb831fa9"),
-                UserId = Guid.Parse("56db7a89-9b32-4f36-ba80-b3ac182cef53"),
-                MovieId = Guid.Parse("1e8a1085-1b1f-4c7c-b630-7086732f7ffc"),
+                Id = 2,
+                UserId = 1,
+                MovieId = 2,
                 RatingValue = 7.3
             };
         }
@@ -56,9 +56,9 @@ namespace Database.UnitTests
         {
             var rating = new Rating
             {
-                Id = Guid.Parse("eeb15cc4-11c5-4897-a11d-2beca00abb81"),
-                UserId = Guid.Parse("56db7a89-9b32-4f36-ba80-b3ac182cef53"),
-                MovieId = Guid.Parse("121fdd7c-6671-4db9-b631-5145667287d8"),
+                Id = 1,
+                UserId = 1,
+                MovieId = 1,
                 RatingValue = 8.9
             };
 
@@ -78,7 +78,7 @@ namespace Database.UnitTests
         [Test]
         public void Given_RatingId_When_RatingIdIsInDatabase_Then_GetByIdAsyncShouldReturnATaskConcerningThatRating()
         {
-            var id = Guid.Parse("eeb15cc4-11c5-4897-a11d-2beca00abb81");
+            var id = 1;
 
             var result = repository.GetByIdAsync(id);
 
@@ -88,7 +88,7 @@ namespace Database.UnitTests
         [Test]
         public void Given_RatingId_When_RatingIdIsNull_Then_GetByIdAsyncShouldThrowArgumentException()
         {
-            Guid id = Guid.Empty;
+            var id = -1;
 
             Action result = () => repository.GetByIdAsync(id).Wait();
 

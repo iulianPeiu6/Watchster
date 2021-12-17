@@ -19,7 +19,7 @@ namespace Watchster.Aplication.Interfaces
 
         Task<IEnumerable<TEntity>> GetAllAsync();
 
-        Task<TEntity> GetByIdAsync(Guid id);
+        Task<TEntity> GetByIdAsync(int id);
 
         IQueryable<TEntity> Query();
 

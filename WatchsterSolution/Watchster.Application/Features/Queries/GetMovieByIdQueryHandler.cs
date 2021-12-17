@@ -20,10 +20,7 @@ namespace Watchster.Application.Features.Queries
         public async Task<MovieResult> Handle(GetMovieByIdQuery request, CancellationToken cancellationToken)
         {
             var movieResult = new MovieResult();
-            var movieInstance = await Task.Run(async () =>
-            {
-                return repository.Query(movie => movie.Id == request.guid).FirstOrDefault();
-            });
+            var movieInstance = await repository.GetByIdAsync(request.Id);
             if (movieInstance is null)
             {
                 movieResult.ErrorMessage = Error.MovieNotFound;

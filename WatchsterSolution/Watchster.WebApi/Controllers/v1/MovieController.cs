@@ -101,13 +101,13 @@ namespace Watchster.WebApi.Controllers.v1
 
         [HttpGet]
         [Route("GetMovie")]
-        public async Task<IActionResult> GetMovie([FromQuery] Guid id)
+        public async Task<IActionResult> GetMovie([FromQuery] int id)
         {
             try
             {
                 GetMovieByIdQuery query = new GetMovieByIdQuery
                 {
-                    guid = id,
+                    Id = id,
                 };
                 var response = await mediator.Send(query);
                 if(response.ErrorMessage == Error.MovieNotFound)

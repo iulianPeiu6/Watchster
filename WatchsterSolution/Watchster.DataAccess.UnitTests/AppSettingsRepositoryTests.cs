@@ -20,7 +20,7 @@ namespace Database.UnitTests
             repository = new Repository<AppSettings>(context);
             newAppSettings = new AppSettings()
             {
-                Id = Guid.Parse("9ca29f6b-dbb8-4e11-8a2c-4b02819750d0"),
+                Id = 2,
                 Description = "Unit Test Description",
                 Section = "Unit Test Section",
                 Parameter = "Unit Test Parameter",
@@ -78,7 +78,7 @@ namespace Database.UnitTests
         [Test]
         public void Given_AppSettingsId_When_AppSettingsIdIsInDatabase_Then_GetByIdAsyncShouldReturnATaskConcerningThatAppSettings()
         {
-            var id = Guid.Parse("68059ff3-d99e-43b4-9be9-699f492f1a8a");
+            var id = 1;
 
             var result = repository.GetByIdAsync(id);
 
@@ -88,7 +88,7 @@ namespace Database.UnitTests
         [Test]
         public void Given_AppSettingsId_When_AppSettingsIdIsNull_Then_GetByIdAsyncShouldThrowArgumentException()
         {
-            Guid id = Guid.Empty;
+            var id = -1;
 
             Action result = () => repository.GetByIdAsync(id).Wait();
 

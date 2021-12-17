@@ -6,7 +6,7 @@ namespace Watchster.Application.Features.Commands
 {
     public class UpdateAppSettingsCommand : IRequest<AppSettings>
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Section { get; set; }
 
         public string Parameter { get; set; }

@@ -8,7 +8,7 @@ namespace Watchster.Application.Models
 {
     public class GetUserDetailsResponse
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string Email { get; set; }
 

@@ -46,9 +46,9 @@ namespace Watchster.DataAccess
             return await context.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(Guid id)
+        public async Task<TEntity> GetByIdAsync(int id)
         {
-            Guard.ArgumentNotNullOrEmpty(id, nameof(id));
+            Guard.ArgumentInRange(id, 1,int.MaxValue, nameof(id));
 
             return await context.FindAsync<TEntity>(id);
         }
