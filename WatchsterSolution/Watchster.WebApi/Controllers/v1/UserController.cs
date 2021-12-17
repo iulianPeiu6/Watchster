@@ -20,6 +20,28 @@ namespace Watchster.WebApi.Controllers.v1
             this.logger = logger;
         }
 
+
+        [HttpGet]
+        [Route("GetUserDetails")]
+        public async Task<IActionResult> GetUserDetails(Guid userId)
+        {
+            try
+            {
+                var query = new GetUserDetailsQuery { UserId = userId };
+                var response = await mediator.Send(query);
+                return Ok(response);
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(new { Message = "User not found!" });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("Register")]
         public async Task<IActionResult> RegisterAsync([FromBody] CreateUserCommand command)
@@ -143,28 +165,6 @@ namespace Watchster.WebApi.Controllers.v1
         public IActionResult Delete(Guid userId)
         {
             throw new NotImplementedException();
-        }
-
-        [HttpGet]
-        [Route("GetUserDetails")]
-        public async Task<IActionResult> GetUserDetails(Guid userId)
-        {
-            try
-            {
-                var query = new GetUserDetailsQuery { UserId = userId};
-                var response = await mediator.Send(query);
-                return Ok(response);
-            }
-            catch (ArgumentException ex)
-            {
-                logger.LogError("Unexpected Error: ", ex.Message);
-                return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError("Unexpected Error while processing the request: ", ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
         }
     }
 }

@@ -8,7 +8,7 @@ using Watchster.Application.Models;
 
 namespace Watchster.Application.Features.Queries
 {
-    class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, GetUserDetailsResponse>
+    public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, GetUserDetailsResponse>
     {
         private readonly IUserRepository userRepository;
         private readonly IRatingRepository ratingRepository;
@@ -21,23 +21,24 @@ namespace Watchster.Application.Features.Queries
 
         public async Task<GetUserDetailsResponse> Handle(GetUserDetailsQuery request, CancellationToken cancellationToken)
         {
-            if (await userRepository.GetByIdAsync(request.UserId) == null)
+            var user = await userRepository
+                .GetByIdAsync(request.UserId);
+
+            if (user == null)
             {
                 throw new ArgumentException("The specified user does not have any ratings in the database");
             }
-            var userDetails = await userRepository
-                .GetByIdAsync(request.UserId);
-            var numberOfTotalRatingsGiven = userRepository.Query(x => x.Id == request.UserId)
-                .Join(ratingRepository.Query(), x => x.Id, y => y.Id, (x, y) => (x.Id == y.Id))
-                .ToList().Count;
-
+            
+            var numberOfTotalRatingsGiven = ratingRepository.Query(rating => rating.UserId == request.UserId)
+                .ToList()
+                .Count;
 
             return new GetUserDetailsResponse
             {
                 Id = request.UserId,
-                Email = userDetails.Email,
-                IsSubscribed = userDetails.IsSubscribed,
-                RegistrationDate = userDetails.RegistrationDate,
+                Email = user.Email,
+                IsSubscribed = user.IsSubscribed,
+                RegistrationDate = user.RegistrationDate,
                 NumberOfTotalRatingsGiven = numberOfTotalRatingsGiven,
             };
         }
