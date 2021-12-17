@@ -12,12 +12,18 @@ export class Movie {
     public posterUrl: string,
     public popularity: number,
     public tmDbVoteAverage: number,
-    public overview: string) { 
+    public overview: string,
+    public score: number) { 
   }
 }
 
 export class GetMovieResponse {
   constructor(public movie: Movie, public errorMessage: string){
+  }
+}
+
+export class GetRecommendationsResponse {
+  constructor(public recommendations: Movie[]){
   }
 }
 
@@ -36,28 +42,41 @@ export class AddRatingResponse {
 export class MovieService {
   constructor(private http: HttpClient) { }
   
-  async getMovies() {
+  async getMovies(): Promise<Movie[]> {
     const response = await this.http
         .get<GetMoviesResponse>('/api/1/Movie/GetFromPage', { params: { page: 1 } })
-        .toPromise()
+        .toPromise();
 
+    console.log(response);
     let allMovies = response.movies;
 
-    // for (let indexPage = 2; indexPage <= response.totalPages; indexPage++) {
-    //   const response = await this.http
-    //     .get<GetMoviesResponse>('/api/1/Movie/GetFromPage', { params: { page: indexPage } })
-    //     .toPromise();
+    for (let indexPage = 2; indexPage <= response.totalPages; indexPage++) {
+      const response = await this.http
+        .get<GetMoviesResponse>('/api/1/Movie/GetFromPage', { params: { page: indexPage } })
+        .toPromise();
 
-    //   allMovies = allMovies.concat(response.movies);
-    // }
+      console.log(response);
+      allMovies = allMovies.concat(response.movies);
+    }
 
     return allMovies;
   }
 
+  async getMovieRecommendations(userId: string): Promise<Movie[]> {
+    const response = await this.http
+        .get<GetRecommendationsResponse>('/api/1/Movie/GetRecommendations', { params: { userId: userId } })
+        .toPromise();
+
+    console.log(response);
+    return response.recommendations;
+  }
+
   async getMovie(id: string) {
     const response = await this.http
-    .get<GetMovieResponse>('/api/1/Movie/GetMovie', { params: { id: id } })
-    .toPromise()
+      .get<GetMovieResponse>('/api/1/Movie/GetMovie', { params: { id: id } })
+      .toPromise();
+
+    console.log(response);
     return response.movie;
   }
 
@@ -69,6 +88,7 @@ export class MovieService {
     }).catch((error: HttpErrorResponse) => {
       return new AddRatingResponse(error.error.message);
     });
+    console.log(response);
     return response;
   }
 }

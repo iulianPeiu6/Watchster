@@ -7,6 +7,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
 import { MovieComponent } from './pages/movie/movie.component';
+import { MovieRecommendationsComponent } from './pages/movie-recommendations/movie-recommendations.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,11 @@ const routes: Routes = [
   {
     path: 'movie/:id',
     component: MovieComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'recommendations',
+    component: MovieRecommendationsComponent,
     canActivate: [ AuthGuardService ]
   },
   {

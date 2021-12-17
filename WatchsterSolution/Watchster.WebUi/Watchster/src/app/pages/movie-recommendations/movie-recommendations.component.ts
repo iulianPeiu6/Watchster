@@ -1,6 +1,6 @@
 import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
 import 'devextreme/data/odata/store';
-import { Movie, MovieService } from '../../shared/services';
+import { AuthService, Movie, MovieService } from '../../shared/services';
 import ArrayStore from 'devextreme/data/array_store';
 import { DxButtonModule, DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxLoadPanelModule } from 'devextreme-angular';
 import { CommonModule } from '@angular/common';
@@ -8,15 +8,15 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
-  templateUrl: 'movies.component.html'
+  templateUrl: 'movie-recommendations.component.html'
 })
 
-export class MoviesComponent implements OnInit {
+export class MovieRecommendationsComponent implements OnInit {
   dataSource: ArrayStore;
   movies: Movie[];
   loadingVisible = false;
 
-  constructor(private movieService: MovieService) {
+  constructor(private movieService: MovieService, private authService:  AuthService) {
     this.loadingVisible = true;
     this.dataSource =  new ArrayStore({
       key: ["id"],
@@ -26,7 +26,9 @@ export class MoviesComponent implements OnInit {
   }
   async ngOnInit() {
     this.loadingVisible = true;
-    this.movies = await this.movieService.getMovies();
+    let userId = this.authService.userLogingDetails?.user.id!
+    this.movies = await this.movieService.getMovieRecommendations(userId);
+    console.log(this.movies);
 
     this.dataSource =  new ArrayStore({
       key: ["id"],
@@ -48,8 +50,8 @@ export class MoviesComponent implements OnInit {
     DxFormModule,
     DxButtonModule,
     DxLoadIndicatorModule],
-  exports: [MoviesComponent],
-  declarations: [MoviesComponent],
+  exports: [MovieRecommendationsComponent],
+  declarations: [MovieRecommendationsComponent],
   providers: [],
 })
-export class MoviesModule { }
+export class MovieRecommendationsModule { }

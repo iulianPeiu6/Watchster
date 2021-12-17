@@ -10,6 +10,7 @@ import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
 import { MoviesModule } from './pages/movies/movies.component';
 import { MovieModule } from './pages/movie/movie.component';
+import { MovieRecommendationsModule } from './pages/movie-recommendations/movie-recommendations.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { MovieModule } from './pages/movie/movie.component';
     UnauthenticatedContentModule,
     AppRoutingModule,
     MoviesModule,
-    MovieModule
+    MovieModule,
+    MovieRecommendationsModule
   ],
   providers: [AuthService, ScreenService, AppInfoService, MovieService],
   bootstrap: [AppComponent]
