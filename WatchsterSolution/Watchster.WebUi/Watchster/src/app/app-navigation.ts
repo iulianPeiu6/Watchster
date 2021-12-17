@@ -15,12 +15,20 @@ export const navigation = [
     ]
   },
   {
-    text: 'Features',
+    text: 'Movies',
     icon: 'folder',
     items: [
       {
-        text: 'Movies',
+        text: 'All',
         path: '/movies'
+      },
+      {
+        text: 'New',
+        path: '/new_movies'
+      },
+      {
+        text: 'Popular',
+        path: '/popular_movies'
       },
       {
         text: 'Recommendations',
