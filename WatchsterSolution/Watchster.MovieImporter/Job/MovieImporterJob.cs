@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using System;
@@ -73,15 +74,55 @@ namespace Watchster.MovieImporter.Job
 
         private async Task<int> ImportNewMoviesAfterDateAsync(DateTime lastSyncDateTime)
         {
+            if (lastSyncDateTime == DateTime.MinValue)
+            {
+                return await ImportAllMoviesToPresent();
+            }
+
             var result = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, UpperBoundIntervalSearch);
             await ImportMovies(result.Movies);
             int numOfMoviesImported = result.Movies.Count;
-
-            foreach (var page in Enumerable.Range(2, result.TotalPages - 2))
+            if (result.TotalPages > 1)
             {
-                var movies = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, UpperBoundIntervalSearch, page).Movies;
-                await ImportMovies(movies);
-                numOfMoviesImported += movies.Count;
+                foreach (var page in Enumerable.Range(2, result.TotalPages - 2))
+                {
+                    var movies = movieDiscover.GetMoviesBetweenDatesFromPage(lastSyncDateTime, UpperBoundIntervalSearch, page).Movies;
+                    await ImportMovies(movies);
+                    numOfMoviesImported += movies.Count;
+                }
+            }
+
+            return numOfMoviesImported;
+        }
+
+        private async Task<int> ImportAllMoviesToPresent()
+{
+            int numOfMoviesImported = 0;
+            for (int year = 1874; year <= UpperBoundIntervalSearch.Year; year++)
+            {
+                var monthUpperBound = year == UpperBoundIntervalSearch.Year ? UpperBoundIntervalSearch.Month : 12;
+                for (int month = 1; month <= monthUpperBound; month++)
+                {
+                    var from = new DateTime(year, month, 1);
+                    var to = from.AddMonths(1).AddDays(-1);
+                    if (year == UpperBoundIntervalSearch.Year && month == UpperBoundIntervalSearch.Month)
+                    {
+                        to = UpperBoundIntervalSearch;
+                    }
+                    var result = movieDiscover.GetMoviesBetweenDatesFromPage(from, to);
+                    await ImportMovies(result.Movies);
+                    numOfMoviesImported += result.Movies.Count;
+
+                    if (result.TotalPages > 1)
+                    {
+                        foreach (var page in Enumerable.Range(2, result.TotalPages - 1))
+                        {
+                            var movies = movieDiscover.GetMoviesBetweenDatesFromPage(from, to, page).Movies;
+                            await ImportMovies(movies);
+                            numOfMoviesImported += movies.Count;
+                        }
+                    }
+                }
             }
             return numOfMoviesImported;
         }

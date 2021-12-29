@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Reflection;
@@ -33,6 +35,12 @@ namespace Watchster.MovieImporter
                 .ConfigureServices((context, services) =>
                 {
                     services.AddMovieImporter(configuration);
+                    services.AddLogging(builder =>
+                    {
+                        builder.AddConfiguration(configuration.GetSection("Logging"));
+                        builder.AddFile(o => o.RootPath = AppContext.BaseDirectory);
+                    });
+
                 })
                 .UseWindowsService()
                 .Build();

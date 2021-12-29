@@ -19,6 +19,7 @@ namespace Watchster.TMDb.Services
             this.logger = logger;
             TMDbClient = new TMDbClient(config.Value.ApiKey);
             genres = new Dictionary<int, string>();
+            RefreshGenres();
         }
 
         public Movie GetMovie(string id)
@@ -66,8 +67,6 @@ namespace Watchster.TMDb.Services
             {
                 logger.LogInformation($"Start requesting movies after date {from}");
 
-                RefreshGenres();
-
                 var result = TMDbClient.DiscoverMoviesAsync()
                     .WherePrimaryReleaseDateIsAfter(from)
                     .WherePrimaryReleaseDateIsBefore(to);
@@ -113,11 +112,6 @@ namespace Watchster.TMDb.Services
             try
             {
                 logger.LogInformation($"Start requesting movies after date {from}. Page Number: {page}");
-
-                if (page == 1)
-                {
-                    RefreshGenres();
-                }
 
                 var result = TMDbClient.DiscoverMoviesAsync()
                     .WherePrimaryReleaseDateIsAfter(from)
