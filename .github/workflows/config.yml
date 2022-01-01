@@ -46,5 +46,5 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"watchster" /o:"watchster" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/TestCoverageReport.xml" /d:sonar.cs.nunit.reportsPaths="%CD%\DotnetCoverage.coveragexml"
           dotnet build WatchsterSolution/Watchster.sln
           dotnet test WatchsterSolution/Watchster.sln --collect "DotnetCodeCoverage" CodeCoverage.exe analyze /output: "WatchsterSolution\DotnetCoverage.coveragexml" "WatchsterSolution\DotnetCoverage.coverage"
-          "%LOCALAPPDATA%\Apps\OpenCover\OpenCover.Console.exe" -output:"WatchsterSolution\opencover.xml" -register:user -target:"packages\NUnit.ConsoleRunner.3.7.0\tools\nunit3-console.exe" -targetargs:"WatchsterSolution\Watchster.DataAccess.UnitTests\bin\Debug\Watchster.DataAccess.UnitTests.dll"
+          coverlet Watchster.DataAccess.UnitTests\bin\Debug\Watchster.DataAccess.UnitTests.dll --target "packages\NUnit.ConsoleRunner.3.7.0\tools\nunit3-console.exe" --targetargs "Watchster.DataAccess.UnitTests\bin\Debug\Watchster.DataAccess.UnitTests.dll" --format opencover
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
