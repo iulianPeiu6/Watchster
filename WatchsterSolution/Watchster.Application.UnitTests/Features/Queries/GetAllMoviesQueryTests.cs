@@ -1,23 +1,17 @@
 ﻿using FakeItEasy;
-using Faker;
-using FluentAssertions;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Queries;
 using Watchster.Application.Interfaces;
-using Watchster.Application.Models;
-using Watchster.Application.Utils.Cryptography;
 
 namespace Watchster.Application.UnitTests.Features.Queries
 {
-    public class GetAllMoviesTests
+    public class GetAllMoviesQueryTests
     {
         private readonly GetAllMoviesQueryHandler handler;
         private readonly IMovieRepository movieRepository;
 
-        public GetAllMoviesTests()
+        public GetAllMoviesQueryTests()
         {
             movieRepository = A.Fake<IMovieRepository>();
             handler = new GetAllMoviesQueryHandler(movieRepository);
