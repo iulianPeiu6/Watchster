@@ -43,7 +43,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"watchster" /o:"watchster" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/OpencoverCoverage.xml" /d:sonar.cs.nunit.reportsPaths="**/NUnit.TestResults.xml"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"watchster" /o:"watchster" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
           dotnet build WatchsterSolution/Watchster.sln
           dotnet test WatchsterSolution/Watchster.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=Watchster/coverage/ /p:MergeWith=Watchster/coverage/ --collect "Code coverage"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
