@@ -6,37 +6,23 @@ using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Watchster.Application.Features.Queries;
 using Watchster.WebApi.Controllers.v1;
+using Watchster.WebApi.UnitTests.v1.Abstracts;
 
 namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
 {
-    public class GetReccomendationsTests
+    public class GetReccomendationsTests : MovieControllerTestsBase
     {
-        private readonly MovieController controller;
-        private readonly IMediator mediator;
-
-        public GetReccomendationsTests()
-        {
-            var logger = A.Fake<ILogger<MovieController>>();
-            mediator = A.Fake<IMediator>();
-            controller = new MovieController(mediator, logger);
-        }
-
-        [SetUp]
-        public void Setup()
+        public GetReccomendationsTests() : base()
         {
         }
 
         [Test]
-        public void Given_MovieController_When_GetReccomendationsIsCalledWhileUserRatedAtLeastAMovie_Then_ShouldReturnOkResponse()
+        public void Given_MovieController_When_GetReccomendationsIsCalled_Then_GetReccomendationsQueryIsCalled()
         {
-            var result = controller.GetRecommendations(1).Result;
-            result.Should().BeOfType<OkObjectResult>();
-        }
+            var userId = 1;
 
-        [Test]
-        public void Given_MovieController_When_GetReccomendationsIsCalled_Then_QueryShouldHaveHappenedOnce()
-        {
-            var result = controller.GetRecommendations(1);
+            var result = controller.GetRecommendationsAsync(userId);
+
             A.CallTo(() => mediator.Send(A<GetReccomendationsQuery>._, default)).MustHaveHappenedOnceExactly();
         }
     }

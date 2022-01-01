@@ -4,23 +4,13 @@ using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Watchster.Application.Features.Queries;
 using Watchster.WebApi.Controllers.v1;
+using Watchster.WebApi.UnitTests.v1.Abstracts;
 
 namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
 {
-    public class GetAllMoviesTests
+    public class GetAllMoviesTests : MovieControllerTestsBase
     {
-        private readonly MovieController controller;
-        private readonly IMediator mediator;
-
-        public GetAllMoviesTests()
-        {
-            var logger = A.Fake<ILogger<MovieController>>();
-            mediator = A.Fake<IMediator>();
-            controller = new MovieController(mediator, logger);
-        }
-
-        [SetUp]
-        public void Setup()
+        public GetAllMoviesTests() : base()
         {
         }
 

@@ -25,13 +25,13 @@ namespace Watchster.Application.Features.Commands
         {
             var rating = new Rating
             {
-                RatingValue = request.rating,
-                MovieId = request.movieId,
-                UserId = request.userId
+                RatingValue = request.Rating,
+                MovieId = request.MovieId,
+                UserId = request.UserId
             };
             var response = new AddRatingResponse();
 
-            var userInstance = await userRepository.GetByIdAsync(request.userId);
+            var userInstance = await userRepository.GetByIdAsync(request.UserId);
 
             if (userInstance is null)
             {
@@ -40,7 +40,7 @@ namespace Watchster.Application.Features.Commands
                 return response;
             }
 
-            var movieInstance = await movieRepository.GetByIdAsync(request.movieId);
+            var movieInstance = await movieRepository.GetByIdAsync(request.MovieId);
 
             if (movieInstance is null)
             {
@@ -50,7 +50,7 @@ namespace Watchster.Application.Features.Commands
             }
 
             var ratingInstance = ratingRepository
-                .Query(rating => (rating.MovieId == request.movieId) && (rating.UserId == request.userId))
+                .Query(rating => (rating.MovieId == request.MovieId) && (rating.UserId == request.UserId))
                 .FirstOrDefault();
 
             if (ratingInstance is not null)
@@ -60,7 +60,7 @@ namespace Watchster.Application.Features.Commands
                 return response;
             }
 
-            if (!(request.rating >= downLimit && request.rating <= upperLimit))
+            if (!(request.Rating >= downLimit && request.Rating <= upperLimit))
             {
                 response.ErrorMessage = Error.RatingNotInRange;
                 response.IsSuccess = false;
