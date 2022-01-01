@@ -3,22 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 using Watchster.Application.Interfaces;
 using Watchster.Domain.Entities;
 
 namespace Watchster.Application.UnitTests.Fakes
 {
-    public class FakeAppSettingsRepository : IAppSettingsRepository, IQueryable<AppSettings>
+    public class FakeUserRepository : IUserRepository, IQueryable<User>
     {
-        private List<AppSettings> entities = null;
+        private List<User> entities = null;
 
-        public FakeAppSettingsRepository(IEnumerable<AppSettings> collection)
+        public FakeUserRepository(IEnumerable<User> collection)
         {
-            this.entities = new List<AppSettings>(collection);
+            this.entities = new List<User>(collection);
         }
 
-        public IEnumerator<AppSettings> GetEnumerator()
+        public IEnumerator<User> GetEnumerator()
         {
             return entities.GetEnumerator();
         }
@@ -28,43 +29,43 @@ namespace Watchster.Application.UnitTests.Fakes
             return entities.GetEnumerator();
         }
 
-        public Task<AppSettings> AddAsync(AppSettings entity)
+        public Task<User> AddAsync(User entity)
         {
             entities.Add(entity);
             return Task.Run(() => entity);
         }
 
-        public Task<AppSettings> UpdateAsync(AppSettings entity)
+        public Task<User> UpdateAsync(User entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<AppSettings> UpdateAsync(AppSettings entity, Func<AppSettings, object> modify)
+        public Task<User> UpdateAsync(User entity, Func<User, object> modify)
         {
             throw new NotImplementedException();
         }
 
-        public Task<AppSettings> Delete(AppSettings entity)
+        public Task<User> Delete(User entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<AppSettings>> GetAllAsync()
+        public Task<IEnumerable<User>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<AppSettings> GetByIdAsync(int id)
+        public Task<User> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IQueryable<AppSettings> Query()
+        public IQueryable<User> Query()
         {
             throw new NotImplementedException();
         }
 
-        public IQueryable<AppSettings> Query(Expression<Func<AppSettings, bool>> expression)
+        public IQueryable<User> Query(Expression<Func<User, bool>> expression)
         {
             return entities.Where(expression.Compile()).AsQueryable();
         }
