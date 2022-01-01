@@ -15,19 +15,22 @@ namespace Watchster.Application.UnitTests.Utils.ML
             movieRecommender = A.Fake<IMovieRecommender>();
         }
 
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void Given_Movie_When_IsPredicted_Should_GiveNotNullPrediction()
         {
-            var movieRatingToPredict = A.Fake<MovieRating>();
+            var movieRatingToPredict = new MovieRating
+            {
+                UserId = 1,
+                MovieId = 1,
+                Label = 1
+            };
 
             var moviePrediction = movieRecommender.PredictMovieRating(movieRatingToPredict);
 
-            moviePrediction.Should().NotBe(null);
+            movieRatingToPredict.Should().NotBeNull();
+            moviePrediction.Should().NotBeNull();
+            moviePrediction.Label.Should().NotBe(null);
+            moviePrediction.Score.Should().NotBe(null);
         }
 
         [Test]

@@ -13,7 +13,6 @@ namespace Watchster.Application.UnitTests.Utils.ML
     public class MLUtilServiceCollectionExtensionsTests
     {
         private IServiceCollection services;
-        private IServiceProvider serviceProvider;
 
         public MLUtilServiceCollectionExtensionsTests()
         {
