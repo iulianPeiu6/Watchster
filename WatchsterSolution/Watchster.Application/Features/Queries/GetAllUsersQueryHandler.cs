@@ -7,16 +7,16 @@ using Watchster.Domain.Entities;
 
 namespace Watchster.Application.Features.Queries
 {
-    class GetUsersCommandHandler : IRequestHandler<GetUsersCommand, IEnumerable<User>>
+    public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<User>>
     {
         private readonly IUserRepository repository;
 
-        public GetUsersCommandHandler(IUserRepository repository)
+        public GetAllUsersQueryHandler(IUserRepository repository)
         {
             this.repository = repository;
         }
 
-        public Task<IEnumerable<User>> Handle(GetUsersCommand request, CancellationToken cancellationToken)
+        public Task<IEnumerable<User>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
             return repository.GetAllAsync();
         }
