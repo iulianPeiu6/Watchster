@@ -5,15 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Watchster.Application.Interfaces;
-using Watchster.DataAccess;
 using Watchster.DataAccess.Repositories;
 using Watchster.Domain.Entities;
 
 namespace Database.UnitTests
 {
     public class RatingRepositoryTests : DatabaseTestBase
-{
+    {
         private readonly RatingRepository repository;
         private readonly Rating newRating;
 

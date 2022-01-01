@@ -4,7 +4,7 @@ using Watchster.Domain.Entities;
 
 namespace Watchster.Application.Features.Queries
 {
-    class GetUsersCommand : IRequest<IEnumerable<User>>
+    public class GetAllUsersQuery : IRequest<IEnumerable<User>>
     {
     }
 }

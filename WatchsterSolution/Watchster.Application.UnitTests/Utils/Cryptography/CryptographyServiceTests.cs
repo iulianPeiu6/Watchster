@@ -1,9 +1,7 @@
-﻿using FakeItEasy;
-using Faker;
+﻿using Faker;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
-using System.Text;
 using Watchster.Application.Interfaces;
 using Watchster.Application.Utils.Cryptography;
 

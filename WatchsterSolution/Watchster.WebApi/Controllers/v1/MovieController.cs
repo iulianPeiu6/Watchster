@@ -6,7 +6,6 @@ using System;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
 using Watchster.Application.Features.Queries;
-using Watchster.Application.Interfaces;
 using Watchster.Application.Models;
 
 namespace Watchster.WebApi.Controllers.v1

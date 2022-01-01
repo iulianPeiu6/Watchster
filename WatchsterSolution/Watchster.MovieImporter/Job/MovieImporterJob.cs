@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using System;
@@ -96,7 +95,7 @@ namespace Watchster.MovieImporter.Job
         }
 
         private async Task<int> ImportAllMoviesToPresent()
-{
+        {
             int numOfMoviesImported = 0;
             for (int year = 1874; year <= UpperBoundIntervalSearch.Year; year++)
             {
