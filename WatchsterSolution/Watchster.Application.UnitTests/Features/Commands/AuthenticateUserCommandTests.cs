@@ -1,7 +1,9 @@
 ﻿using FakeItEasy;
+using Faker;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
+using System;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
 using Watchster.Application.Features.Queries;
@@ -25,13 +27,13 @@ namespace Watchster.Application.UnitTests.Features.Commands
         {
             userRepository = A.Fake<FakeUserRepository>();
             cryptography = A.Fake<ICryptographyService>();
-            config = Options.Create(
-                new AuthenticationConfig()
-                {
-                    Issuer = "Watchster",
-                    Key = "this is my test secret key for authnetication",
-                    MinutesExpiration = 1440
-                });
+            var authConfig = new AuthenticationConfig()
+            {
+                Issuer = Name.FullName(),
+                Key = Lorem.Sentence(),
+                MinutesExpiration = 1440
+            };
+            config = Options.Create(authConfig);
             handler = new AuthenticateUserCommandHandler(userRepository, cryptography, config);
         }
 
@@ -41,8 +43,8 @@ namespace Watchster.Application.UnitTests.Features.Commands
             //arrage
             var command = new AuthenticateUserCommand()
             {
-                Email = "wrongtest@email.test",
-                Password = "wrong password"
+                Email = Internet.Email(),
+                Password = Lorem.Sentence()
             };
 
             //act
@@ -62,13 +64,16 @@ namespace Watchster.Application.UnitTests.Features.Commands
             //arrage
             var command = new AuthenticateUserCommand()
             {
-                Email = "test@email.test",
-                Password = "password"
+                Email = Internet.Email(),
+                Password = Lorem.Sentence()
             };
             var user = await userRepository.AddAsync(new User
             {
+                Id = 1,
                 Email = command.Email,
-                Password = cryptography.GetPasswordSHA3Hash(command.Password)
+                Password = cryptography.GetPasswordSHA3Hash(command.Password),
+                IsSubscribed = true,
+                RegistrationDate = DateTime.Now
             });
 
             //act
@@ -79,7 +84,10 @@ namespace Watchster.Application.UnitTests.Features.Commands
             response.Should().NotBeNull();
             response.JwtToken.Should().NotBeNullOrEmpty();
             response.User.Should().NotBeNull();
+            response.User.Id.Should().Be(1);
             response.User.Email.Should().Be(user.Email);
+            response.User.IsSubscribed.Should().Be(user.IsSubscribed);
+            response.User.RegistrationDate.Should().Be(user.RegistrationDate);
             response.ErrorMessage.Should().BeNullOrEmpty();
         }
     }
