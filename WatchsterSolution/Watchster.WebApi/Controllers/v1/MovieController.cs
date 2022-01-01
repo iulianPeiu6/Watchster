@@ -26,77 +26,45 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("GetAll")]
         public async Task<IActionResult> GetAllAsync()
         {
-            try
-            {
-                var query = new GetAllMoviesQuery();
-                var response = await mediator.Send(query);
-                return Ok(response);
-            }
-            catch (ArgumentException ex)
-            {
-                logger.LogError("Unexpected Error: ", ex.Message);
-                return BadRequest();
-            }
+            var query = new GetAllMoviesQuery();
+            var response = await mediator.Send(query);
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("GetRecommendations")]
-        public async Task<IActionResult> GetRecommendations(int userId)
+        public async Task<IActionResult> GetRecommendationsAsync(int userId)
         {
-            try
+            GetReccomendationsQuery query = new GetReccomendationsQuery
             {
-                GetReccomendationsQuery query = new GetReccomendationsQuery
-                {
-                    UserId = userId
-                };
-                var response = await mediator.Send(query);
-                return Ok(response);
-            }
-            catch (ArgumentException ex)
-            {
-                logger.LogError("Unexpected Error: ", ex.Message);
-                return BadRequest();
-            }
+                UserId = userId
+            };
+            var response = await mediator.Send(query);
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("GetFromPage")]
         public async Task<IActionResult> GetFromPage([FromQuery] GetMoviesFromPageQuery command)
         {
-            try
-            {
-                var response = await mediator.Send(command);
-                return Ok(response);
-            }
-            catch (ArgumentException ex)
-            {
-                logger.LogError("Unexpected Error: ", ex.Message);
-                return BadRequest();
-            }
+            var response = await mediator.Send(command);
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("GetMovie")]
-        public async Task<IActionResult> GetMovie([FromQuery] int id)
+        public async Task<IActionResult> GetMovieAsync([FromQuery] int id)
         {
-            try
+            GetMovieByIdQuery query = new GetMovieByIdQuery
             {
-                GetMovieByIdQuery query = new GetMovieByIdQuery
-                {
-                    Id = id,
-                };
-                var response = await mediator.Send(query);
-                if (response.ErrorMessage == Error.MovieNotFound)
-                {
-                    return NotFound(new { Message = Error.MovieNotFound });
-                }
-                return Ok(response);
-            }
-            catch (ArgumentException ex)
+                Id = id,
+            };
+            var response = await mediator.Send(query);
+            if (response.ErrorMessage == Error.MovieNotFound)
             {
-                logger.LogError("Unexpected Error: ", ex.Message);
-                return BadRequest();
+                return NotFound(new { Message = Error.MovieNotFound });
             }
+            return Ok(response);
         }
         [HttpPost]
         [Route("AddRating")]

@@ -7,5 +7,4 @@ namespace Watchster.Application.Features.Queries
     {
         public int Id { get; set; }
     }
-
 }

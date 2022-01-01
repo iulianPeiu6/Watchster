@@ -32,7 +32,7 @@ namespace Watchster.Application.UnitTests.Features.Commands
                 Overview = Lorem.Sentence(20),
                 TMDbId = RandomNumber.Next(),
                 ReleaseDate = DateTime.Now,
-                Genres = Lorem.Sentences(RandomNumber.Next(3)),
+                Genres = Lorem.Sentences(RandomNumber.Next(1, 3)),
                 PosterUrl = Internet.Url(),
                 Popularity = RandomNumber.Next(),
                 TMDbVoteAverage = RandomNumber.Next(0,10)
