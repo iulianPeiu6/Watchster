@@ -9,7 +9,7 @@ using Watchster.SendGrid.Services;
 
 namespace Watchster.Application.Features.Commands
 {
-    public class SendResetMailCommandHandler : IRequestHandler<SendResetMailCommand, String>
+    public class SendResetMailCommandHandler : IRequestHandler<SendResetMailCommand, string>
     {
         private readonly ISendGridService sendGridService;
 

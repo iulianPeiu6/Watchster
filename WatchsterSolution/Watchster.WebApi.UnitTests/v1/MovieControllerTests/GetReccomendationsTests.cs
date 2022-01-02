@@ -1,11 +1,6 @@
 ﻿using FakeItEasy;
-using FluentAssertions;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Watchster.Application.Features.Queries;
-using Watchster.WebApi.Controllers.v1;
 using Watchster.WebApi.UnitTests.v1.Abstracts;
 
 namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
