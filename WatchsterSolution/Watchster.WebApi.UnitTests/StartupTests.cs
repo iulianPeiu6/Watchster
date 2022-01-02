@@ -1,14 +1,12 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using Watchster.Aplication.Interfaces;
+using System.Collections.Generic;
 using Watchster.Application.Interfaces;
-using Watchster.DataAccess;
-using Watchster.SendGrid.Services;
-using Watchster.TMDb.Services;
 
 namespace Watchster.WebApi.UnitTests
 {
@@ -39,6 +37,62 @@ namespace Watchster.WebApi.UnitTests
 
             //assert
             var serviceProvider = services.BuildServiceProvider();
+            serviceProvider.GetRequiredService<IAppSettingsRepository>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<IMovieRepository>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<IUserRepository>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<IResetPasswordCodeRepository>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<IRatingRepository>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<IMediator>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<ICryptographyService>().Should().NotBeNull();
+        }
+
+        [Test]
+        public void Given_Startup_When_ConfigureIsCalledInDevelopmentEnvironment_Should_Configure()
+        {
+            //arrange & act
+            var webHostBuilder =
+              new WebHostBuilder()
+                    .UseEnvironment("Development")
+                    .UseStartup<Startup>()
+                    .ConfigureAppConfiguration((context, configBuilder) =>
+                    {
+                        configBuilder.AddInMemoryCollection(
+                            new Dictionary<string, string>
+                            {
+                                ["ConnectionStrings:WatchsterDB"] = "TestConnectionString"
+                            });
+                    });
+
+            //assert
+            var serviceProvider = webHostBuilder.Build().Services;
+            serviceProvider.GetRequiredService<IAppSettingsRepository>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<IMovieRepository>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<IUserRepository>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<IResetPasswordCodeRepository>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<IRatingRepository>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<IMediator>().Should().NotBeNull();
+            serviceProvider.GetRequiredService<ICryptographyService>().Should().NotBeNull();
+        }
+
+        [Test]
+        public void Given_Startup_When_ConfigureIsCalledInProductionEnvironment_Should_Configure()
+        {
+            //arrange & act
+            var webHostBuilder =
+              new WebHostBuilder()
+                    .UseEnvironment("Production")
+                    .UseStartup<Startup>()
+                    .ConfigureAppConfiguration((context, configBuilder) =>
+                    {
+                        configBuilder.AddInMemoryCollection(
+                            new Dictionary<string, string>
+                            {
+                                ["ConnectionStrings:WatchsterDB"] = "TestConnectionString"
+                            });
+                    });
+
+            //assert
+            var serviceProvider = webHostBuilder.Build().Services;
             serviceProvider.GetRequiredService<IAppSettingsRepository>().Should().NotBeNull();
             serviceProvider.GetRequiredService<IMovieRepository>().Should().NotBeNull();
             serviceProvider.GetRequiredService<IUserRepository>().Should().NotBeNull();
