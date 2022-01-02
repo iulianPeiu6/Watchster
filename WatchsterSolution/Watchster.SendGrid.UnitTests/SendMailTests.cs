@@ -1,4 +1,5 @@
 using FakeItEasy;
+using Faker;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -6,6 +7,8 @@ using NUnit.Framework;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
+using System.Net;
+using System.Threading.Tasks;
 using Watchster.SendGrid.Models;
 using Watchster.SendGrid.Services;
 
@@ -14,103 +17,171 @@ namespace Watchster.SendGrid.UnitTests
     public class SendMailTests
     {
         private readonly SendGridService sendGridService;
-        private readonly SendGridClient sendGridClient;
+        private readonly SendGridService sendGrid;
+        private readonly ISendGridClient sendGridClient;
+        private const string InvalidEmail = "invalid email";
 
         public SendMailTests()
         {
             var logger = A.Fake<ILogger<SendGridService>>();
-            //var config = A.Fake<IOptions<SendGridConfig>>();
             var config = Options.Create(
                 new SendGridConfig
                 {
-                    ApiKey = Faker.Lorem.Sentence(),
+                    ApiKey = Lorem.Sentence(),
                     Sender = new EmailAddress
                     {
-                        Email = Faker.Internet.Email(),
-                        Name = Faker.Name.FullName()
+                        Email = Internet.Email(),
+                        Name = Name.FullName()
                     }
                 });
-            //sendGridClient = A.Fake<SendGridClient>();
-            sendGridClient = new SendGridClient(config.Value.ApiKey);
+            var fakeSendGridClient = new Fake<ISendGridClient>();
+
+            fakeSendGridClient.CallsTo(sg => sg.SendEmailAsync(A<SendGridMessage>._, default))
+                .Returns(Task.FromResult(new Response(HttpStatusCode.OK, null, null)));
+
+            sendGridClient = fakeSendGridClient.FakedObject;
 
             sendGridService = new SendGridService(logger, config, sendGridClient);
+            sendGrid = new SendGridService(logger, config);
         }
 
         [SetUp]
         public void Setup()
         {
+            Fake.ClearRecordedCalls(sendGridClient);
         }
 
         [Test]
-        public void Given_Mail_When_MailIsNull_Then_SendMailAsyncShouldThrowAggregateExceptionContainingArgumentNullException()
+        public void Given_ContructorArguments_When_ContructorIsCalled__Should_CreateObject()
         {
+            //arrange
             MailInfo mail = null;
 
-            Action action = () => sendGridService.SendMailAsync(mail).Wait();
+            //act
+            Action action = () => sendGrid.SendMailAsync(mail).Wait();
 
-            action.Should().Throw<AggregateException>().And.InnerException.Should().BeOfType<ArgumentNullException>();
+            //assert
+            action.Should().Throw<ArgumentNullException>();
         }
 
         [Test]
-        public void Given_Mail_When_ReceiverEmailIsNull_Then_SendMailAsyncShouldThrowArgumentNullException()
+        public void Given_NullMail_When_SendMailAsyncIsCalled_Should_ThrowArgumentNullException()
         {
+            //arrange
+            MailInfo mail = null;
+
+            //act
+            Action action = () => sendGridService.SendMailAsync(mail).Wait();
+
+            //assert
+            action.Should().Throw<ArgumentNullException>();
+            A.CallTo(() => sendGridClient.SendEmailAsync(A<SendGridMessage>._, default)).MustNotHaveHappened();
+        }
+
+        [Test]
+        public void Given_MailWithNullReceiverEmail_When_SendMailAsyncIsCalled_Should_ThrowArgumentNullException()
+        {
+            //arrange
             var mail = new MailInfo
             {
-                Subject = string.Join(" ", Faker.Lorem.Sentences(3)),
-                Body = string.Join(" ", Faker.Lorem.Sentences(3)),
+                Subject = string.Join(" ", Lorem.Sentences(3)),
+                Body = string.Join(" ", Lorem.Sentences(3)),
                 Receiver = new EmailAddress()
                 {
-                    Name = Faker.Name.FullName(),
+                    Name = Name.FullName(),
                     Email = null,
-                }
-            };
-
-            Action action = () => sendGridService.SendMailAsync(mail).Wait();
-
-            action.Should().Throw<AggregateException>().And.InnerException.Should().BeOfType<ArgumentNullException>();
-        }
-
-        [Test]
-        public void Given_Mail_When_ReceiverEmailIsEmpty_Then_SendMailAsyncShouldThrowArgumentException()
-        {
-            var mail = new MailInfo
-            {
-                Subject = string.Join(" ", Faker.Lorem.Sentences(3)),
-                Body = string.Join(" ", Faker.Lorem.Sentences(3)),
-                Receiver = new EmailAddress()
-                {
-                    Name = Faker.Name.FullName(),
-                    Email = "",
-                }
-            };
-
-            Action action = () => sendGridService.SendMailAsync(mail).Wait();
-
-            action.Should().Throw<AggregateException>().And.InnerException.Should().BeOfType<ArgumentException>();
-        }
-
-        [Test]
-        public void Given_Mail_When_SenderEmailIsInvalid_Then_SendMailAsyncShouldThrowArgumentException()
-        {
-            var mail = new MailInfo
-            {
-                Sender = new EmailAddress
-                {
-                    Name = Faker.Name.FullName(),
-                    Email = ""
                 },
-                Subject = string.Join(" ", Faker.Lorem.Sentences(3)),
-                Body = string.Join(" ", Faker.Lorem.Sentences(3)),
-                Receiver = new EmailAddress()
+                Sender = new EmailAddress()
                 {
-                    Name = Faker.Name.FullName(),
-                    Email = Faker.Internet.Email()
+                    Name = Name.FullName(),
+                    Email = Internet.Email(),
                 }
             };
 
+            //act
             Action action = () => sendGridService.SendMailAsync(mail).Wait();
 
-            action.Should().Throw<AggregateException>().And.InnerException.Should().BeOfType<ArgumentException>();
+            //assert
+            action.Should().Throw<ArgumentNullException>();
+            A.CallTo(() => sendGridClient.SendEmailAsync(A<SendGridMessage>._, default)).MustNotHaveHappened();
+        }
+
+        [Test]
+        public void Given_MailWithInvalidReceiverEmail_When_SendMailAsyncIsCalled_Should_ThrowArgumentExceptionAsync()
+        {
+            //arrange
+            var mail = new MailInfo
+            {
+                Subject = string.Join(" ", Lorem.Sentences(3)),
+                Body = string.Join(" ", Lorem.Sentences(3)),
+                Receiver = new EmailAddress()
+                {
+                    Name = Name.FullName(),
+                    Email = InvalidEmail,
+                },
+                Sender = new EmailAddress()
+                {
+                    Name = Name.FullName(),
+                    Email = Internet.Email(),
+                }
+            };
+
+            //act
+            Action action = () => sendGridService.SendMailAsync(mail).Wait();
+
+            //assert
+            action.Should().Throw<ArgumentException>().WithMessage("Receiver Email Address is Invalid");
+            A.CallTo(() => sendGridClient.SendEmailAsync(A<SendGridMessage>._, default)).MustNotHaveHappened();
+        }
+
+        [Test]
+        public void Given_MailWithInvalidSenderEmail_When_SendMailAsyncIsCalled_Should_ThrowArgumentExceptionAsync()
+        {
+            //arrange
+            var mail = new MailInfo
+            {
+                Subject = string.Join(" ", Lorem.Sentences(3)),
+                Body = string.Join(" ", Lorem.Sentences(3)),
+                Receiver = new EmailAddress()
+                {
+                    Name = Name.FullName(),
+                    Email = Internet.Email(),
+                },
+                Sender = new EmailAddress()
+                {
+                    Name = Name.FullName(),
+                    Email = InvalidEmail,
+                }
+            };
+
+            //act
+            Action action = () => sendGridService.SendMailAsync(mail).Wait();
+
+            //assert
+            action.Should().Throw<ArgumentException>().WithMessage("Sender Email Address is Invalid");
+            A.CallTo(() => sendGridClient.SendEmailAsync(A<SendGridMessage>._, default)).MustNotHaveHappened();
+        }
+
+        [Test]
+        public async Task Given_MailWithNullSenderEmail_When_SendMailAsyncIsCalled_Should_UseTheOneFromConfigAsync()
+        {
+            //arrange
+            var mail = new MailInfo
+            {
+                Subject = string.Join(" ", Lorem.Sentences(3)),
+                Body = string.Join(" ", Lorem.Sentences(3)),
+                Receiver = new EmailAddress()
+                {
+                    Name = Name.FullName(),
+                    Email = Internet.Email(),
+                }
+            };
+
+            //act
+            await sendGridService.SendMailAsync(mail);
+
+            //arrange
+            A.CallTo(() => sendGridClient.SendEmailAsync(A<SendGridMessage>._, default)).MustHaveHappenedOnceExactly();
         }
     }
 }

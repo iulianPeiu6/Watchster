@@ -14,7 +14,7 @@ namespace Watchster.SendGrid.Services
     {
         private readonly ILogger<SendGridService> logger;
         private readonly SendGridConfig config;
-        private readonly SendGridClient sendGridClient;
+        private readonly ISendGridClient sendGridClient;
 
         public SendGridService(ILogger<SendGridService> logger, IOptions<SendGridConfig> config)
         {
@@ -23,7 +23,7 @@ namespace Watchster.SendGrid.Services
             this.sendGridClient = new SendGridClient(this.config.ApiKey);
         }
 
-        public SendGridService(ILogger<SendGridService> logger, IOptions<SendGridConfig> config, SendGridClient sendGridClient)
+        public SendGridService(ILogger<SendGridService> logger, IOptions<SendGridConfig> config, ISendGridClient sendGridClient)
         {
             this.logger = logger;
             this.config = config.Value;
@@ -51,10 +51,6 @@ namespace Watchster.SendGrid.Services
                 if (response.IsSuccessStatusCode)
                 {
                     logger.LogInformation($"Mail sent");
-                }
-                else if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
-                {
-                    throw new ArgumentException("Response Http StatusCode is Forbidden(403). The problem could be: the sender is not a integrated Sendgrid Single Sender or invalid Api Key.");
                 }
             }
             catch (Exception ex)
