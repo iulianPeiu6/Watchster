@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using NUnit.Framework;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
 using Watchster.Application.Features.Queries;
@@ -40,6 +41,18 @@ namespace Watchster.WebApi.UnitTests.v1.Abstracts
 
             mediator = fakeMediator.FakedObject;
             controller = new MovieController(mediator, logger);
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            Fake.ClearRecordedCalls(mediator);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Fake.ClearRecordedCalls(mediator);
         }
     }
 }

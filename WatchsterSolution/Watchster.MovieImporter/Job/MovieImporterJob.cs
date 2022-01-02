@@ -19,7 +19,6 @@ namespace Watchster.MovieImporter.Job
         private readonly ITMDbMovieDiscoverService movieDiscover;
         private readonly IMediator mediator;
         private Domain.Entities.AppSettings movieImporterSettings;
-        private DateTime CurrentDateTime;
         private DateTime UpperBoundIntervalSearch;
         private const string TMDB_POSTER_ENDPOINT = "https://image.tmdb.org/t/p/original";
 
@@ -37,14 +36,14 @@ namespace Watchster.MovieImporter.Job
         {
             logger.LogInformation("Starting importing new released movies");
 
-            CurrentDateTime = DateTime.Now;
-            UpperBoundIntervalSearch = CurrentDateTime.AddDays(-1);
+            var currentDateTime = DateTime.Now;
+            UpperBoundIntervalSearch = currentDateTime.AddDays(-1);
 
             var lastSyncDateTime = await GetLastSyncDateTime();
 
             var numOfImportedMovies = await ImportNewMoviesAfterDateAsync(lastSyncDateTime);
 
-            await UpdateLastSyncDateTime(CurrentDateTime);
+            await UpdateLastSyncDateTime(currentDateTime);
 
             logger.LogInformation($"Ended importing new released movies. {numOfImportedMovies} new movie(s) were imported.");
         }

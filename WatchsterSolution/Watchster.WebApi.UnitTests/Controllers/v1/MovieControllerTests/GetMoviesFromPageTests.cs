@@ -19,7 +19,6 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
             {
                 Page = 1
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var result = controller.GetFromPage(command);

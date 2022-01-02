@@ -26,7 +26,6 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
                 UserId = RandomNumber.Next(1, int.MaxValue),
                 Rating = RandomNumber.Next(1, 10)
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);
@@ -47,7 +46,6 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
                 UserId = -1,
                 Rating = RandomNumber.Next(1, 10)
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);
@@ -68,7 +66,6 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
                 UserId = RandomNumber.Next(1, int.MaxValue),
                 Rating = RandomNumber.Next(1, 10)
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);
@@ -89,7 +86,6 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
                 UserId = RandomNumber.Next(1, int.MaxValue),
                 Rating = 12.2
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);
@@ -110,7 +106,6 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
                 UserId = RandomNumber.Next(1, int.MaxValue),
                 Rating = -2.2
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);
@@ -131,7 +126,6 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
                 UserId = 0,
                 Rating = RandomNumber.Next(1, 10)
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);

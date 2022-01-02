@@ -24,6 +24,8 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("GetUser")]
         public async Task<IActionResult> GetUserAsync(int userId)
         {
+            logger.LogInformation("Handeling request on User/GetUser/{userId}");
+
             try
             {
                 var query = new GetUserDetailsQuery
@@ -43,6 +45,8 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("Register")]
         public async Task<IActionResult> RegisterAsync([FromBody] CreateUserCommand command)
         {
+            logger.LogInformation("Handeling request on User/Register");
+
             try
             {
                 var response = await mediator.Send(command);
@@ -59,6 +63,8 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("Authenticate")]
         public async Task<IActionResult> AuthenticateAsync([FromBody] AuthenticateUserCommand command)
         {
+            logger.LogInformation("Handeling request on User/Authenticate");
+
             var response = await mediator.Send(command);
 
             if (response.ErrorMessage == Error.WrongEmailOrPass)
@@ -73,6 +79,8 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("SendEmailChangePassword")]
         public async Task<IActionResult> SendEmailChangePasswordAsync([FromBody] GenerateAndSaveResetPasswordCodeCommand command)
         {
+            logger.LogInformation("Handeling request on User/SendEmailChangePassword");
+
             var responseSaveResetPasswordCode = await mediator.Send(command);
 
             if (responseSaveResetPasswordCode.ErrorMessage == Error.EmailNotFound)
@@ -100,6 +108,8 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("VerifyPasswordCode")]
         public async Task<IActionResult> VerifyPasswordCodeAsync([FromBody] VerifyPasswordCodeCommand command)
         {
+            logger.LogInformation("Handeling request on User/VerifyPasswordCode");
+
             var codeIsValid = await mediator.Send(command);
 
             if (!codeIsValid)
@@ -115,6 +125,8 @@ namespace Watchster.WebApi.Controllers.v1
         public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangeUserPasswordCommand command)
         {
             //TODO: Change Route Name
+            logger.LogInformation("Handeling request on User/ChangeNewPassword");
+
             var response = await mediator.Send(command);
 
             if (!response.IsSuccess)

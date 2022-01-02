@@ -14,10 +14,13 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         [Test]
         public void Given_MovieController_When_GetReccomendationsIsCalled_Then_GetReccomendationsQueryIsCalled()
         {
+            //arrange
             var userId = ValidUserId;
 
+            //act
             var result = controller.GetRecommendationsAsync(userId);
 
+            //assert
             A.CallTo(() => mediator.Send(A<GetReccomendationsQuery>._, default)).MustHaveHappenedOnceExactly();
         }
     }

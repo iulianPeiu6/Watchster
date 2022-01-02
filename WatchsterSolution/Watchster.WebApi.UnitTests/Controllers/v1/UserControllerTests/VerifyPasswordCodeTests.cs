@@ -23,7 +23,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
             {
                 Code = ValidPasswordCode
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.VerifyPasswordCodeAsync(command);
@@ -42,7 +41,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
             {
                 Code = InvalidPasswordCode
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.VerifyPasswordCodeAsync(command);

@@ -20,7 +20,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
         {
             //arrange
             var userId = ValidUserId;
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.GetUserAsync(userId);
@@ -35,7 +34,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
         {
             //arrange
             var userId = InvalidUserId;
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.GetUserAsync(userId);

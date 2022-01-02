@@ -25,7 +25,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
                 Code = ValidPasswordCode,
                 Password = Lorem.Sentence()
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.ChangePasswordAsync(command);
@@ -45,7 +44,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
                 Code = InvalidPasswordCode,
                 Password = Lorem.Sentence()
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.ChangePasswordAsync(command);

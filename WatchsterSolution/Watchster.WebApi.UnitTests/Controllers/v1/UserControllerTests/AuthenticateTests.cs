@@ -25,7 +25,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
                 Email = Internet.Email(),
                 Password = Lorem.Sentence()
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AuthenticateAsync(command);
@@ -46,7 +45,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
                 Email = InvalidEmailAddress,
                 Password = Lorem.Sentence()
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AuthenticateAsync(command);

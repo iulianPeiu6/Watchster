@@ -24,7 +24,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
                 Email = Faker.Internet.Email(),
                 Endpoint = Faker.Internet.DomainName()
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.SendEmailChangePasswordAsync(command);
@@ -45,7 +44,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
                 Email = InvalidEmailAddress,
                 Endpoint = Faker.Internet.DomainName()
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.SendEmailChangePasswordAsync(command);
@@ -66,7 +64,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
                 Email = UnreachableEmailAddress,
                 Endpoint = Faker.Internet.DomainName()
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.SendEmailChangePasswordAsync(command);

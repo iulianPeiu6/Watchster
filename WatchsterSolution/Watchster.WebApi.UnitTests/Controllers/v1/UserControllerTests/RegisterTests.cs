@@ -26,7 +26,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
                 IsSubscribed = true,
                 Password = Lorem.Sentence()
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.RegisterAsync(command);
@@ -47,7 +46,6 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
                 IsSubscribed = true,
                 Password = Lorem.Sentence()
             };
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.RegisterAsync(command);

@@ -1,6 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
-using System;
+using Vanguard;
 
 namespace Watchster.TMDb.UnitTests
 {
@@ -15,21 +16,10 @@ namespace Watchster.TMDb.UnitTests
             var key = Convert.FromBase64String(KeyBase64Str);
             var iv = Convert.FromBase64String(ivBase64Str);
 
-            if (plainText == null || plainText.Length <= 0)
-            {
-                throw new ArgumentNullException("plainText");
-            }
-                
-            if (key == null || key.Length <= 0)
-            {
-                throw new ArgumentNullException("Key");
-            }
-                
-            if (iv == null || iv.Length <= 0)
-            {
-                throw new ArgumentNullException("IV");
-            }
-                
+            Guard.ArgumentNotNullOrEmpty(plainText, nameof(plainText));
+            Guard.ArgumentNotNullOrEmpty(key, nameof(key));
+            Guard.ArgumentNotNullOrEmpty(iv, nameof(iv));
+
             byte[] encrypted;
             using (RijndaelManaged rijAlg = new RijndaelManaged())
             {
@@ -50,7 +40,7 @@ namespace Watchster.TMDb.UnitTests
                     }
                 }
             }
-            
+
 
             return Convert.ToBase64String(encrypted);
         }
@@ -60,22 +50,11 @@ namespace Watchster.TMDb.UnitTests
             var cipherText = Convert.FromBase64String(cipherBase64Str);
             var key = Convert.FromBase64String(KeyBase64Str);
             var iv = Convert.FromBase64String(IVBase64Str);
-            
-            if (cipherText == null || cipherText.Length <= 0)
-            {
-                throw new ArgumentNullException("cipherText");
-            }
-                
-            if (key == null || key.Length <= 0)
-            {
-                throw new ArgumentNullException("Key");
-            }
-                
-            if (iv == null || iv.Length <= 0)
-            {
-                throw new ArgumentNullException("IV");
-            }
-                
+
+            Guard.ArgumentNotNullOrEmpty(cipherText, nameof(cipherText));
+            Guard.ArgumentNotNullOrEmpty(key, nameof(key));
+            Guard.ArgumentNotNullOrEmpty(iv, nameof(iv));
+
 
             string plaintext = null;
 

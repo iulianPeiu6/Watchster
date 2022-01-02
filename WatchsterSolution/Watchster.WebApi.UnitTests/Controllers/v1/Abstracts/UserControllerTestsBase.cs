@@ -2,6 +2,7 @@
 using Faker;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 using Watchster.Application.Authentication.Models;
@@ -94,6 +95,18 @@ namespace Watchster.WebApi.UnitTests.v1.Abstracts
             logger = A.Fake<ILogger<UserController>>();
 
             controller = new UserController(mediator, logger);
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            Fake.ClearRecordedCalls(mediator);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Fake.ClearRecordedCalls(mediator);
         }
     }
 }

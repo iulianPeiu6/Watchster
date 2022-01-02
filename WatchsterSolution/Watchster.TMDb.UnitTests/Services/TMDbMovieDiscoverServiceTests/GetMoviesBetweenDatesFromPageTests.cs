@@ -1,13 +1,11 @@
 ﻿using FakeItEasy;
-using Faker;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using System;
-using Watchster.TMDb.Services;
-using System.Security.Cryptography;
-using FluentAssertions;
 using TMDbLib.Objects.Exceptions;
+using Watchster.TMDb.Services;
 
 namespace Watchster.TMDb.UnitTests.Services.TMDbMovieDiscoverServiceTests
 {
@@ -24,8 +22,8 @@ namespace Watchster.TMDb.UnitTests.Services.TMDbMovieDiscoverServiceTests
                 new TMDbConfig
                 {
                     ApiKey = SecurityHandler.DecryptStringFromBytes(
-                        SecurityHandler.EncryptedTMDbApiKey, 
-                        SecurityHandler.DefaultKey, 
+                        SecurityHandler.EncryptedTMDbApiKey,
+                        SecurityHandler.DefaultKey,
                         SecurityHandler.DefaultIV)
                 });
             tmdbMovieDiscoverService = new TMDbMovieDiscoverService(logger, config);

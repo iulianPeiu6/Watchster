@@ -25,6 +25,7 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("GetAll")]
         public async Task<IActionResult> GetAllAsync()
         {
+            logger.LogInformation("Handeling request on Movie/GetAll");
             var query = new GetAllMoviesQuery();
             var response = await mediator.Send(query);
             return Ok(response);
@@ -34,6 +35,7 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("GetRecommendations")]
         public async Task<IActionResult> GetRecommendationsAsync(int userId)
         {
+            logger.LogInformation("Handeling request on Movie/GetRecommendations");
             GetReccomendationsQuery query = new GetReccomendationsQuery
             {
                 UserId = userId
@@ -46,6 +48,7 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("GetFromPage")]
         public async Task<IActionResult> GetFromPage([FromQuery] GetMoviesFromPageQuery command)
         {
+            logger.LogInformation("Handeling request on Movie/GetFromPage/{Page}");
             var response = await mediator.Send(command);
             return Ok(response);
         }
@@ -54,6 +57,7 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("GetMovie")]
         public async Task<IActionResult> GetMovieAsync([FromQuery] int id)
         {
+            logger.LogInformation("Handeling request on Movie/GetMovie/{id}");
             GetMovieByIdQuery query = new GetMovieByIdQuery
             {
                 Id = id,
@@ -69,6 +73,7 @@ namespace Watchster.WebApi.Controllers.v1
         [Route("AddRating")]
         public async Task<IActionResult> AddRating([FromBody] AddRatingCommand command)
         {
+            logger.LogInformation("Handeling request on Movie/AddRating");
             var response = await mediator.Send(command);
 
             if (response.ErrorMessage == Error.MovieNotFound)

@@ -21,7 +21,6 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         {
             //arrange
             var movieId = RandomNumber.Next(1, int.MaxValue);
-            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.GetMovieAsync(movieId);
