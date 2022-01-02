@@ -34,18 +34,26 @@ namespace Watchster.MovieImporter.Job
 
         public async Task Execute(IJobExecutionContext context)
         {
-            logger.LogInformation("Starting importing new released movies");
-
             var currentDateTime = DateTime.Now;
-            UpperBoundIntervalSearch = currentDateTime.AddDays(-1);
+            try
+            {
+                logger.LogInformation("Starting importing new released movies");
 
-            var lastSyncDateTime = await GetLastSyncDateTime();
+                UpperBoundIntervalSearch = currentDateTime.AddDays(-1);
 
-            var numOfImportedMovies = await ImportNewMoviesAfterDateAsync(lastSyncDateTime);
+                var lastSyncDateTime = await GetLastSyncDateTime();
 
-            await UpdateLastSyncDateTime(currentDateTime);
+                var numOfImportedMovies = await ImportNewMoviesAfterDateAsync(lastSyncDateTime);
 
-            logger.LogInformation($"Ended importing new released movies. {numOfImportedMovies} new movie(s) were imported.");
+                await UpdateLastSyncDateTime(currentDateTime);
+
+                logger.LogInformation($"Ended importing new released movies. {numOfImportedMovies} new movie(s) were imported.");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                await UpdateLastSyncDateTime(currentDateTime);
+            }
         }
 
         private async Task<DateTime> GetLastSyncDateTime()
@@ -98,28 +106,43 @@ namespace Watchster.MovieImporter.Job
             int numOfMoviesImported = 0;
             for (int year = 1874; year <= UpperBoundIntervalSearch.Year; year++)
             {
-                var monthUpperBound = year == UpperBoundIntervalSearch.Year ? UpperBoundIntervalSearch.Month : 12;
-                for (int month = 1; month <= monthUpperBound; month++)
-                {
-                    var from = new DateTime(year, month, 1);
-                    var to = from.AddMonths(1).AddDays(-1);
-                    if (year == UpperBoundIntervalSearch.Year && month == UpperBoundIntervalSearch.Month)
-                    {
-                        to = UpperBoundIntervalSearch;
-                    }
-                    var result = movieDiscover.GetMoviesBetweenDatesFromPage(from, to);
-                    await ImportMovies(result.Movies);
-                    numOfMoviesImported += result.Movies.Count;
+                numOfMoviesImported += await ImportMoviesFromYearAsync(year);
+            }
+            return numOfMoviesImported;
+        }
 
-                    if (result.TotalPages > 1)
-                    {
-                        foreach (var page in Enumerable.Range(2, result.TotalPages - 1))
-                        {
-                            var movies = movieDiscover.GetMoviesBetweenDatesFromPage(from, to, page).Movies;
-                            await ImportMovies(movies);
-                            numOfMoviesImported += movies.Count;
-                        }
-                    }
+        private async Task<int> ImportMoviesFromYearAsync(int year)
+        {
+            int numOfMoviesImported = 0;
+            var monthUpperBound = year == UpperBoundIntervalSearch.Year ? UpperBoundIntervalSearch.Month : 12;
+            for (int month = 1; month <= monthUpperBound; month++)
+            {
+                var from = new DateTime(year, month, 1);
+                var to = from.AddMonths(1).AddDays(-1);
+                if (year == UpperBoundIntervalSearch.Year && month == UpperBoundIntervalSearch.Month)
+                {
+                    to = UpperBoundIntervalSearch;
+                }
+
+                numOfMoviesImported += await ImportMoviesInRabge(from, to);
+            }
+            return numOfMoviesImported;
+        }
+
+        private async Task<int> ImportMoviesInRabge(DateTime from, DateTime to)
+        {
+            
+            var result = movieDiscover.GetMoviesBetweenDatesFromPage(from, to);
+            await ImportMovies(result.Movies);
+            int numOfMoviesImported = result.Movies.Count;
+
+            if (result.TotalPages > 1)
+            {
+                foreach (var page in Enumerable.Range(2, result.TotalPages - 1))
+                {
+                    var movies = movieDiscover.GetMoviesBetweenDatesFromPage(from, to, page).Movies;
+                    await ImportMovies(movies);
+                    numOfMoviesImported += movies.Count;
                 }
             }
             return numOfMoviesImported;
