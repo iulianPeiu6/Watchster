@@ -18,6 +18,8 @@ namespace Watchster.WebApi.UnitTests.v1.Abstracts
         protected readonly UserController controller;
         protected readonly IMediator mediator;
         protected readonly ILogger<UserController> logger;
+        protected const int InvalidUserId = -1;
+        protected const int ValidUserId = 3;
         protected const string InvalidEmailAddress = "invalid email";
         protected const string UnreachableEmailAddress = "unreachable email";
         protected const string ValidPasswordCode = "ValidCode69";

@@ -14,7 +14,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         [Test]
         public void Given_MovieController_When_GetReccomendationsIsCalled_Then_GetReccomendationsQueryIsCalled()
         {
-            var userId = 1;
+            var userId = ValidUserId;
 
             var result = controller.GetRecommendationsAsync(userId);
 
