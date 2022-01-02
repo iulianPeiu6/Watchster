@@ -21,53 +21,49 @@ namespace Watchster.Application.Features.Commands
             this.resetPasswordCodeRepository = resetPasswordCodeRepository;
             this.cryptography = cryptography;
         }
-        public Task<ChangePasswordResult> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
+        public async Task<ChangePasswordResult> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
         {
-            return Task.Run(async () =>
+            var userCode = resetPasswordCodeRepository.Query(user => user.Code == request.Code)
+                .FirstOrDefault();
+
+            if (userCode is null)
             {
-                var userCode = resetPasswordCodeRepository.Query(user => user.Code == request.Code)
-                    .FirstOrDefault();
-
-                if (userCode is null)
-                {
-                    return new ChangePasswordResult
-                    {
-                        ErrorMessage = Error.WrongPassChangeCode,
-                        Status = false
-                    };
-                }
-
-                var user = userRepository.Query(user => user.Email == userCode.Email)
-                    .FirstOrDefault();
-
-                if (user is null)
-                {
-                    return new ChangePasswordResult
-                    {
-                        ErrorMessage = Error.WrongPassChangeCode,
-                        Status = false
-                    };
-                }
-
-                if (!PasswordRespectsContraints(request.Password))
-                {
-                    return new ChangePasswordResult
-                    {
-                        ErrorMessage = Error.InvalidPass,
-                        Status = false
-                    };
-                }
-
-                user.Password = cryptography.GetPasswordSHA3Hash(request.Password);
-
-                await userRepository.UpdateAsync(user);
-
                 return new ChangePasswordResult
                 {
-                    Status = true
+                    ErrorMessage = Error.WrongPassChangeCode,
+                    IsSuccess = false
                 };
+            }
 
-            });
+            var user = userRepository.Query(user => user.Email == userCode.Email)
+                .FirstOrDefault();
+
+            if (user is null)
+            {
+                return new ChangePasswordResult
+                {
+                    ErrorMessage = Error.WrongPassChangeCode,
+                    IsSuccess = false
+                };
+            }
+
+            if (!PasswordRespectsContraints(request.Password))
+            {
+                return new ChangePasswordResult
+                {
+                    ErrorMessage = Error.InvalidPass,
+                    IsSuccess = false
+                };
+            }
+
+            user.Password = cryptography.GetPasswordSHA3Hash(request.Password);
+
+            await userRepository.UpdateAsync(user);
+
+            return new ChangePasswordResult
+            {
+                IsSuccess = true
+            };
         }
         private static bool PasswordRespectsContraints(string password)
         {
@@ -76,5 +72,4 @@ namespace Watchster.Application.Features.Commands
             return validator.Validate(password);
         }
     }
-
 }

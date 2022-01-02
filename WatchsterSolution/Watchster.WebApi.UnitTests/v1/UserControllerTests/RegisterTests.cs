@@ -1,55 +1,59 @@
 ﻿using FakeItEasy;
+using Faker;
 using FluentAssertions;
-using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
-using Watchster.WebApi.Controllers.v1;
+using Watchster.WebApi.UnitTests.v1.Abstracts;
 
 namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
 {
-    public class RegisterTests
+    public class RegisterTests : UserControllerTestsBase
     {
-        private readonly UserController controller;
-        private readonly IMediator mediator;
-        private readonly ILogger<UserController> logger;
-
-        public RegisterTests()
+        public RegisterTests() : base()
         {
-            mediator = A.Fake<IMediator>();
-            logger = A.Fake<ILogger<UserController>>();
-            controller = new UserController(mediator, logger);
         }
 
         [Test]
-        public async Task Given_CreateUserCommand_When_CommandIsValid_Then_CreateUserCommandShoulBeCalledAsync()
+        public async Task Given_CreateUserCommand_When_CommandIsValid_Should_ReturnStatus200OkAsync()
         {
+            //arrange
             var command = new CreateUserCommand
             {
-                Email = "iulian.peiu6@gmail.com",
+                Email = Internet.Email(),
                 IsSubscribed = true,
-                Password = "password"
+                Password = Lorem.Sentence()
             };
-            var result = await controller.RegisterAsync(command);
-            result.Should().BeOfType<OkObjectResult>();
+
+            //act
+            var response = await controller.RegisterAsync(command);
+
+            //assert
             A.CallTo(() => mediator.Send(A<CreateUserCommand>._, default)).MustHaveHappenedOnceExactly();
+            response.Should().BeOfType<OkObjectResult>();
+            response.As<OkObjectResult>().StatusCode.Should().Be(StatusCodes.Status200OK);
         }
 
         [Test]
-        public async Task Given_CreateUserCommand_When_EmailIsInvalid_Then_GiveBadRequest()
+        public async Task Given_CreateUserCommand_When_CommandIsInvalid_Should_ReturnStatus400BadRequestAsync()
         {
+            //arrange
             var command = new CreateUserCommand
             {
-                Email = "iulian.peiu",
+                Email = InvalidEmailAddress,
                 IsSubscribed = true,
-                Password = "password"
+                Password = Lorem.Sentence()
             };
 
-            var result = await controller.RegisterAsync(command);
-            //result.Should().BeOfType<BadRequestResult>();
+            //act
+            var response = await controller.RegisterAsync(command);
+
+            //assert
             A.CallTo(() => mediator.Send(A<CreateUserCommand>._, default)).MustHaveHappened();
+            response.Should().BeOfType<BadRequestResult>();
+            response.As<BadRequestResult>().StatusCode.Should().Be(StatusCodes.Status400BadRequest);
         }
     }
 }

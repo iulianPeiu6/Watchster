@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Watchster.Application.Models
+﻿namespace Watchster.Application.Models
 {
     public class ChangePasswordResult
     {
-        public String ErrorMessage { get; set; }
-        public Boolean Status { get; set; }
+        public string ErrorMessage { get; set; }
+        public bool IsSuccess { get; set; }
     }
 }

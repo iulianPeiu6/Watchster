@@ -5,8 +5,8 @@ namespace Watchster.Domain.Entities
 {
     public class ResetPasswordCode : BaseEntity
     {
-        public String Code { get; set; }
+        public string Code { get; set; }
         public DateTime expirationDate { get; set; }
-        public String Email { get; set; }
+        public string Email { get; set; }
     }
 }

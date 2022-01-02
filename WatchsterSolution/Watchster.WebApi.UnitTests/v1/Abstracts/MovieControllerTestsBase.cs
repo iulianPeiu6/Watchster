@@ -1,8 +1,6 @@
 ﻿using FakeItEasy;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SendGrid;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
 using Watchster.Application.Features.Queries;
@@ -23,7 +21,7 @@ namespace Watchster.WebApi.UnitTests.v1.Abstracts
 
             fakeMediator.CallsTo(mediator => mediator.Send(A<GetMovieByIdQuery>.That.Matches(m => m.Id == -1), default))
                 .Returns(Task.FromResult(new MovieResult { ErrorMessage = Error.MovieNotFound }));
-            
+
             fakeMediator.CallsTo(mediator => mediator.Send(A<AddRatingCommand>.That.Matches(m => m.UserId == -1), default))
                 .Returns(Task.FromResult(new AddRatingResponse { ErrorMessage = Error.UserNotFound, IsSuccess = false }));
 

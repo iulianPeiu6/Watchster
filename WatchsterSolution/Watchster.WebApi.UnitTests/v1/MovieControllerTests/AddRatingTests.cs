@@ -4,10 +4,6 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
 using Watchster.WebApi.UnitTests.v1.Abstracts;
@@ -26,7 +22,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
             //arange
             var command = new AddRatingCommand
             {
-                MovieId = RandomNumber.Next(1,int.MaxValue),
+                MovieId = RandomNumber.Next(1, int.MaxValue),
                 UserId = RandomNumber.Next(1, int.MaxValue),
                 Rating = RandomNumber.Next(1, 10)
             };

@@ -20,10 +20,9 @@ namespace Watchster.WebApi.Controllers.v1
             this.logger = logger;
         }
 
-
         [HttpGet]
         [Route("GetUser")]
-        public async Task<IActionResult> GetUser(int userId)
+        public async Task<IActionResult> GetUserAsync(int userId)
         {
             try
             {
@@ -72,7 +71,7 @@ namespace Watchster.WebApi.Controllers.v1
 
         [HttpPatch]
         [Route("SendEmailChangePassword")]
-        public async Task<IActionResult> SendEmailChangePasswordAsync([FromBody] GenerateAndSaveResetPasswordIDCommand command)
+        public async Task<IActionResult> SendEmailChangePasswordAsync([FromBody] GenerateAndSaveResetPasswordCodeCommand command)
         {
             var responseSaveResetPasswordCode = await mediator.Send(command);
 
@@ -83,7 +82,7 @@ namespace Watchster.WebApi.Controllers.v1
 
             var commandSendMail = new SendResetMailCommand
             {
-                Result = responseSaveResetPasswordCode.resetPasswordCode,
+                Result = responseSaveResetPasswordCode.ResetPasswordCode,
                 Endpoint = command.Endpoint
             };
 
@@ -93,6 +92,7 @@ namespace Watchster.WebApi.Controllers.v1
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, responseSendMail);
             }
+
             return Ok(new { Message = responseSendMail });
         }
 
@@ -112,23 +112,17 @@ namespace Watchster.WebApi.Controllers.v1
 
         [HttpPatch]
         [Route("ChangeNewPassword")]
-        public async Task<IActionResult> ChangeNewPasswordAsync([FromBody] ChangeUserPasswordCommand command)
+        public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangeUserPasswordCommand command)
         {
+            //TODO: Change Route Name
             var response = await mediator.Send(command);
 
-            if (!response.Status)
+            if (!response.IsSuccess)
             {
                 return Unauthorized(new { Message = response.ErrorMessage });
             }
 
             return Ok(new { Message = "Password changed!" });
-        }
-
-        [HttpDelete]
-        [Route("Delete")]
-        public IActionResult Delete(Guid userId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

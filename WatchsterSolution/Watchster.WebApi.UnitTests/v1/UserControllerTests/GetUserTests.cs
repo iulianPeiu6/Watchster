@@ -1,34 +1,48 @@
 ﻿using FakeItEasy;
+using Faker;
 using FluentAssertions;
-using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Queries;
-using Watchster.WebApi.Controllers.v1;
+using Watchster.WebApi.UnitTests.v1.Abstracts;
 
 namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
 {
-    public class GetUserTests
+    public class GetUserTests : UserControllerTestsBase
     {
-        private readonly UserController controller;
-        private readonly IMediator mediator;
-        private readonly ILogger<UserController> logger;
-
-        public GetUserTests()
+        public GetUserTests() : base()
         {
-            mediator = A.Fake<IMediator>();
-            logger = A.Fake<ILogger<UserController>>();
-            controller = new UserController(mediator, logger);
         }
 
         [Test]
-        public async Task Given_UserId_When_IdIsValid_Then_GetUserDetailsQueryHandlerIsCalledAsync()
+        public async Task Given_ValidUserId_When_GetUserIsCalled_Should_ReturnStatus200OkAsync()
         {
-            var result = await controller.GetUser(-1);
-            result.Should().BeOfType<OkObjectResult>();
+            //arrange
+            var userId = RandomNumber.Next(1, int.MaxValue);
+
+            //act
+            var response = await controller.GetUserAsync(userId);
+
+            //assert
+            response.Should().BeOfType<OkObjectResult>();
             A.CallTo(() => mediator.Send(A<GetUserDetailsQuery>._, default)).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
+        public async Task Given_InvalidUserId_When_GetUserIsCalled_Should_ReturnStatus404NotFoundAsync()
+        {
+            //arrange
+            var userId = -1;
+
+            //act
+            var response = await controller.GetUserAsync(userId);
+
+            //assert
+            A.CallTo(() => mediator.Send(A<GetUserDetailsQuery>._, default)).MustHaveHappenedOnceExactly();
+            response.Should().BeOfType<NotFoundObjectResult>();
+            response.As<NotFoundObjectResult>().StatusCode.Should().Be(StatusCodes.Status404NotFound);
         }
     }
 }

@@ -2,7 +2,6 @@
 using Faker;
 using FluentAssertions;
 using NUnit.Framework;
-using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
@@ -35,7 +34,7 @@ namespace Watchster.Application.UnitTests.Features.Commands
                 Genres = Lorem.Sentences(RandomNumber.Next(1, 3)),
                 PosterUrl = Internet.Url(),
                 Popularity = RandomNumber.Next(),
-                TMDbVoteAverage = RandomNumber.Next(0,10)
+                TMDbVoteAverage = RandomNumber.Next(0, 10)
             };
 
             //act
