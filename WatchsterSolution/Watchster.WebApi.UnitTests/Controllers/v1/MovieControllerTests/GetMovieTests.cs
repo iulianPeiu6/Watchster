@@ -19,8 +19,9 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         [Test]
         public async Task Given_MovieValidId_When_GetMovie_Should_ReturnOkResponseWithMovieAsync()
         {
-            //arange
+            //arrange
             var movieId = RandomNumber.Next(1, int.MaxValue);
+            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.GetMovieAsync(movieId);
@@ -34,7 +35,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         public async Task Given_MovieInValidId_When_GetMovie_Should_ReturnNotFoundResponseAsync()
         {
             //arange
-            var movieId = -1;
+            var movieId = InvalidMovieId;
 
             //act
             var response = await controller.GetMovieAsync(movieId);

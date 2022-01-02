@@ -1,5 +1,4 @@
 ﻿using FakeItEasy;
-using Faker;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,8 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
         public async Task Given_ValidUserId_When_GetUserIsCalled_Should_ReturnStatus200OkAsync()
         {
             //arrange
-            var userId = RandomNumber.Next(1, int.MaxValue);
+            var userId = ValidUserId;
+            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.GetUserAsync(userId);
@@ -34,7 +34,8 @@ namespace Watchster.WebApi.UnitTests.v1.UserControllerTests
         public async Task Given_InvalidUserId_When_GetUserIsCalled_Should_ReturnStatus404NotFoundAsync()
         {
             //arrange
-            var userId = -1;
+            var userId = InvalidUserId;
+            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.GetUserAsync(userId);

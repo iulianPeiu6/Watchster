@@ -13,19 +13,23 @@ namespace Watchster.WebApi.UnitTests.v1.Abstracts
     {
         protected readonly MovieController controller;
         protected readonly IMediator mediator;
+        protected const int ValidMovieId = 3;
+        protected const int InvalidMovieId = -1;
+        protected const int ValidUserId = 3;
+        protected const int InvalidUserId = -1;
 
         public MovieControllerTestsBase()
         {
             var logger = A.Fake<ILogger<MovieController>>();
             var fakeMediator = new Fake<IMediator>();
 
-            fakeMediator.CallsTo(mediator => mediator.Send(A<GetMovieByIdQuery>.That.Matches(m => m.Id == -1), default))
+            fakeMediator.CallsTo(mediator => mediator.Send(A<GetMovieByIdQuery>.That.Matches(m => m.Id == InvalidMovieId), default))
                 .Returns(Task.FromResult(new MovieResult { ErrorMessage = Error.MovieNotFound }));
 
-            fakeMediator.CallsTo(mediator => mediator.Send(A<AddRatingCommand>.That.Matches(m => m.UserId == -1), default))
+            fakeMediator.CallsTo(mediator => mediator.Send(A<AddRatingCommand>.That.Matches(m => m.UserId == InvalidUserId), default))
                 .Returns(Task.FromResult(new AddRatingResponse { ErrorMessage = Error.UserNotFound, IsSuccess = false }));
 
-            fakeMediator.CallsTo(mediator => mediator.Send(A<AddRatingCommand>.That.Matches(m => m.MovieId == -1), default))
+            fakeMediator.CallsTo(mediator => mediator.Send(A<AddRatingCommand>.That.Matches(m => m.MovieId == InvalidMovieId), default))
                 .Returns(Task.FromResult(new AddRatingResponse { ErrorMessage = Error.MovieNotFound, IsSuccess = false }));
 
             fakeMediator.CallsTo(mediator => mediator.Send(A<AddRatingCommand>.That.Matches(m => m.Rating < 0 || m.Rating > 10), default))

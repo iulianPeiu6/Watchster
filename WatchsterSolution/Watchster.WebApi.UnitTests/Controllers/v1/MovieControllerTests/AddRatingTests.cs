@@ -19,13 +19,14 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         [Test]
         public async Task Given_ValidRating_When_AddRatingIsCalled_Should_ReturnStatus201CreatedResponseAsync()
         {
-            //arange
+            //arrange
             var command = new AddRatingCommand
             {
                 MovieId = RandomNumber.Next(1, int.MaxValue),
                 UserId = RandomNumber.Next(1, int.MaxValue),
                 Rating = RandomNumber.Next(1, 10)
             };
+            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);
@@ -39,13 +40,14 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         [Test]
         public async Task Given_RatingWithInvalidUserId_When_AddRatingIsCalled_Should_ReturnStatus404NotFoundResponseAsync()
         {
-            //arange
+            //arrange
             var command = new AddRatingCommand
             {
                 MovieId = RandomNumber.Next(1, int.MaxValue),
                 UserId = -1,
                 Rating = RandomNumber.Next(1, 10)
             };
+            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);
@@ -59,13 +61,14 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         [Test]
         public async Task Given_RatingWithInvalidMovieId_When_AddRatingIsCalled_Should_ReturnStatus404NotFoundResponseAsync()
         {
-            //arange
+            //arrange
             var command = new AddRatingCommand
             {
                 MovieId = -1,
                 UserId = RandomNumber.Next(1, int.MaxValue),
                 Rating = RandomNumber.Next(1, 10)
             };
+            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);
@@ -79,13 +82,14 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         [Test]
         public async Task Given_RatingWithInvalidRatingValueBiggerThan10_When_AddRatingIsCalled_Should_ReturnStatus404NotFoundResponseAsync()
         {
-            //arange
+            //arrange
             var command = new AddRatingCommand
             {
                 MovieId = RandomNumber.Next(1, int.MaxValue),
                 UserId = RandomNumber.Next(1, int.MaxValue),
                 Rating = 12.2
             };
+            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);
@@ -99,13 +103,14 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         [Test]
         public async Task Given_RatingWithInvalidRatingValueLowerThan0_When_AddRatingIsCalled_Should_ReturnStatus400BadRequestResponseAsync()
         {
-            //arange
+            //arrange
             var command = new AddRatingCommand
             {
                 MovieId = RandomNumber.Next(1, int.MaxValue),
                 UserId = RandomNumber.Next(1, int.MaxValue),
                 Rating = -2.2
             };
+            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);
@@ -119,13 +124,14 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
         [Test]
         public async Task Given_InvalidRatingForMovieAlreadyRatedByUser_When_AddRatingIsCalled_Should_ReturnStatus406NotAcceptableResponseAsync()
         {
-            //arange
+            //arrange
             var command = new AddRatingCommand
             {
                 MovieId = 0,
                 UserId = 0,
                 Rating = RandomNumber.Next(1, 10)
             };
+            Fake.ClearRecordedCalls(mediator);
 
             //act
             var response = await controller.AddRating(command);
