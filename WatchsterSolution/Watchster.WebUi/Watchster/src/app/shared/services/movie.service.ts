@@ -40,6 +40,8 @@ export class AddRatingResponse {
 
 @Injectable()
 export class MovieService {
+  tatalPages: number | undefined;
+  lastPage: number = 2;
   constructor(private http: HttpClient) { }
   
   async getMovies(): Promise<Movie[]> {
@@ -48,18 +50,35 @@ export class MovieService {
         .toPromise();
 
     console.log(response);
-    let allMovies = response.movies;
+    let movies = response.movies;
+    this.tatalPages = response.totalPages;
 
-    for (let indexPage = 2; indexPage <= response.totalPages; indexPage++) {
+    // for (let indexPage = 2; indexPage <= response.totalPages; indexPage++) {
+    //   const response = await this.http
+    //     .get<GetMoviesResponse>('/api/1/Movie/GetFromPage', { params: { page: indexPage } })
+    //     .toPromise();
+
+    //   console.log(response);
+    //   allMovies = allMovies.concat(response.movies);
+    // }
+
+    return movies;
+  }
+
+  async getNextMovies(): Promise<Movie[]> {
+      if (this.lastPage > this.tatalPages!) {
+        return new Array<Movie>()
+      }
+
       const response = await this.http
-        .get<GetMoviesResponse>('/api/1/Movie/GetFromPage', { params: { page: indexPage } })
+        .get<GetMoviesResponse>('/api/1/Movie/GetFromPage', { params: { page: this.lastPage } })
         .toPromise();
 
-      console.log(response);
-      allMovies = allMovies.concat(response.movies);
-    }
+      this.lastPage++;
 
-    return allMovies;
+      console.log(response);
+      
+      return response.movies;
   }
 
   async getMovieRecommendations(userId: string): Promise<Movie[]> {

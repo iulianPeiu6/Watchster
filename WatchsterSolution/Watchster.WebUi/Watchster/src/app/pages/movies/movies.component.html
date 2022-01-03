@@ -1,7 +1,10 @@
 <h2 class="content-block">Movies</h2>
 
-<dx-data-grid class="dx-card wide-card"
+<dx-data-grid 
+  #targetDataGrid
+  class="dx-card wide-card"
   [dataSource]="dataSource"
+  (onContentReady)="onContentReady($event)"
   [showBorders]="false"
   [focusedRowEnabled]="true"
   [focusedRowIndex]="0"
@@ -14,7 +17,9 @@
     [enabled]="loadingVisible">
   </dxo-load-panel>
 
-  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-paging 
+    [pageSize]="10"
+  ></dxo-paging>
   <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
