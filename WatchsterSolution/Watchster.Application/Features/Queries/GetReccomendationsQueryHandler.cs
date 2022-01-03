@@ -25,7 +25,11 @@ namespace Watchster.Application.Features.Queries
 
         public async Task<GetRecommendationsResponse> Handle(GetReccomendationsQuery request, CancellationToken cancellationToken)
         {
-            if (await ratingRepository.GetByIdAsync(request.UserId) == null)
+            var currentUserHasRatings = ratingRepository
+                    .Query(rating => rating.UserId == request.UserId)
+                    .Count() == 0;
+
+            if (currentUserHasRatings)
             {
                 throw new ArgumentException("The specified user does not have any ratings in the database");
             }
