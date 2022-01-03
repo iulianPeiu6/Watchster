@@ -10,20 +10,20 @@ using Watchster.Application.Utils.ML.Models;
 
 namespace Watchster.Application.Features.Queries
 {
-    public class GetReccomendationsQueryHandler : IRequestHandler<GetReccomendationsQuery, GetRecommendationsResponse>
+    public class GetRecommendationsQueryHandler : IRequestHandler<GetRecommendationsQuery, GetRecommendationsResponse>
     {
         private readonly IRatingRepository ratingRepository;
         private readonly IMovieRepository movieRepository;
         private readonly IMovieRecommender movieRecommender;
 
-        public GetReccomendationsQueryHandler(IRatingRepository ratingRepository, IMovieRepository movieRepository, IMovieRecommender movieReccomender)
+        public GetRecommendationsQueryHandler(IRatingRepository ratingRepository, IMovieRepository movieRepository, IMovieRecommender movieRecommender)
         {
             this.ratingRepository = ratingRepository;
             this.movieRepository = movieRepository;
-            this.movieRecommender = movieReccomender;
+            this.movieRecommender = movieRecommender;
         }
 
-        public async Task<GetRecommendationsResponse> Handle(GetReccomendationsQuery request, CancellationToken cancellationToken)
+        public async Task<GetRecommendationsResponse> Handle(GetRecommendationsQuery request, CancellationToken cancellationToken)
         {
             var currentUserHasRatings = ratingRepository
                     .Query(rating => rating.UserId == request.UserId)
@@ -51,7 +51,7 @@ namespace Watchster.Application.Features.Queries
                 movieRatings.Add(movieRating);
             }
 
-            var recommendations = new List<ReccomendationDetails>();
+            var recommendations = new List<RecommendationDetails>();
 
             foreach (MovieRating movieRating in movieRatings)
             {
@@ -59,7 +59,7 @@ namespace Watchster.Application.Features.Queries
                 if (!float.IsNaN(prediction.Score))
                 {
                     var movie = await movieRepository.GetByIdAsync(movieRating.MovieId);
-                    var reccomendationDetails = new ReccomendationDetails
+                    var recommendationDetails = new RecommendationDetails
                     {
                         Id = movie.Id,
                         TMDbId = movie.TMDbId,
@@ -72,11 +72,11 @@ namespace Watchster.Application.Features.Queries
                         Overview = movie.Overview,
                         Score = prediction.Score
                     };
-                    recommendations.Add(reccomendationDetails);
+                    recommendations.Add(recommendationDetails);
                 }
             }
 
-            recommendations = recommendations.OrderBy(reccomendation => reccomendation.Score).ToList();
+            recommendations = recommendations.OrderBy(recommendation => recommendation.Score).ToList();
 
             return new GetRecommendationsResponse
             {
