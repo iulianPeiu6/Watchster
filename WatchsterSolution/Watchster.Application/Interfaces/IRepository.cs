@@ -13,8 +13,6 @@ namespace Watchster.Aplication.Interfaces
 
         Task<TEntity> UpdateAsync(TEntity entity);
 
-        Task<TEntity> UpdateAsync(TEntity entity, Func<TEntity, object> modify);
-
         Task<TEntity> Delete(TEntity entity);
 
         Task<IEnumerable<TEntity>> GetAllAsync();
