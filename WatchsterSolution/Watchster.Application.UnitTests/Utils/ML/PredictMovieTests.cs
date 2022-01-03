@@ -1,7 +1,6 @@
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Microsoft.ML;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
@@ -11,64 +10,54 @@ using Watchster.Application.Utils.ML.Models;
 
 namespace Watchster.Application.UnitTests.Utils.ML
 {
-    public class PredictMovieTests
+    public class PredictMovieTests : MLModelBuilderTests
     {
-
         private readonly IMovieRecommender movieRecommender;
-        private readonly IMovieRecommender fakeMovieRecommender;
         private readonly ILogger<MovieRecommender> logger;
-        private readonly IMLModelBuilder modelBuilder;
-        private readonly MovieRating validMovieRating;
-        //private readonly PredictionEngine<MovieRating, MovieRatingPrediction> predictEngine;
+        private readonly IMLModelBuilder fakeModelBuilder;
 
-        public PredictMovieTests()
+        public PredictMovieTests() : base()
         {
-            validMovieRating = new MovieRating
-            {
-                UserId = 1,
-                MovieId = 1,
-                Label = 1
-            };
-
             logger = A.Fake<ILogger<MovieRecommender>>();
-            modelBuilder = A.Fake<IMLModelBuilder>();
-            var fakeMovieRecommenderTmp = new Fake<IMovieRecommender>();
-            fakeMovieRecommenderTmp.CallsTo(mr => mr.PredictMovieRating(validMovieRating))
-                .Returns(new MovieRatingPrediction { Label = 5, Score = 5 });
-            fakeMovieRecommender = fakeMovieRecommenderTmp.FakedObject;
-            movieRecommender = new MovieRecommender(logger, modelBuilder);
+            fakeModelBuilder = A.Fake<IMLModelBuilder>();
+            movieRecommender = new MovieRecommender(logger, fakeModelBuilder);
         }
 
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
             Fake.ClearRecordedCalls(logger);
-            Fake.ClearRecordedCalls(modelBuilder);
+            Fake.ClearRecordedCalls(fakeModelBuilder);
         }
 
         [TearDown]
-        public void TearDown()
+        public void Teardown()
         {
             Fake.ClearRecordedCalls(logger);
-            Fake.ClearRecordedCalls(modelBuilder);
+            Fake.ClearRecordedCalls(fakeModelBuilder);
         }
 
         [Test]
         public void Given_MovieRecommender_When_IsConstructed_Then_ConstructMoviePredictModelAsyncShouldBeCalled()
         {
             //arrange
-            
+
             //act
+            var movieRecommender = new MovieRecommender(logger, fakeModelBuilder);
 
             //assert
-            A.CallTo(() => modelBuilder.ConstructMoviePredictModelAsync());
+            A.CallTo(() => fakeModelBuilder.ConstructMoviePredictModelAsync()).MustHaveHappenedOnceExactly();
         }
 
         [Test]
         public void Given_Movie_When_IsPredictedWithNullPredictEngine_Then_ThrowException()
         {
             //arrange
-            var movieRatingToPredict = validMovieRating;
+            var movieRatingToPredict = new MovieRating
+            {
+                UserId = 2,
+                MovieId = 2
+            };
 
             //act
             Action action = () => movieRecommender.PredictMovieRating(movieRatingToPredict);
@@ -78,18 +67,24 @@ namespace Watchster.Application.UnitTests.Utils.ML
         }
 
         [Test]
-        public void Given_Movie_When_IsPredicted_Then_ItShouldReturnValidPrediction()
+        public async Task Given_UnpredictableMovie_When_IsPredicted_Then_ItShouldReturnPredictionWithNanAsync()
         {
             //arrange
-            var movieRatingToPredict = validMovieRating;
+            var movieRatingToPredict = new MovieRating
+            {
+                UserId = 3,
+                MovieId = 3
+            };
+            var predictionEngine = await modelBuilder.ConstructMoviePredictModelAsync();
+            var movieRecommender = new MovieRecommender(logger, predictionEngine);
 
             //act
-            var moviePrediction = fakeMovieRecommender.PredictMovieRating(movieRatingToPredict);
+            var moviePrediction = movieRecommender.PredictMovieRating(movieRatingToPredict);
 
             //arrange
             moviePrediction.Should().NotBeNull();
-            moviePrediction.Score.Should().BeInRange(0.0f, 10.0f);
-            moviePrediction.Label.Should().BeInRange(0.0f, 10.0f);
+            moviePrediction.Score.Should().Be(float.NaN);
+            moviePrediction.Label.Should().Be(0);
         }
     }
 }

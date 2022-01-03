@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.ML;
 using Watchster.Application.Interfaces;
 using Watchster.Application.Utils.ML.Models;
@@ -12,11 +11,19 @@ namespace Watchster.Application.Utils.ML
         private readonly PredictionEngine<MovieRating, MovieRatingPrediction> predictionEngine;
 
         public MovieRecommender(
-            ILogger<MovieRecommender> logger, 
+            ILogger<MovieRecommender> logger,
             IMLModelBuilder modelBuilder)
         {
             this.logger = logger;
             this.predictionEngine = modelBuilder.ConstructMoviePredictModelAsync().Result;
+        }
+
+        public MovieRecommender(
+            ILogger<MovieRecommender> logger,
+            PredictionEngine<MovieRating, MovieRatingPrediction> predictionEngine)
+        {
+            this.logger = logger;
+            this.predictionEngine = predictionEngine;
         }
 
         public MovieRatingPrediction PredictMovieRating(MovieRating movie)

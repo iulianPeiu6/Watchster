@@ -1,13 +1,11 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using Microsoft.ML.Trainers;
 using Microsoft.ML;
-using System.IO;
+using Microsoft.ML.Trainers;
+using System.Linq;
 using System.Threading.Tasks;
-using System;
 using Watchster.Application.Features.Queries;
 using Watchster.Application.Utils.ML.Models;
-using System.Linq;
 
 namespace Watchster.Application.Utils.ML
 {
@@ -46,9 +44,6 @@ namespace Watchster.Application.Utils.ML
                 UserId = ratings.UserId,
                 Label = (float)ratings.RatingValue,
             });
-
-            var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", "rating.csv");
-            logger.LogInformation($"Loading Dataset from '{dataPath}'...");
 
             IDataView dataView = mlContext.Data.LoadFromEnumerable<MovieRating>(dataset);
 
