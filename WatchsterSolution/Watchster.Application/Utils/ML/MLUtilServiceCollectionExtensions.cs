@@ -8,6 +8,7 @@ namespace Watchster.Application.Utils.ML
         public static IServiceCollection AddMLUtil(this IServiceCollection services)
         {
             services.AddTransient<IMovieRecommender, MovieRecommender>();
+            services.AddTransient<IMLModelBuilder, MLModelBuilder>();
             return services;
         }
     }

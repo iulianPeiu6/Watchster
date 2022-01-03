@@ -5,7 +5,9 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
 using Watchster.Application.Features.Queries;
+using Watchster.Application.Interfaces;
 using Watchster.Application.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Watchster.WebApi.Controllers.v1
 {
@@ -30,6 +32,16 @@ namespace Watchster.WebApi.Controllers.v1
             var response = await mediator.Send(query);
             return Ok(response);
         }
+
+        //TODO: Delete this method
+        //[HttpGet]
+        //[Route("GetRecommendation")]
+        //public IActionResult GetRecommendationAsync([FromServices] IMovieRecommender movieRecommender)
+        //{
+        //    //TODO: Delete this method
+        //    logger.LogInformation("Handeling request on Movie/GetRecommendation");
+        //    return Ok(movieRecommender.PredictMovieRating(new Application.Utils.ML.Models.MovieRating { UserId = 5, MovieId = 336403 }));
+        //}
 
         [HttpGet]
         [Route("GetRecommendations")]

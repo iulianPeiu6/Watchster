@@ -20,10 +20,10 @@
       "MaxQueueSize": 100,
       "Files": [
         {
-          "Path": "<date:yyyy>-<date:MM>-<date:DD>-<counter>.log"
+          "Path": "<date:yyyy>-<date:MM>-<date:dd>-log<counter>.log"
         },
         {
-          "Path": "<date:yyyy>/<date:MM>/<date:DD>/log-<counter>.log",
+          "Path": "<date:yyyy>/<date:MM>/<date:dd>/log-<counter>.log",
           "MinLevel": {
             "Watchster.MovieImporter": "Warning",
             "Default": "Trace"
