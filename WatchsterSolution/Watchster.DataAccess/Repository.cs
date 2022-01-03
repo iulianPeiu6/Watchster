@@ -63,16 +63,6 @@ namespace Watchster.DataAccess
             return updatedEntity;
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity, Func<TEntity, object> modify)
-        {
-            foreach (PropertyInfo p in modify(entity).GetType().GetProperties())
-            {
-                context.Entry(entity).Property(p.Name).IsModified = true;
-            }
-            await context.SaveChangesAsync();
-            return entity;
-        }
-
         public IQueryable<TEntity> Query()
         {
             return dbSet.AsNoTracking().AsQueryable();

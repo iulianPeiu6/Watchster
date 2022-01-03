@@ -4,6 +4,6 @@ namespace Watchster.Application.Models
 {
     public class GetRecommendationsResponse
     {
-        public IList<ReccomendationDetails> Recommendations { get; set; }
+        public IList<RecommendationDetails> Recommendations { get; set; }
     }
 }

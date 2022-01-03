@@ -66,7 +66,6 @@ namespace Database.UnitTests
             };
 
             var result = repository.Delete(movie);
-
             result.Should().BeOfType<Task<Movie>>();
         }
 
@@ -132,6 +131,32 @@ namespace Database.UnitTests
             var result = repository.Query(expression).ToList();
 
             result.Should().BeOfType<List<Movie>>();
+        }
+
+        [Test]
+        public void Given_PageNumber_When_PageNumberIsValid_ThenGetMoviesFromPageShouldReturnAListOfMovies()
+        {
+            int page = 2;
+
+            var result = repository.GetMoviesFromPage(page);
+            result.Should().BeOfType<Task<IList<Movie>>>();
+        }
+
+        [Test]
+        public void Given_PageNumber_When_PageNumberIsInvalid_ThenGetMoviesFromPageShouldThrowArgumentException()
+        {
+            int page = -1;
+
+            Action result = () => repository.GetMoviesFromPage(page).Wait();
+            result.Should().Throw<ArgumentException>();
+        }
+
+        [Test]
+
+        public void Given_GetTotalPagesCall_When_TestsHaveLessThan2000Movies_ThenShouldReturnZero()
+        {
+            var result = repository.GetTotalPages();
+            result.Result.Should().Equals(0);
         }
     }
 }

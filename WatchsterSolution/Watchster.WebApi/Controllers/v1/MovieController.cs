@@ -36,7 +36,7 @@ namespace Watchster.WebApi.Controllers.v1
         public async Task<IActionResult> GetRecommendationsAsync(int userId)
         {
             logger.LogInformation("Handeling request on Movie/GetRecommendations");
-            GetReccomendationsQuery query = new GetReccomendationsQuery
+            GetRecommendationsQuery query = new GetRecommendationsQuery
             {
                 UserId = userId
             };

@@ -39,11 +39,6 @@ namespace Watchster.Application.UnitTests.Fakes
             throw new NotImplementedException();
         }
 
-        public Task<User> UpdateAsync(User entity, Func<User, object> modify)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<User> Delete(User entity)
         {
             throw new NotImplementedException();

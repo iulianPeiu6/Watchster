@@ -39,11 +39,6 @@ namespace Watchster.Application.UnitTests.Fakes
             throw new NotImplementedException();
         }
 
-        public Task<AppSettings> UpdateAsync(AppSettings entity, Func<AppSettings, object> modify)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<AppSettings> Delete(AppSettings entity)
         {
             throw new NotImplementedException();

@@ -5,14 +5,14 @@ using Watchster.WebApi.UnitTests.v1.Abstracts;
 
 namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
 {
-    public class GetReccomendationsTests : MovieControllerTestsBase
+    public class GetRecommendationsTests : MovieControllerTestsBase
     {
-        public GetReccomendationsTests() : base()
+        public GetRecommendationsTests() : base()
         {
         }
 
         [Test]
-        public void Given_MovieController_When_GetReccomendationsIsCalled_Then_GetReccomendationsQueryIsCalled()
+        public void Given_MovieController_When_GetRecommendationsIsCalled_Then_GetRecommendationsQueryIsCalled()
         {
             //arrange
             var userId = ValidUserId;
@@ -21,7 +21,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
             var result = controller.GetRecommendationsAsync(userId);
 
             //assert
-            A.CallTo(() => mediator.Send(A<GetReccomendationsQuery>._, default)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => mediator.Send(A<GetRecommendationsQuery>._, default)).MustHaveHappenedOnceExactly();
         }
     }
 }
