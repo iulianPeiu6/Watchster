@@ -66,6 +66,7 @@ namespace Database.UnitTests
             };
 
             var result = repository.Delete(movie);
+            result.Should().NotBeNull();
             result.Should().BeOfType<Task<Movie>>();
         }
 

@@ -52,12 +52,16 @@ namespace Watchster.Application.UnitTests.Features.Queries
                 .Returns(1);
             fakeMovieRepository.CallsTo(mRepo => mRepo.GetMoviesFromPage(1))
                 .Returns(repoMovies.ToList());
+            fakeMovieRepository.CallsTo(mRepo => mRepo.GetMoviesFromPage(-1))
+                .Throws<ArgumentException>();
+            fakeMovieRepository.CallsTo(mRepo => mRepo.GetMoviesFromPage(2))
+                .Throws<ArgumentException>();
             movieRepository = fakeMovieRepository.FakedObject;
             handler = new GetMoviesFromPageQueryHandler(movieRepository);
         }
 
         [Test]
-        public async Task Given_GetMoviesFromPageQuery_When_GetAllMoviesQueryHandlerIsCalled_Then_GetMoviesFromPageShouldBeCalled()
+        public async Task Given_GetMoviesFromPageQuery_When_GetAllMoviesQueryHandlerIsCalledWithValidPageNumber_Then_GetMoviesFromPageShouldBeCalled()
         {
             var query = new GetMoviesFromPageQuery
             {
@@ -67,6 +71,7 @@ namespace Watchster.Application.UnitTests.Features.Queries
 
             A.CallTo(() => movieRepository.GetMoviesFromPage(1)).MustHaveHappenedOnceExactly();
             response.Should().BeOfType<GetMoviesResponse>();
+            response.Movies.Should().NotBeNullOrEmpty();
             Assert.AreEqual(1, response.TotalPages);
             Assert.AreEqual(2, response.Movies.Count);
             foreach (var movie in response.Movies)
@@ -78,6 +83,23 @@ namespace Watchster.Application.UnitTests.Features.Queries
                 movie.Genres.Should().NotBeNull();
                 movie.Overview.Should().NotBeNullOrEmpty();
             }
+        }
+
+        [Test]
+        public void Given_GetMoviesFromPageQuery_When_GetAllMoviesQueryHandlerIsCalledWithInvalidPageNumber_Then_GetMoviesFromPageShouldThrowException()
+        {
+            var queryLowerPageNumber = new GetMoviesFromPageQuery
+            {
+                Page = -1
+            };
+            Action resultLowerPageNunber = () => handler.Handle(queryLowerPageNumber, default).Wait();
+
+            var queryHigherPageNumber = new GetMoviesFromPageQuery
+            {
+                Page = 2
+            };
+            Action resultHigherPageNumber = () => handler.Handle(queryHigherPageNumber, default).Wait();
+            resultHigherPageNumber.Should().Throw<ArgumentException>();
         }
     }
 }
