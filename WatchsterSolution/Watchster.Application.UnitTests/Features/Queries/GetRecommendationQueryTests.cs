@@ -44,6 +44,7 @@ namespace Watchster.Application.UnitTests.Features.Queries
 
         public async Task Given_GetRecommendationQueryWithUserReviews_When_GetRecommendationsQueryHandlerIsCalled_Then_GetRecommendationsQueryHandlerShouldReturnGetRecommendationsResponse()
         {
+            // Arrange
             var repoMovies = new List<Movie>
             {
                 new Movie
@@ -131,8 +132,10 @@ namespace Watchster.Application.UnitTests.Features.Queries
                 UserId = 1
             };
 
+            // Act
             var response = await handler.Handle(query, default);
 
+            // Assert
             response.Should().NotBeNull();
             response.Should().BeOfType<GetRecommendationsResponse>();
             response.Recommendations.Should().NotBeNullOrEmpty();

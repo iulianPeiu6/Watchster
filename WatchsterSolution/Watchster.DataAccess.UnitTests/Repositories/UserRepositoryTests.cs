@@ -21,7 +21,7 @@ namespace Database.UnitTests
 
             var rating = new Rating
             {
-                UserId = 1,
+                UserId = 3,
                 MovieId = 1,
                 RatingValue = 9.10
             };
@@ -29,7 +29,7 @@ namespace Database.UnitTests
 
             newUser = new User()
             {
-                Id = 1,
+                Id = 3,
                 Email = "Unit Test Email",
                 Password = "Unit Test Password",
                 IsSubscribed = true,
@@ -44,11 +44,15 @@ namespace Database.UnitTests
         }
 
         [Test]
-        public void Given_NewUser_When_NewUserIsNotNull_Then_AddAsyncShouldReturnATaskConcerningNewUser()
+        public async Task Given_NewUser_When_NewUserIsNotNull_Then_AddAsyncShouldAddNewUser()
         {
-            var result = repository.AddAsync(newUser);
+            var result = await repository.AddAsync(newUser);
+            var addedUser = await repository.GetByIdAsync(newUser.Id);
 
-            result.Should().BeOfType<Task<User>>();
+            result.Should().BeOfType<User>();
+            addedUser.Email.Should().Be(newUser.Email);
+            addedUser.Password.Should().Be(newUser.Password);
+            addedUser.RegistrationDate.Should().Be(newUser.RegistrationDate);
         }
 
         [Test]
@@ -62,47 +66,52 @@ namespace Database.UnitTests
         }
 
         [Test]
-        public void Given_User_When_UserIsInDatabase_Then_DeleteShouldReturnATaskConcerningDeletedUser()
+        public async Task Given_User_When_UserIsInDatabase_Then_DeleteShouldDeleteUser()
         {
             var rating = new Rating
             {
+                Id = 1,
                 UserId = 1,
-                MovieId = 2,
+                MovieId = 1,
                 RatingValue = 8.9
             };
-            List<Rating> UserRatings = new List<Rating>();
-            UserRatings.Add(rating);
-            var User = new User
+            List<Rating> userRatings = new List<Rating>();
+            userRatings.Add(rating);
+            var user = new User
             {
-                Id = 3,
+                Id = 1,
                 Email = "UserTestEmail@yahoo.com",
                 Password = "TestPassword",
                 IsSubscribed = true,
                 RegistrationDate = new DateTime(2021, 12, 1),
-                UserRatings = UserRatings
+                UserRatings = userRatings
             };
 
-            var result = repository.Delete(User);
+            var result = await repository.Delete(user);
+            var deletedUser = await repository.GetByIdAsync(user.Id);
 
-            result.Should().BeOfType<Task<User>>();
+            result.Should().BeOfType<User>();
+            deletedUser.Should().BeNull();
         }
 
         [Test]
-        public void Given_UserDatabase_When_DatabaseIsPopulated_Then_GetAllAsyncShouldReturnATaskConcerningAllUsers()
+        public async Task Given_UserDatabase_When_DatabaseIsPopulated_Then_GetAllAsyncShouldReturnAllUsers()
         {
-            var result = repository.GetAllAsync();
+            var result = await repository.GetAllAsync();
 
-            result.Should().BeOfType<Task<IEnumerable<User>>>();
+            result.Should().BeOfType<List<User>>();
+            result.Count().Should().Be(2);
         }
 
         [Test]
-        public void Given_UserId_When_UserIdIsInDatabase_Then_GetByIdAsyncShouldReturnATaskConcerningThatUser()
+        public async Task Given_UserId_When_UserIdIsInDatabase_Then_GetByIdAsyncShouldThatUser()
         {
-            var id = 1;
+            var result = await repository.GetByIdAsync(newUser.Id);
 
-            var result = repository.GetByIdAsync(id);
-
-            result.Should().BeOfType<Task<User>>();
+            result.Should().BeOfType<User>();
+            result.Email.Should().Be(newUser.Email);
+            result.Password.Should().Be(newUser.Password);
+            result.RegistrationDate.Should().Be(newUser.RegistrationDate);
         }
 
         [Test]
@@ -116,11 +125,32 @@ namespace Database.UnitTests
         }
 
         [Test]
-        public void Given_NewUser_When_UserWasInDatabase_Then_UpdateAsyncShouldReturnATaskConcerningUpdatedUser()
+        public async Task Given_NewUser_When_UserWasInDatabase_Then_UpdateAsyncShouldUpdateUser()
         {
-            var result = repository.UpdateAsync(newUser);
+            var rating = new Rating
+            {
+                Id = 2,
+                UserId = 2,
+                MovieId = 1,
+                RatingValue = 9.0
+            };
+            List<Rating> user2Ratings = new List<Rating>();
+            user2Ratings.Add(rating);
+            var user = new User
+            {
+                Id = 2,
+                Email = "UserTestEmail2@yahoo.com",
+                Password = "Updated Password",
+                IsSubscribed = true,
+                RegistrationDate = new DateTime(2021, 12, 1),
+                UserRatings = user2Ratings
+            };
 
-            result.Should().BeOfType<Task<User>>();
+            var result = await repository.UpdateAsync(user);
+            var updatedUser = await repository.GetByIdAsync(user.Id);
+
+            result.Should().BeOfType<User>();
+            updatedUser.Password.Should().Be(user.Password);
         }
 
         [Test]
@@ -139,6 +169,7 @@ namespace Database.UnitTests
             var result = repository.Query().ToList();
 
             result.Should().BeOfType<List<User>>();
+            result.Count().Should().Be(2);
         }
 
         [Test]
@@ -149,6 +180,7 @@ namespace Database.UnitTests
             var result = repository.Query(expression).ToList();
 
             result.Should().BeOfType<List<User>>();
+            result.Count().Should().Be(2);
         }
     }
 }

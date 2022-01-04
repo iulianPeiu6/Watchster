@@ -12,7 +12,7 @@ namespace Database.UnitTests
 {
     public class MovieRepositoryTests : DatabaseTestBase
     {
-        private readonly MovieRepository repository;
+        private MovieRepository repository;
         private readonly Movie newMovie;
 
         public MovieRepositoryTests()
@@ -34,12 +34,18 @@ namespace Database.UnitTests
         {
         }
 
-        [Test]
-        public void Given_NewMovie_When_NewMovieIsNotNull_Then_AddAsyncShouldReturnATaskConcerningNewMovie()
-        {
-            var result = repository.AddAsync(newMovie);
 
-            result.Should().BeOfType<Task<Movie>>();
+        [Test]
+        public async Task Given_NewMovie_When_NewMovieIsNotNull_Then_AddAsyncShouldAddNewMovie()
+        {
+            var result = await repository.AddAsync(newMovie);
+            var addedMovie = await repository.GetByIdAsync(3);
+
+            result.Should().BeOfType<Movie>();
+            addedMovie.Title.Should().Be(newMovie.Title);
+            addedMovie.ReleaseDate.Should().Be(newMovie.ReleaseDate);
+            addedMovie.Genres.Should().Be(newMovie.Genres);
+            addedMovie.Overview.Should().Be(newMovie.Overview);
         }
 
         [Test]
@@ -53,7 +59,7 @@ namespace Database.UnitTests
         }
 
         [Test]
-        public void Given_Movie_When_MovieIsInDatabase_Then_DeleteShouldReturnATaskConcerningDeletedMovie()
+        public async Task Given_Movie_When_MovieIsInDatabase_Then_DeleteShouldRemoveMovie()
         {
             var movie = new Movie
             {
@@ -65,27 +71,44 @@ namespace Database.UnitTests
                 Overview = "This is a movie for tests, it's genre is only Action"
             };
 
-            var result = repository.Delete(movie);
+            var result = await repository.Delete(movie);
+            var deletedMovie = await repository.GetByIdAsync(movie.Id);
+
             result.Should().NotBeNull();
-            result.Should().BeOfType<Task<Movie>>();
+            result.Should().BeOfType<Movie>();
+            deletedMovie.Should().BeNull();
         }
 
         [Test]
-        public void Given_MovieDatabase_When_DatabaseIsPopulated_Then_GetAllAsyncShouldReturnATaskConcerningAllMovies()
+        public async Task Given_MovieDatabase_When_DatabaseIsPopulated_Then_GetAllAsyncShouldReturnAllMovies()
         {
-            var result = repository.GetAllAsync();
+            var result = await repository.GetAllAsync();
 
-            result.Should().BeOfType<Task<IEnumerable<Movie>>>();
+            result.Should().BeOfType<List<Movie>>();
+            result.Count().Should().Be(1);
         }
 
         [Test]
-        public void Given_MovieId_When_MovieIdIsInDatabase_Then_GetByIdAsyncShouldReturnATaskConcerningThatMovie()
+        public async Task Given_MovieId_When_MovieIdIsInDatabase_Then_GetByIdAsyncShouldReturnThatMovie()
         {
-            var id = 1;
+            var movie = new Movie()
+            {
+                TMDbId = 2,
+                Id = 2,
+                Title = "Action-Comedy Movie",
+                ReleaseDate = new DateTime(2021, 10, 4),
+                Genres = "Crime, Action",
+                Overview = "This is a movie for tests, it's genre is Action and Comedy"
+            };
 
-            var result = repository.GetByIdAsync(id);
+            var result = await repository.GetByIdAsync(movie.Id);
 
-            result.Should().BeOfType<Task<Movie>>();
+            
+            result.Should().BeOfType<Movie>();
+            result.Title.Should().Be(movie.Title);
+            result.ReleaseDate.Should().Be(movie.ReleaseDate);
+            result.Genres.Should().Be(movie.Genres);
+            result.Overview.Should().Be(movie.Overview);
         }
 
         [Test]
@@ -99,11 +122,26 @@ namespace Database.UnitTests
         }
 
         [Test]
-        public void Given_NewMovie_When_MovieWasInDatabase_Then_UpdateAsyncShouldReturnATaskConcerningUpdatedMovie()
+        public async Task Given_NewMovie_When_MovieWasInDatabase_Then_UpdateAsyncShouldReturnUpdateMovie()
         {
-            var result = repository.UpdateAsync(newMovie);
+            var movie = new Movie
+            {
+                TMDbId = 2,
+                Id = 2,
+                Title = "Different Title",
+                ReleaseDate = new DateTime(2021, 10, 4),
+                Genres = "Crime, Action",
+                Overview = "This is a movie for tests, it's genre is Action and Comedy"
+            };
 
-            result.Should().BeOfType<Task<Movie>>();
+            var result = await repository.UpdateAsync(movie);
+            var updatedMovie = await repository.GetByIdAsync(movie.Id);
+
+            updatedMovie.Title.Should().Be(movie.Title);
+            updatedMovie.Title.Should().Be(movie.Title);
+            updatedMovie.ReleaseDate.Should().Be(movie.ReleaseDate);
+            updatedMovie.Genres.Should().Be(movie.Genres);
+            updatedMovie.Overview.Should().Be(movie.Overview);
         }
 
         [Test]
@@ -122,6 +160,7 @@ namespace Database.UnitTests
             var result = repository.Query().ToList();
 
             result.Should().BeOfType<List<Movie>>();
+            result.Count().Should().Be(1);
         }
 
         [Test]
@@ -132,15 +171,18 @@ namespace Database.UnitTests
             var result = repository.Query(expression).ToList();
 
             result.Should().BeOfType<List<Movie>>();
+            result.Count().Should().Be(2);
         }
 
         [Test]
-        public void Given_PageNumber_When_PageNumberIsValid_ThenGetMoviesFromPageShouldReturnAListOfMovies()
+        public async Task Given_PageNumber_When_PageNumberIsValid_ThenGetMoviesFromPageShouldReturnAListOfMoviesAsync()
         {
-            int page = 2;
+            int page = 1;
 
-            var result = repository.GetMoviesFromPage(page);
-            result.Should().BeOfType<Task<IList<Movie>>>();
+            var result = await repository.GetMoviesFromPage(page);
+
+            result.Should().BeOfType<List<Movie>>();
+            result.Count().Should().Be(2);
         }
 
         [Test]
@@ -157,7 +199,7 @@ namespace Database.UnitTests
         public void Given_GetTotalPagesCall_When_TestsHaveLessThan2000Movies_ThenShouldReturnZero()
         {
             var result = repository.GetTotalPages();
-            result.Result.Should().Equals(0);
+            result.Result.Should().Be(1);
         }
     }
 }

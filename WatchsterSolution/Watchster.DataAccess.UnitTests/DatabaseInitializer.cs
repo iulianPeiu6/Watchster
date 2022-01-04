@@ -20,23 +20,47 @@ namespace Database.UnitTests
         private static void Seed(WatchsterContext context)
         {
 
-            var rating = new Rating
+            var rating = new[]
             {
-                Id = 1,
-                UserId = 1,
-                MovieId = 1,
-                RatingValue = 8.9
+                new Rating
+                {
+                    Id = 1,
+                    UserId = 1,
+                    MovieId = 1,
+                    RatingValue = 8.9
+                },
+                new Rating
+                {
+                    Id = 2,
+                    UserId = 2,
+                    MovieId = 1,
+                    RatingValue = 9.0
+                }
             };
             List<Rating> User1Ratings = new List<Rating>();
-            User1Ratings.Add(rating);
-            var user = new User
+            List<Rating> User2Ratings = new List<Rating>();
+            User1Ratings.Add(rating[0]);
+            User2Ratings.Add(rating[1]);
+            var user = new[]
             {
-                Id = 1,
-                Email = "UserTestEmail@yahoo.com",
-                Password = "TestPassword",
-                IsSubscribed = true,
-                RegistrationDate = new DateTime(2021, 12, 1),
-                UserRatings = User1Ratings
+                new User
+                {
+                    Id = 1,
+                    Email = "UserTestEmail@yahoo.com",
+                    Password = "TestPassword",
+                    IsSubscribed = true,
+                    RegistrationDate = new DateTime(2021, 12, 1),
+                    UserRatings = User1Ratings
+                },
+                new User
+                {
+                    Id = 2,
+                    Email = "UserTestEmail2@yahoo.com",
+                    Password = "TestPassword2",
+                    IsSubscribed = true,
+                    RegistrationDate = new DateTime(2021, 12, 1),
+                    UserRatings = User2Ratings
+                }
             };
             var movies = new[]
             {
@@ -59,18 +83,29 @@ namespace Database.UnitTests
                     Overview = "This is a movie for tests, it's genre is Action and Comedy"
                 }
             };
-            var appSettings = new AppSettings()
+            var appSettings = new[]
             {
-                Id = 1,
-                Section = "Test Section",
-                Parameter = "Test Parameter",
-                Description = "Test Description",
-                Value = "Test Value"
+                new AppSettings()
+                {
+                    Id = 1,
+                    Section = "Test Section",
+                    Parameter = "Test Parameter",
+                    Description = "Test Description",
+                    Value = "Test Value"
+                },
+                new AppSettings()
+                {
+                    Id = 2,
+                    Section = "Test Section 2",
+                    Parameter = "Test Parameter 2",
+                    Description = "Test Description 2",
+                    Value = "Test Value 2"
+                }
             };
-            context.AppSettings.Add(appSettings);
+            context.AppSettings.AddRange(appSettings);
             context.Movies.AddRange(movies);
-            context.Users.Add(user);
-            context.Ratings.Add(rating);
+            context.Users.AddRange(user);
+            context.Ratings.AddRange(rating);
             context.SaveChanges();
         }
 
