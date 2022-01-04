@@ -7,26 +7,20 @@ using System.Threading.Tasks;
 using Watchster.Application.Interfaces;
 using Watchster.Domain.Entities;
 using Faker;
-using Watchster.Application.Features.Commands;
+
 
 namespace Watchster.Application.UnitTests.Fakes
 {
-    public class FakeUserRepository : IUserRepository, IQueryable<User>
+    public class FakeMovieRepository : IMovieRepository, IQueryable<Movie>
     {
-        private List<User> entities = null;
-        private const int minValue = 1;
-        private const int maxValue = int.MaxValue;
-        public FakeUserRepository(IEnumerable<User> collection)
+        private List<Movie> entities = null;
+
+        public FakeMovieRepository(IEnumerable<Movie> collection)
         {
-            this.entities = new List<User>(collection);
-            var user = new User
-            {
-                Email = "emai@emai.email"
-            };
-            entities.Add(user);
+            this.entities = new List<Movie>(collection);
         }
 
-        public IEnumerator<User> GetEnumerator()
+        public IEnumerator<Movie> GetEnumerator()
         {
             return entities.GetEnumerator();
         }
@@ -36,55 +30,68 @@ namespace Watchster.Application.UnitTests.Fakes
             return entities.GetEnumerator();
         }
 
-        public Task<User> AddAsync(User entity)
+        public Task<Movie> AddAsync(Movie entity)
         {
             entities.Add(entity);
             return Task.Run(() => entity);
         }
 
-        public Task<User> UpdateAsync(User entity)
-        {
-            return Task.Run(() => entity);
-        }
-
-        public Task<User> Delete(User entity)
+        public Task<Movie> UpdateAsync(Movie entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> GetAllAsync()
+        public Task<Movie> Delete(Movie entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<User> GetByIdAsync(int id)
+        public Task<IEnumerable<Movie>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Movie> GetByIdAsync(int id)
         {
             if (id <= 0)
             {
-                return Task.Run(() =>default(User));
+                return Task.Run(() => default(Movie));
             }
             else
             {
-                return Task.Run(() => new User()
+                return Task.Run(() => new Movie()
                 {
-                    Email = Internet.Email(),
                     Id = RandomNumber.Next(),
-                    IsSubscribed = RandomNumber.Next() % 2 == 0,
-                    Password = Lorem.Sentence(),
-                    UserRatings = null,
-                    RegistrationDate = DateTime.Now
+                    Genres = Lorem.Sentence(),
+                    Overview = Lorem.Sentence(),
+                    Popularity = RandomNumber.Next(),
+                    PosterUrl = Internet.Url(),
+                    ReleaseDate = DateTime.Now,
+                    Title = Lorem.Sentence(),
+                    TMDbId = RandomNumber.Next(),
+                    TMDbVoteAverage = RandomNumber.Next(),
                 });
             }
         }
 
-        public IQueryable<User> Query()
+        public IQueryable<Movie> Query()
         {
             throw new NotImplementedException();
         }
 
-        public IQueryable<User> Query(Expression<Func<User, bool>> expression)
+        public IQueryable<Movie> Query(Expression<Func<Movie, bool>> expression)
         {
             return entities.Where(expression.Compile()).AsQueryable();
+        }
+
+        public Task<IList<Movie>> GetMoviesFromPage(int page)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetTotalPages()
+        {
+            throw new NotImplementedException();
         }
 
         public Type ElementType
