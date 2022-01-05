@@ -33,7 +33,7 @@ namespace Watchster.DataAccess.Repositories
         {
             List<Movie> movies = await context.Set<Movie>().ToListAsync();
             int TotalMovies = movies.Count;
-            return TotalMovies / MOVIE_PAGE_SIZE;
+            return (int)Math.Ceiling(((double)TotalMovies) / MOVIE_PAGE_SIZE);
         }
     }
 }

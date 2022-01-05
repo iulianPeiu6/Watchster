@@ -21,7 +21,7 @@ namespace Database.UnitTests
 
             newRating = new Rating
             {
-                Id = 2,
+                Id = 3,
                 UserId = 1,
                 MovieId = 2,
                 RatingValue = 7.3
@@ -34,11 +34,15 @@ namespace Database.UnitTests
         }
 
         [Test]
-        public void Given_NewRating_When_NewRatingIsNotNull_Then_AddAsyncShouldReturnATaskConcerningNewRating()
+        public async Task Given_NewRating_When_NewRatingIsNotNull_Then_AddAsyncShouldReturnAddNewRating()
         {
-            var result = repository.AddAsync(newRating);
+            var result = await repository.AddAsync(newRating);
+            var addedRating = await repository.GetByIdAsync(newRating.Id);
 
-            result.Should().BeOfType<Task<Rating>>();
+            result.Should().BeOfType<Rating>();
+            addedRating.UserId.Should().Be(newRating.UserId);
+            addedRating.MovieId.Should().Be(newRating.MovieId);
+            addedRating.RatingValue.Should().Be(newRating.RatingValue);
         }
 
         [Test]
@@ -52,7 +56,7 @@ namespace Database.UnitTests
         }
 
         [Test]
-        public void Given_Rating_When_RatingIsInDatabase_Then_DeleteShouldReturnATaskConcerningDeletedRating()
+        public async Task Given_Rating_When_RatingIsInDatabase_Then_DeleteShouldDeleteRating()
         {
             var rating = new Rating
             {
@@ -62,27 +66,31 @@ namespace Database.UnitTests
                 RatingValue = 8.9
             };
 
-            var result = repository.Delete(rating);
+            var result = await repository.Delete(rating);
+            var deletedRating = await repository.GetByIdAsync(rating.Id);
 
-            result.Should().BeOfType<Task<Rating>>();
+            result.Should().BeOfType<Rating>();
+            deletedRating.Should().BeNull();
         }
 
         [Test]
-        public void Given_RatingDatabase_When_DatabaseIsPopulated_Then_GetAllAsyncShouldReturnATaskConcerningAllRatings()
+        public async Task Given_RatingDatabase_When_DatabaseIsPopulated_Then_GetAllAsyncShouldReturnAllRatings()
         {
-            var result = repository.GetAllAsync();
+            var result = await repository.GetAllAsync();
 
-            result.Should().BeOfType<Task<IEnumerable<Rating>>>();
+            result.Should().BeOfType<List<Rating>>();
+            result.Count().Should().Be(2);
         }
 
         [Test]
-        public void Given_RatingId_When_RatingIdIsInDatabase_Then_GetByIdAsyncShouldReturnATaskConcerningThatRating()
+        public async Task Given_RatingId_When_RatingIdIsInDatabase_Then_GetByIdAsyncShouldReturnThatRating()
         {
-            var id = 1;
+            var result = await repository.GetByIdAsync(newRating.Id);
 
-            var result = repository.GetByIdAsync(id);
-
-            result.Should().BeOfType<Task<Rating>>();
+            result.Should().BeOfType<Rating>();
+            result.UserId.Should().Be(newRating.UserId);
+            result.MovieId.Should().Be(newRating.MovieId);
+            result.RatingValue.Should().Be(newRating.RatingValue);
         }
 
         [Test]
@@ -96,11 +104,20 @@ namespace Database.UnitTests
         }
 
         [Test]
-        public void Given_NewRating_When_RatingWasInDatabase_Then_UpdateAsyncShouldReturnATaskConcerningUpdatedRating()
+        public async Task Given_NewRating_When_RatingWasInDatabase_Then_UpdateAsyncShouldUpdateRating()
         {
-            var result = repository.UpdateAsync(newRating);
+            var rating = new Rating
+            {
+                Id = 2,
+                UserId = 2,
+                MovieId = 1,
+                RatingValue = 10
+            };
+            var result = await repository.UpdateAsync(rating);
+            var updatedRating = await repository.GetByIdAsync(rating.Id);
 
-            result.Should().BeOfType<Task<Rating>>();
+            result.Should().BeOfType<Rating>();
+            updatedRating.RatingValue.Should().Be(rating.RatingValue);
         }
 
         [Test]
@@ -119,6 +136,7 @@ namespace Database.UnitTests
             var result = repository.Query().ToList();
 
             result.Should().BeOfType<List<Rating>>();
+            result.Count().Should().Be(2);
         }
 
         [Test]
@@ -129,6 +147,7 @@ namespace Database.UnitTests
             var result = repository.Query(expression).ToList();
 
             result.Should().BeOfType<List<Rating>>();
+            result.Count().Should().Be(1);
         }
     }
 }

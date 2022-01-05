@@ -35,10 +35,13 @@ namespace Watchster.DataAccess
         public async Task<TEntity> Delete(TEntity entity)
         {
             Guard.ArgumentNotNull(entity, nameof(entity));
-
-            context.Remove(entity);
-            await context.SaveChangesAsync();
-            return entity;
+            var mappedEntity = context.Set<TEntity>().First(x => x.Id == entity.Id);
+            if (mappedEntity != null)
+            {
+                context.Remove(mappedEntity);
+                await context.SaveChangesAsync();
+            }
+            return mappedEntity;
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -57,10 +60,13 @@ namespace Watchster.DataAccess
         {
             Guard.ArgumentNotNull(entity, nameof(entity));
 
-            var updatedEntity = dbSet.Attach(entity).Entity;
-            context.Entry(entity).State = EntityState.Modified;
-            await context.SaveChangesAsync();
-            return updatedEntity;
+            var mappedEntity = context.Set<TEntity>().First(x => x.Id == entity.Id);
+            if (mappedEntity != null)
+            {
+                context.Entry(mappedEntity).CurrentValues.SetValues(entity);
+                await context.SaveChangesAsync();
+            }
+            return mappedEntity;
         }
 
         public IQueryable<TEntity> Query()

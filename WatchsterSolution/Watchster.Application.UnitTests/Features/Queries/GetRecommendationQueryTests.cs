@@ -9,70 +9,42 @@ using System.Threading.Tasks;
 using Watchster.Application.Features.Queries;
 using Watchster.Application.Interfaces;
 using Watchster.Application.Models;
-using Watchster.Application.Utils.ML.Models;
+using Watchster.Application.UnitTests.Fakes;
 using Watchster.Domain.Entities;
 
 namespace Watchster.Application.UnitTests.Features.Queries
 {
     public class GetRecommendationsQueryTests
     {
-        /*
         private readonly GetRecommendationsQueryHandler handler;
-        private readonly IMovieRepository movieRepository;
-        private readonly IRatingRepository ratingRepository;
+        private readonly FakeMovieRepository movieRepository;
+        private readonly FakeRatingsRepository ratingRepository;
         private readonly IMovieRecommender movieRecommender;
 
         public GetRecommendationsQueryTests()
         {   
-            var fakeRatingRepository = new Fake<IRatingRepository>();
-            var movieIds = new List<int>
+            ratingRepository = A.Fake<FakeRatingsRepository>();
+            movieRepository = A.Fake<FakeMovieRepository>();
+            movieRecommender = A.Fake<IMovieRecommender>();
+            handler = new GetRecommendationsQueryHandler(ratingRepository, movieRepository, movieRecommender);
+        }
+
+        [Test]
+        public void Given_GetRecommendationsQueryWithNoUserRatings_When_GetRecommendationsQueryHandlerIsCalled_Then_GetRecommendationsQueryHandlerShouldThrowArgumentException()
+        {
+            var query = new GetRecommendationsQuery
             {
-                1,
-                2,
-                3
+               UserId = 101
             };
-            
-            var repoRatings = new List<Rating>
-            {
-                new Rating
-                {
-                    Id = 1,
-                    UserId = 1,
-                    MovieId = 1,
-                    RatingValue = 7.2
-                },
-                new Rating
-                {
-                    Id = 2,
-                    UserId = 1,
-                    MovieId = 2,
-                    RatingValue = 8.2
-                },
-                new Rating
-                {
-                    Id = 3,
-                    UserId = 2,
-                    MovieId = 2,
-                    RatingValue = 9.2
-                },
-                new Rating
-                {
-                    Id = 4,
-                    UserId = 2,
-                    MovieId = 3,
-                    RatingValue = 9.5
-                }
-            }.AsEnumerable();
+            Action response = () => handler.Handle(query, default).Wait();
+            response.Should().Throw<ArgumentException>().WithMessage("The specified user does not have any ratings in the database");
+        }
 
-            // Aici se produce exceptia :  The target of this call is not the fake object being configured.
-            
-            fakeRatingRepository.CallsTo(rRepo => rRepo.Query().Select(rating => rating.MovieId).Distinct().ToList())
-                .Returns(movieIds);
-            fakeRatingRepository.CallsTo(rRepo => rRepo.GetByIdAsync(1))
-                .Returns(repoRatings.ToList()[0]);
-            fakeRatingRepository.CallsTo(rRepo => rRepo.GetByIdAsync(2))
-                .Returns(repoRatings.ToList()[2]);
+        [Test]
 
+        public async Task Given_GetRecommendationQueryWithUserReviews_When_GetRecommendationsQueryHandlerIsCalled_Then_GetRecommendationsQueryHandlerShouldReturnGetRecommendationsResponse()
+        {
+            // Arrange
             var repoMovies = new List<Movie>
             {
                 new Movie
@@ -113,34 +85,71 @@ namespace Watchster.Application.UnitTests.Features.Queries
                 },
             }.AsEnumerable();
 
-            var fakeMovieRepository = new Fake<IMovieRepository>();
-            fakeMovieRepository.CallsTo(mRepo => mRepo.GetByIdAsync(1))
-                .Returns(repoMovies.ToList()[0]);
-            fakeMovieRepository.CallsTo(mRepo => mRepo.GetByIdAsync(2))
-                .Returns(repoMovies.ToList()[1]);
-            fakeMovieRepository.CallsTo(mRepo => mRepo.GetByIdAsync(3))
-                .Returns(repoMovies.ToList()[2]);
+            foreach(Movie movie in repoMovies)
+            {
+                await movieRepository.AddAsync(movie);
+            }
 
-            movieRepository = fakeMovieRepository.FakedObject;
-            ratingRepository = fakeRatingRepository.FakedObject;
-            movieRecommender = A.Fake<IMovieRecommender>();
-            handler = new GetRecommendationsQueryHandler(ratingRepository, movieRepository, movieRecommender);
-        }
+            var repoRatings = new List<Rating>
+            {
+                new Rating
+                {
+                    Id = 1,
+                    UserId = 1,
+                    MovieId = 1,
+                    RatingValue = 7.2
+                },
+                new Rating
+                {
+                    Id = 2,
+                    UserId = 1,
+                    MovieId = 2,
+                    RatingValue = 8.2
+                },
+                new Rating
+                {
+                    Id = 3,
+                    UserId = 2,
+                    MovieId = 2,
+                    RatingValue = 9.2
+                },
+                new Rating
+                {
+                    Id = 4,
+                    UserId = 2,
+                    MovieId = 3,
+                    RatingValue = 9.5
+                }
+            }.AsEnumerable();
+            
+            foreach(Rating rating in repoRatings)
+            {
+                await ratingRepository.AddAsync(rating);
+            }
 
-        [Test]
-        public async Task Given_GetRecommendationsQuery_When_GetRecommendationsQueryHandlerIsCalled_Then_ShouldReceiveAGetRecommendationsResponse()
-        {
             var query = new GetRecommendationsQuery
             {
-               UserId = 1 
+                UserId = 1
             };
-            var movieRating = new MovieRating
-            {
-                UserId = 1,
-                MovieId = 1
-            };
+
+            // Act
             var response = await handler.Handle(query, default);
+
+            // Assert
+            response.Should().NotBeNull();
             response.Should().BeOfType<GetRecommendationsResponse>();
-        }*/
+            response.Recommendations.Should().NotBeNullOrEmpty();
+            foreach(RecommendationDetails details in response.Recommendations)
+            {
+                details.Should().NotBeNull();
+                details.Id.Should().BePositive();
+                details.TMDbId.Should().BePositive();
+                details.Title.Should().NotBeNullOrEmpty();
+                details.ReleaseDate.Should().NotBeNull();
+                details.Genres.Should().NotBeNull();
+                details.Overview.Should().NotBeNullOrEmpty();
+                details.Score.Should().BeGreaterOrEqualTo(0).And.BeLessOrEqualTo(10);
+            }
+        }
     }
 }

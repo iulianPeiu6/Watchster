@@ -8,7 +8,6 @@ using Watchster.Application.Interfaces;
 using Watchster.Domain.Entities;
 using Faker;
 
-
 namespace Watchster.Application.UnitTests.Fakes
 {
     public class FakeMovieRepository : IMovieRepository, IQueryable<Movie>
