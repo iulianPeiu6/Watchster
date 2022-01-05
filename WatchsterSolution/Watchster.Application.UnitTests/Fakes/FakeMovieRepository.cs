@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Watchster.Application.Interfaces;
 using Watchster.Domain.Entities;
+using Faker;
 
 namespace Watchster.Application.UnitTests.Fakes
 {
@@ -51,14 +52,25 @@ namespace Watchster.Application.UnitTests.Fakes
 
         public Task<Movie> GetByIdAsync(int id)
         {
-            foreach (Movie movie in entities)
+            if (id <= 0)
             {
-                if (movie.Id == id)
-                {
-                    return Task.FromResult<Movie>(movie);
-                }
+                return Task.Run(() => default(Movie));
             }
-            return null;
+            else
+            {
+                return Task.Run(() => new Movie()
+                {
+                    Id = RandomNumber.Next(),
+                    Genres = Lorem.Sentence(),
+                    Overview = Lorem.Sentence(),
+                    Popularity = RandomNumber.Next(),
+                    PosterUrl = Internet.Url(),
+                    ReleaseDate = DateTime.Now,
+                    Title = Lorem.Sentence(),
+                    TMDbId = RandomNumber.Next(),
+                    TMDbVoteAverage = RandomNumber.Next(),
+                });
+            }
         }
 
         public IQueryable<Movie> Query()
@@ -68,7 +80,7 @@ namespace Watchster.Application.UnitTests.Fakes
 
         public IQueryable<Movie> Query(Expression<Func<Movie, bool>> expression)
         {
-            throw new NotImplementedException();
+            return entities.Where(expression.Compile()).AsQueryable();
         }
 
         public Task<IList<Movie>> GetMoviesFromPage(int page)
