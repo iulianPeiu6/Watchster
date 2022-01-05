@@ -56,7 +56,7 @@ namespace Database.UnitTests
         }
 
         [Test]
-        public async Task Given_Rating_When_RatingIsInDatabase_Then_DeleteShouldReturnDeleteRating()
+        public async Task Given_Rating_When_RatingIsInDatabase_Then_DeleteShouldDeleteRating()
         {
             var rating = new Rating
             {

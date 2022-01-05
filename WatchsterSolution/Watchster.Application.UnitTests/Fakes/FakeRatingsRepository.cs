@@ -9,11 +9,11 @@ using Watchster.Domain.Entities;
 
 namespace Watchster.Application.UnitTests.Fakes
 {
-    public class FakeRatingRepository : IRatingRepository, IQueryable<Rating>
+    public class FakeRatingsRepository : IRatingRepository, IQueryable<Rating>
     {
         private List<Rating> entities = null;
 
-        public FakeRatingRepository(IEnumerable<Rating> collection)
+        public FakeRatingsRepository(IEnumerable<Rating> collection)
         {
             this.entities = new List<Rating>(collection);
         }
