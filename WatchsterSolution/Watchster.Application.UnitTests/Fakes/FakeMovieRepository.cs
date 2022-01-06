@@ -60,15 +60,15 @@ namespace Watchster.Application.UnitTests.Fakes
             {
                 return Task.Run(() => new Movie()
                 {
-                    Id = RandomNumber.Next(),
+                    Id = RandomNumber.Next(0, int.MaxValue),
                     Genres = Lorem.Sentence(),
                     Overview = Lorem.Sentence(),
-                    Popularity = RandomNumber.Next(),
+                    Popularity = RandomNumber.Next(0, int.MaxValue),
                     PosterUrl = Internet.Url(),
                     ReleaseDate = DateTime.Now,
                     Title = Lorem.Sentence(),
-                    TMDbId = RandomNumber.Next(),
-                    TMDbVoteAverage = RandomNumber.Next(),
+                    TMDbId = RandomNumber.Next(0, int.MaxValue),
+                    TMDbVoteAverage = RandomNumber.Next(0, 10),
                 });
             }
         }

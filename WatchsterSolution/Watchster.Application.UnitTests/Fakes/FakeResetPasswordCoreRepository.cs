@@ -23,11 +23,14 @@ namespace Watchster.Application.UnitTests.Fakes
             var code = new ResetPasswordCode
             {
                 Code = "hardcoded",
-                Email = "emai@emai.email"
+                Email = "emai@emai.email",
+                expirationDate = DateTime.Now,
+                Id = 0
             };
             var code2 = new ResetPasswordCode
             {
-                Code = "code without email"
+                Code = "code without email",
+                expirationDate = DateTime.MinValue,
             };
             entities.Add(code);
             entities.Add(code2);

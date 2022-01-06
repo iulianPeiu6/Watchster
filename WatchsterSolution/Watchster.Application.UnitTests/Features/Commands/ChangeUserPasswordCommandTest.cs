@@ -88,7 +88,7 @@ namespace Watchster.Application.UnitTests.Features.Commands
         }
 
         [Test]
-        public async Task Given_ChangeUserPasswordCommand_When_UserCodeFoundButUserFoundPasswordRespectingContrains_Should_FailReturnChangePasswordResult()
+        public async Task Given_ChangeUserPasswordCommand_When_UserCodeFoundButUserFoundPasswordRespectingContrains_Should_ChangeUserPassword()
         {
             //arrage
             var command = new ChangeUserPasswordCommand()
