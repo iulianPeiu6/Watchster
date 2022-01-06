@@ -75,7 +75,7 @@ namespace Watchster.Application.UnitTests.Fakes
 
         public IQueryable<Movie> Query()
         {
-            throw new NotImplementedException();
+            return entities.AsQueryable();
         }
 
         public IQueryable<Movie> Query(Expression<Func<Movie, bool>> expression)
