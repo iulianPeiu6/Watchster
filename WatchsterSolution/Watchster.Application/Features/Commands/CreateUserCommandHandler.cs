@@ -30,7 +30,7 @@ namespace Watchster.Application.Features.Commands
 
             if (!isValid)
             {
-                response.ErrorMessage = "Invalid Data";
+                response.ErrorMessage = Error.InvalidData;
                 return response;
             }
 

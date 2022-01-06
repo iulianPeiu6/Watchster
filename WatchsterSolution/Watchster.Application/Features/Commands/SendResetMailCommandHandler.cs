@@ -3,6 +3,7 @@ using SendGrid.Helpers.Mail;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Watchster.Application.Models;
 using Watchster.SendGrid.Models;
 using Watchster.SendGrid.Services;
 
@@ -35,7 +36,7 @@ namespace Watchster.Application.Features.Commands
             }
             catch (Exception)
             {
-                return "Error at sending email";
+                return Error.EmailNotSent;
             }
             return "Email was sent";
         }

@@ -18,6 +18,14 @@ namespace Watchster.Application.UnitTests.Fakes
         public FakeRatingRepository(IEnumerable<Rating> collection)
         {
             this.entities = new List<Rating>(collection);
+            var rating = new Rating
+            {
+                Id = 1,
+                MovieId = 1,
+                UserId = 1,
+                RatingValue = 1,
+            };
+            entities.Add(rating);
         }
 
         public IEnumerator<Rating> GetEnumerator()

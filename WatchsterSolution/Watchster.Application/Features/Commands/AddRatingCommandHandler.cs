@@ -23,12 +23,7 @@ namespace Watchster.Application.Features.Commands
         }
         public async Task<AddRatingResponse> Handle(AddRatingCommand request, CancellationToken cancellationToken)
         {
-            var rating = new Rating
-            {
-                RatingValue = request.Rating,
-                MovieId = request.MovieId,
-                UserId = request.UserId
-            };
+
             var response = new AddRatingResponse();
 
             var userInstance = await userRepository.GetByIdAsync(request.UserId);
@@ -66,6 +61,13 @@ namespace Watchster.Application.Features.Commands
                 response.IsSuccess = false;
                 return response;
             }
+
+            var rating = new Rating
+            {
+                RatingValue = request.Rating,
+                MovieId = request.MovieId,
+                UserId = request.UserId
+            };
 
             await ratingRepository.AddAsync(rating);
             response.IsSuccess = true;

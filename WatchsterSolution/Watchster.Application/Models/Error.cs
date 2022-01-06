@@ -11,5 +11,6 @@
         public const string MovieNotFound = "Movie does not exist in database";
         public const string RatingNotInRange = "Rating value is not between 0 and 10";
         public const string MovieAlreadyRated = "Current Movie was already rated by the user";
+        public const string InvalidData = "Invalid Data";
     }
 }

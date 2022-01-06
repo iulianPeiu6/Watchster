@@ -72,15 +72,15 @@ namespace Watchster.Application.UnitTests.Features.Commands
             response.IsSuccess.Should().Be(false);
         }
 
-/*        [Test]
+        [Test]
         public async Task Given_AddRatingCommand_When_ExistingRating_Should_FailReturnAddRatingResponse()
         {
             //arrage
             var command = new AddRatingCommand()
             {
-                UserId = RandomNumber.Next(minValue, maxValue),
-                MovieId = RandomNumber.Next(minValue, maxValue),
-                Rating = RandomNumber.Next(minValue, maxValue) % 5,
+                UserId = 1,
+                MovieId = 1,
+                Rating = 1,
             };
 
             //act
@@ -90,7 +90,46 @@ namespace Watchster.Application.UnitTests.Features.Commands
             response.Should().NotBeNull();
             response.ErrorMessage.Should().Be(Error.MovieAlreadyRated);
             response.IsSuccess.Should().Be(false);
-        }*/
+        }
+
+        [Test]
+        public async Task Given_AddRatingCommand_When_NotExistingRatingButOutOfRangeRating_Should_FailReturnAddRatingResponse()
+        {
+            //arrage
+            var command = new AddRatingCommand()
+            {
+                UserId = 1,
+                MovieId = 2,
+                Rating = -1,
+            };
+
+            //act
+            var response = await handler.Handle(command, default);
+
+            //assert
+            response.Should().NotBeNull();
+            response.ErrorMessage.Should().Be(Error.RatingNotInRange);
+            response.IsSuccess.Should().Be(false);
+        }
+
+        [Test]
+        public async Task Given_AddRatingCommand_When_ValidRating_Should_AddRating()
+        {
+            //arrage
+            var command = new AddRatingCommand()
+            {
+                UserId = 1,
+                MovieId = 2,
+                Rating = 5,
+            };
+
+            //act
+            var response = await handler.Handle(command, default);
+
+            //assert
+            response.Should().NotBeNull();
+            response.IsSuccess.Should().Be(true);
+        }
 
     }
 }
