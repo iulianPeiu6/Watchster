@@ -32,6 +32,26 @@ namespace Watchster.WebApi.Controllers.v1
         }
 
         [HttpGet]
+        [Route("GetMostPopular")]
+        public async Task<IActionResult> GetMostPopular()
+        {
+            logger.LogInformation("Handeling request on Movie/GetMostPopular");
+            var query = new GetMostPopularMoviesQuery();
+            var response = await mediator.Send(query);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("GetLatestReleased")]
+        public async Task<IActionResult> GetLatestReleased()
+        {
+            logger.LogInformation("Handeling request on Movie/GetLatestReleased");
+            var query = new GetLatestReleasedMoviesQuery();
+            var response = await mediator.Send(query);
+            return Ok(response);
+        }
+
+        [HttpGet]
         [Route("GetRecommendations")]
         public async Task<IActionResult> GetRecommendationsAsync(int userId)
         {
