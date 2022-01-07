@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
 using Watchster.Application.Models;
-using Watchster.Application.UnitTests.Fakes;
+using Watchster.SendGrid.Models;
 using Watchster.SendGrid.Services;
 
 namespace Watchster.Application.UnitTests.Features.Commands
@@ -15,10 +15,18 @@ namespace Watchster.Application.UnitTests.Features.Commands
     {
 
         private SendResetMailCommandHandler sendResetMailCommandHandler;
+        private readonly ISendGridService sendGridService;
+        private readonly string invalidEmail = "";
 
         public SendResetMailCommandTests()
         {
+            var fakeSendGridService = new Fake<ISendGridService>();
+            fakeSendGridService.CallsTo(sg => sg.SendMailAsync(A<MailInfo>.That.Matches(x => x.Receiver.Email == invalidEmail)))
+                .Throws<ArgumentException>();
+            sendGridService = fakeSendGridService.FakedObject;
+            sendResetMailCommandHandler = new SendResetMailCommandHandler(sendGridService);
         }
+
         [Test]
         public async Task Given_SendResetMailCommand_When_InvalidEmail_Should_FailReturnEmailNotSend()
         {
@@ -35,7 +43,7 @@ namespace Watchster.Application.UnitTests.Features.Commands
 
                 }
             };
-            sendResetMailCommandHandler = new SendResetMailCommandHandler(A.Fake<FakeSendGridService>());
+
             //act
             var response = await sendResetMailCommandHandler.Handle(command, default);
 
@@ -60,7 +68,7 @@ namespace Watchster.Application.UnitTests.Features.Commands
 
                 }
             };
-            sendResetMailCommandHandler = new SendResetMailCommandHandler(A.Fake<ISendGridService>());
+
             //act
             var response = await sendResetMailCommandHandler.Handle(command, default);
 
