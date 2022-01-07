@@ -136,7 +136,7 @@ namespace Database.UnitTests
             var result = repository.Query().ToList();
 
             result.Should().BeOfType<List<Rating>>();
-            result.Count().Should().Be(2);
+            result.Count.Should().Be(2);
         }
 
         [Test]
@@ -147,7 +147,7 @@ namespace Database.UnitTests
             var result = repository.Query(expression).ToList();
 
             result.Should().BeOfType<List<Rating>>();
-            result.Count().Should().Be(1);
+            result.Count.Should().Be(1);
         }
     }
 }

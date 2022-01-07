@@ -18,7 +18,6 @@ namespace Watchster.Application.Features.Queries
         public Task<int> Handle(GetRatingQuery request, CancellationToken cancellationToken)
         {
             var rating = repository.Query(rating => rating.UserId == request.UserId && rating.MovieId == request.MovieId)
-                .ToList()
                 .FirstOrDefault();
 
             if (rating == null)

@@ -160,7 +160,7 @@ namespace Database.UnitTests
             var result = repository.Query().ToList();
 
             result.Should().BeOfType<List<Movie>>();
-            result.Count().Should().Be(1);
+            result.Count.Should().Be(1);
         }
 
         [Test]
@@ -171,7 +171,7 @@ namespace Database.UnitTests
             var result = repository.Query(expression).ToList();
 
             result.Should().BeOfType<List<Movie>>();
-            result.Count().Should().Be(2);
+            result.Count.Should().Be(2);
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace Database.UnitTests
             var result = await repository.GetMoviesFromPage(page);
 
             result.Should().BeOfType<List<Movie>>();
-            result.Count().Should().Be(2);
+            result.Count.Should().Be(2);
         }
 
         [Test]

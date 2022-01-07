@@ -142,7 +142,7 @@ namespace Database.UnitTests
             var result = repository.Query().ToList();
 
             result.Should().BeOfType<List<AppSettings>>();
-            result.Count().Should().Be(1);
+            result.Count.Should().Be(1);
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace Database.UnitTests
             var result = repository.Query(expression).ToList();
 
             result.Should().BeOfType<List<AppSettings>>();
-            result.Count().Should().Be(1);
+            result.Count.Should().Be(1);
         }
     }
 }

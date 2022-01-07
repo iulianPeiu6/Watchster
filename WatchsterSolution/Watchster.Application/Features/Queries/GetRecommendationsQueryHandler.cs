@@ -25,9 +25,9 @@ namespace Watchster.Application.Features.Queries
 
         public Task<GetRecommendationsResponse> Handle(GetRecommendationsQuery request, CancellationToken cancellationToken)
         {
-            var currentUserHasRatings = ratingRepository
+            var currentUserHasRatings = !ratingRepository
                     .Query(rating => rating.UserId == request.UserId)
-                    .Count() == 0;
+                    .Any();
 
             if (currentUserHasRatings)
             {

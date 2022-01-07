@@ -77,7 +77,7 @@ namespace Watchster.Application.UnitTests.Features.Queries
             var response = await handler.Handle(query, default);
 
             response.Should().NotBeNullOrEmpty();
-            response.Count().Should().Be(3);
+            response.Count.Should().Be(3);
             foreach (var movie in response)
             {
                 movie.Should().NotBeNull();
