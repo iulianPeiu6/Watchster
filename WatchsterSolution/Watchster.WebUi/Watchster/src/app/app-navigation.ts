@@ -24,7 +24,7 @@ export const navigation = [
       },
       {
         text: 'New',
-        path: '/new_movies'
+        path: '/new-movies'
       },
       {
         text: 'Popular',

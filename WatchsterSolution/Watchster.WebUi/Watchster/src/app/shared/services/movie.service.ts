@@ -99,6 +99,15 @@ export class MovieService {
     return response;
   }
 
+  async getNewMovies(): Promise<Movie[]> {
+    const response = await this.http
+        .get<Movie[]>('/api/1/Movie/GetLatestReleased', { })
+        .toPromise();
+
+    console.log(response);
+    return response;
+  }
+
   async getMovie(id: string) {
     const response = await this.http
       .get<GetMovieResponse>('/api/1/Movie/GetMovie', { params: { id: id } })
