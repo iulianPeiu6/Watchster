@@ -34,10 +34,10 @@ namespace Watchster.Application.Features.Queries
                 throw new ArgumentException("The specified user does not have any ratings in the database");
             }
 
-            return GetRecommendations(request, cancellationToken);
+            return GetRecommendations(request);
         }
 
-        private async Task<GetRecommendationsResponse> GetRecommendations(GetRecommendationsQuery request, CancellationToken cancellationToken)
+        private async Task<GetRecommendationsResponse> GetRecommendations(GetRecommendationsQuery request)
         {
             var movieIds = ratingRepository.Query()
                 .Select(rating => rating.MovieId)

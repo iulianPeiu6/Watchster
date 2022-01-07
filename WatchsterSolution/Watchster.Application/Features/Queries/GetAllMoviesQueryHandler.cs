@@ -28,9 +28,7 @@ namespace Watchster.Application.Features.Queries
                     Title = movie.Title,
                     Genres = movie.Genres,
                     Overview = movie.Overview,
-                    ReleaseDate = movie.ReleaseDate,
-                    //ToDo: Compute AverageRating
-                    AverageRating = 0
+                    ReleaseDate = movie.ReleaseDate
                 });
         }
     }

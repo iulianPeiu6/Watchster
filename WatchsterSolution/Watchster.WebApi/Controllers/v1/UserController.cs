@@ -121,10 +121,9 @@ namespace Watchster.WebApi.Controllers.v1
         }
 
         [HttpPatch]
-        [Route("ChangeNewPassword")]
+        [Route("ChangePassword")]
         public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangeUserPasswordCommand command)
         {
-            //TODO: Change Route Name
             logger.LogInformation("Handeling request on User/ChangeNewPassword");
 
             var response = await mediator.Send(command);

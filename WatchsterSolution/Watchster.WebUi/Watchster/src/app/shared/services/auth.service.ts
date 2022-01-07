@@ -127,7 +127,7 @@ export class AuthService {
     try {
       // Send request
       const response = await this.http
-        .patch<MessageResponse>('/api/1/User/ChangeNewPassword', { code: recoveryCode, password: password} )
+        .patch<MessageResponse>('/api/1/User/ChangePassword', { code: recoveryCode, password: password} )
         .toPromise()
 
       if(response.message == "The given code does not exist")
