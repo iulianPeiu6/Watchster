@@ -8,6 +8,7 @@ import { MoviesComponent } from './pages/movies/movies.component';
 import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
 import { MovieComponent } from './pages/movie/movie.component';
 import { MovieRecommendationsComponent } from './pages/movie-recommendations/movie-recommendations.component';
+import { PopularMoviesComponent } from './pages/popular-movies/popular-movies.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,11 @@ const routes: Routes = [
   {
     path: 'recommendations',
     component: MovieRecommendationsComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'popular-movies',
+    component: PopularMoviesComponent,
     canActivate: [ AuthGuardService ]
   },
   {

@@ -28,7 +28,7 @@ export const navigation = [
       },
       {
         text: 'Popular',
-        path: '/popular_movies'
+        path: '/popular-movies'
       },
       {
         text: 'Recommendations',
