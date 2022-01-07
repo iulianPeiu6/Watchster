@@ -1,16 +1,11 @@
 ﻿using FakeItEasy;
 using Faker;
 using FluentAssertions;
-using Microsoft.Extensions.Options;
 using NUnit.Framework;
-using System;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
-using Watchster.Application.Interfaces;
 using Watchster.Application.Models;
 using Watchster.Application.UnitTests.Fakes;
-using Watchster.Domain.Entities;
-using Watchster.Jwt;
 
 namespace Watchster.Application.UnitTests.Features.Commands
 {

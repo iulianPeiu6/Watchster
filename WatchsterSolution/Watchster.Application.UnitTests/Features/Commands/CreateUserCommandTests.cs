@@ -3,9 +3,6 @@ using Faker;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Watchster.Application.Features.Commands;
 using Watchster.Application.Interfaces;
@@ -20,7 +17,7 @@ namespace Watchster.Application.UnitTests.Features.Commands
         private readonly ICryptographyService cryptography;
         private readonly CreateUserCommandHandler handler;
 
-         public CreateUserCommandTests()
+        public CreateUserCommandTests()
         {
             userRepository = A.Fake<FakeUserRepository>();
             cryptography = A.Fake<ICryptographyService>();
@@ -42,7 +39,7 @@ namespace Watchster.Application.UnitTests.Features.Commands
             var response = await handler.Handle(command, default);
 
             //assert
-            
+
             response.Should().NotBeNull();
             response.ErrorMessage.Should().Be(Error.InvalidData);
         }
@@ -75,7 +72,7 @@ namespace Watchster.Application.UnitTests.Features.Commands
             {
                 Email = Internet.Email(),
                 IsSubscribed = (RandomNumber.Next() % 2) == 0,
-                Password = Lorem.Sentence(6).Substring(0,31)
+                Password = Lorem.Sentence(6).Substring(0, 31)
             };
 
             //act

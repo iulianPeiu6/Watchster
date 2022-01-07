@@ -123,7 +123,7 @@ namespace Database.UnitTests
             var updatedAppSettings = await repository.GetByIdAsync(appSettings.Id);
 
             result.Should().BeOfType<AppSettings>();
-            updatedAppSettings.Section.Should().Be(appSettings.Section);    
+            updatedAppSettings.Section.Should().Be(appSettings.Section);
         }
 
         [Test]

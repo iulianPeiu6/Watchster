@@ -5,8 +5,7 @@ import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import { AuthService, serverMessages } from "../../shared/services";
 import notify from 'devextreme/ui/notify';
-import { FormControl, Validators } from "@angular/forms";
-import { NgbModule, NgbRatingModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbRatingModule } from "@ng-bootstrap/ng-bootstrap";
 import { RatingConfig, RatingModule } from 'ngx-bootstrap/rating';
 import { DxButtonModule, DxResponsiveBoxModule } from "devextreme-angular";
 
@@ -48,15 +47,20 @@ export class MovieComponent implements OnInit {
             case serverMessages.UserNotFound: {notify(serverMessages.UserNotFound, this.errorNotify, 2000); break;}
             case serverMessages.MovieNotFound: {notify(serverMessages.MovieNotFound, this.errorNotify, 2000); break;}
             case serverMessages.MovieAlreadyRated: {notify(serverMessages.MovieAlreadyRated, this.errorNotify, 2000); break;}
-            default: notify(response.message, this.successNotify, 2000);
+            default: { notify(response.message, this.successNotify, 2000); this.movieRatedByCurrentUser = true; }
         } 
-    
     } 
 
     async ngOnInit() {
+        let userId = this.authService.userLogingDetails?.user.id!
         this.loadingVisible = true;
         this.movie = await this.movieService.getMovie(this.movieId);
+        this.userRating = await (await this.movieService.getRating(userId, this.movieId)).rating;
         this.loadingVisible = false;
+        if (this.userRating != 0) {
+            this.movieRatedByCurrentUser = true;
+            console.log(this.movieRatedByCurrentUser);
+        }
         this.movieOverview = this.movie.overview;
         this.moviePosterUrl = this.movie.posterUrl;
         console.log(this.movie);

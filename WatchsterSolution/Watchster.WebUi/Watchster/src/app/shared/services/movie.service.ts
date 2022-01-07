@@ -38,6 +38,10 @@ export class AddRatingResponse {
   constructor(public message: string) {}
 }
 
+export class GetRatingResponse {
+  constructor(public rating: number) {}
+}
+
 @Injectable()
 export class MovieService {
   tatalPages: number | undefined;
@@ -115,6 +119,14 @@ export class MovieService {
 
     console.log(response);
     return response.movie;
+  }
+
+  async getRating(userId: string, idMovie: string) {
+    var response = await this.http
+    .get<GetRatingResponse>('/api/1/Movie/GetRating', { params: { userId: userId, movieId: idMovie } })
+    .toPromise();
+    console.log(response);
+    return response;
   }
 
   async addRating(userId: string, idMovie: string, rating: number) {

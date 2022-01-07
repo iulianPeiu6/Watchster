@@ -22,7 +22,7 @@ namespace Watchster.Application.UnitTests.Features.Queries
         private readonly IMovieRecommender movieRecommender;
 
         public GetRecommendationsQueryTests()
-        {   
+        {
             ratingRepository = A.Fake<FakeRatingsRepository>();
             movieRepository = A.Fake<FakeMovieRepository>();
             movieRecommender = A.Fake<IMovieRecommender>();
@@ -34,7 +34,7 @@ namespace Watchster.Application.UnitTests.Features.Queries
         {
             var query = new GetRecommendationsQuery
             {
-               UserId = 101
+                UserId = 101
             };
             Action response = () => handler.Handle(query, default).Wait();
             response.Should().Throw<ArgumentException>().WithMessage("The specified user does not have any ratings in the database");
@@ -85,7 +85,7 @@ namespace Watchster.Application.UnitTests.Features.Queries
                 },
             }.AsEnumerable();
 
-            foreach(Movie movie in repoMovies)
+            foreach (Movie movie in repoMovies)
             {
                 await movieRepository.AddAsync(movie);
             }
@@ -121,8 +121,8 @@ namespace Watchster.Application.UnitTests.Features.Queries
                     RatingValue = 9.5
                 }
             }.AsEnumerable();
-            
-            foreach(Rating rating in repoRatings)
+
+            foreach (Rating rating in repoRatings)
             {
                 await ratingRepository.AddAsync(rating);
             }
@@ -139,7 +139,7 @@ namespace Watchster.Application.UnitTests.Features.Queries
             response.Should().NotBeNull();
             response.Should().BeOfType<GetRecommendationsResponse>();
             response.Recommendations.Should().NotBeNullOrEmpty();
-            foreach(RecommendationDetails details in response.Recommendations)
+            foreach (RecommendationDetails details in response.Recommendations)
             {
                 details.Should().NotBeNull();
                 details.Id.Should().BePositive();

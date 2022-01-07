@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Watchster.Aplication.Interfaces;
 using Watchster.Application.Interfaces;
-using Watchster.Application.Models;
 using Watchster.Domain.Entities;
 
 namespace Watchster.Application.UnitTests.Fakes
@@ -70,7 +68,7 @@ namespace Watchster.Application.UnitTests.Fakes
         public Task<ResetPasswordCode> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
- 
+
         }
 
         public IQueryable<ResetPasswordCode> Query()
@@ -82,7 +80,7 @@ namespace Watchster.Application.UnitTests.Fakes
         {
             return entities.Where(expression.Compile()).AsQueryable();
         }
- 
+
 
         Task<IEnumerable<ResetPasswordCode>> IRepository<ResetPasswordCode>.GetAllAsync()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Faker;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +7,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Watchster.Application.Interfaces;
 using Watchster.Domain.Entities;
-using Faker;
-using Watchster.Application.Features.Commands;
 
 namespace Watchster.Application.UnitTests.Fakes
 {
@@ -61,7 +60,7 @@ namespace Watchster.Application.UnitTests.Fakes
         {
             if (id <= 0)
             {
-                return Task.Run(() =>default(User));
+                return Task.Run(() => default(User));
             }
             else
             {

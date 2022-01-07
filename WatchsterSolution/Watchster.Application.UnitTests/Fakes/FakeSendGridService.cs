@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 using Watchster.SendGrid.Models;
 using Watchster.SendGrid.Services;
@@ -15,7 +12,7 @@ namespace Watchster.Application.UnitTests.Fakes
         {
             string text;
             var email = new MailAddress(mail.Receiver.Email);
-            if (!EmailIsValid(mail.Receiver.Email)) 
+            if (!EmailIsValid(mail.Receiver.Email))
                 throw new AggregateException();
             return new Task(() => text = mail.Receiver.Email);
         }

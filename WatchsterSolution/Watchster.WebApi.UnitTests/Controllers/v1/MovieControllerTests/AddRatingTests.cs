@@ -28,7 +28,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
             };
 
             //act
-            var response = await controller.AddRating(command);
+            var response = await controller.AddRatingAsync(command);
 
             //assert
             A.CallTo(() => mediator.Send(A<AddRatingCommand>._, default));
@@ -48,7 +48,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
             };
 
             //act
-            var response = await controller.AddRating(command);
+            var response = await controller.AddRatingAsync(command);
 
             //assert
             A.CallTo(() => mediator.Send(A<AddRatingCommand>._, default));
@@ -68,7 +68,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
             };
 
             //act
-            var response = await controller.AddRating(command);
+            var response = await controller.AddRatingAsync(command);
 
             //assert
             A.CallTo(() => mediator.Send(A<AddRatingCommand>._, default));
@@ -88,7 +88,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
             };
 
             //act
-            var response = await controller.AddRating(command);
+            var response = await controller.AddRatingAsync(command);
 
             //assert
             A.CallTo(() => mediator.Send(A<AddRatingCommand>._, default));
@@ -108,7 +108,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
             };
 
             //act
-            var response = await controller.AddRating(command);
+            var response = await controller.AddRatingAsync(command);
 
             //assert
             A.CallTo(() => mediator.Send(A<AddRatingCommand>._, default));
@@ -128,7 +128,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
             };
 
             //act
-            var response = await controller.AddRating(command);
+            var response = await controller.AddRatingAsync(command);
 
             //assert
             A.CallTo(() => mediator.Send(A<AddRatingCommand>._, default));

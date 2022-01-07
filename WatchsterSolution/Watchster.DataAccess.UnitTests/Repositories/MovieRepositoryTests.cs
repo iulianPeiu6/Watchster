@@ -103,7 +103,7 @@ namespace Database.UnitTests
 
             var result = await repository.GetByIdAsync(movie.Id);
 
-            
+
             result.Should().BeOfType<Movie>();
             result.Title.Should().Be(movie.Title);
             result.ReleaseDate.Should().Be(movie.ReleaseDate);

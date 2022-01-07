@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Faker;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Watchster.Application.Interfaces;
 using Watchster.Domain.Entities;
-using Faker;
 
 namespace Watchster.Application.UnitTests.Fakes
 {

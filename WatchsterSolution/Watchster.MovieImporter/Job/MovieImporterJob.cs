@@ -131,7 +131,7 @@ namespace Watchster.MovieImporter.Job
 
         private async Task<int> ImportMoviesInRabge(DateTime from, DateTime to)
         {
-            
+
             var result = movieDiscover.GetMoviesBetweenDatesFromPage(from, to);
             await ImportMovies(result.Movies);
             int numOfMoviesImported = result.Movies.Count;

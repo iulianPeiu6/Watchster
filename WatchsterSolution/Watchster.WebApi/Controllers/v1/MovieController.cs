@@ -33,7 +33,7 @@ namespace Watchster.WebApi.Controllers.v1
 
         [HttpGet]
         [Route("GetMostPopular")]
-        public async Task<IActionResult> GetMostPopular()
+        public async Task<IActionResult> GetMostPopularAsync()
         {
             logger.LogInformation("Handeling request on Movie/GetMostPopular");
             var query = new GetMostPopularMoviesQuery();
@@ -43,7 +43,7 @@ namespace Watchster.WebApi.Controllers.v1
 
         [HttpGet]
         [Route("GetLatestReleased")]
-        public async Task<IActionResult> GetLatestReleased()
+        public async Task<IActionResult> GetLatestReleasedAsync()
         {
             logger.LogInformation("Handeling request on Movie/GetLatestReleased");
             var query = new GetLatestReleasedMoviesQuery();
@@ -66,7 +66,7 @@ namespace Watchster.WebApi.Controllers.v1
 
         [HttpGet]
         [Route("GetFromPage")]
-        public async Task<IActionResult> GetFromPage([FromQuery] GetMoviesFromPageQuery command)
+        public async Task<IActionResult> GetFromPageAsync([FromQuery] GetMoviesFromPageQuery command)
         {
             logger.LogInformation("Handeling request on Movie/GetFromPage/{Page}");
             var response = await mediator.Send(command);
@@ -89,9 +89,20 @@ namespace Watchster.WebApi.Controllers.v1
             }
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("GetRating")]
+        public async Task<IActionResult> GetRatingAsync([FromQuery] GetRatingQuery query)
+        {
+            logger.LogInformation("Handeling request on Movie/GetRating/{UserId, MovieId}");
+            var response = await mediator.Send(query);
+
+            return Ok(new { Rating = response });
+        }
+
         [HttpPost]
         [Route("AddRating")]
-        public async Task<IActionResult> AddRating([FromBody] AddRatingCommand command)
+        public async Task<IActionResult> AddRatingAsync([FromBody] AddRatingCommand command)
         {
             logger.LogInformation("Handeling request on Movie/AddRating");
             var response = await mediator.Send(command);

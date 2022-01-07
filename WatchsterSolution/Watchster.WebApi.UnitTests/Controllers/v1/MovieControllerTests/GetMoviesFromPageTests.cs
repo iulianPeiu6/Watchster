@@ -21,7 +21,7 @@ namespace Watchster.WebApi.UnitTests.v1.MovieControllerTests
             };
 
             //act
-            var result = controller.GetFromPage(command);
+            var result = controller.GetFromPageAsync(command);
 
             //assert
             A.CallTo(() => mediator.Send(A<GetMoviesFromPageQuery>._, default)).MustHaveHappenedOnceExactly();
