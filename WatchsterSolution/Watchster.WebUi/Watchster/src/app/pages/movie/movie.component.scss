@@ -16,3 +16,18 @@
     margin: 0 auto;
   }
 }
+
+.rating {  
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: calc(40% - 3rem);
+} 
+
+.star {
+  font-size: 3rem;
+  color: #b0c4de;
+}
+.filled {
+  color: #ff5722;
+}

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { SideNavOuterToolbarModule, SideNavInnerToolbarModule, SingleCardModule } from './layouts';
 import { FooterModule, ResetPasswordFormModule, CreateAccountFormModule, ChangePasswordFormModule, LoginFormModule } from './shared/components';
@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { MoviesModule } from './pages/movies/movies.component';
 import { MovieModule } from './pages/movie/movie.component';
 import { MovieRecommendationsModule } from './pages/movie-recommendations/movie-recommendations.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RatingModule, RatingConfig } from 'ngx-bootstrap/rating';
 
 @NgModule({
   declarations: [
@@ -31,9 +33,14 @@ import { MovieRecommendationsModule } from './pages/movie-recommendations/movie-
     AppRoutingModule,
     MoviesModule,
     MovieModule,
-    MovieRecommendationsModule
+    MovieRecommendationsModule,
+    NgbModule,
+    BrowserAnimationsModule
   ],
-  providers: [AuthService, ScreenService, AppInfoService, MovieService],
+  providers: [AuthService, 
+    ScreenService, 
+    AppInfoService, 
+    MovieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

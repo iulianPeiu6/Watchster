@@ -62,7 +62,7 @@ export class SideNavOuterToolbarComponent implements OnInit {
     return !this.menuOpened;
   }
 
-  navigationChanged(event: ItemClickEvent) {
+  navigationChanged(event: any) {
     const path = event.itemData.path;
     const pointerEvent = event.event;
 

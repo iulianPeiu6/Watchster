@@ -5,7 +5,10 @@ import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import { AuthService, serverMessages } from "../../shared/services";
 import notify from 'devextreme/ui/notify';
-
+import { FormControl, Validators } from "@angular/forms";
+import { NgbModule, NgbRatingModule } from "@ng-bootstrap/ng-bootstrap";
+import { RatingConfig, RatingModule } from 'ngx-bootstrap/rating';
+import { DxButtonModule, DxResponsiveBoxModule } from "devextreme-angular";
 
 @Component({
     selector: 'app-root',
@@ -19,12 +22,13 @@ export class MovieComponent implements OnInit {
     movieId: string;
     movie: Movie | undefined;
     loadingVisible = false;
-    starRating : number = 0;
     errorNotify: string = 'error';
     successNotify: string = 'success';
     colCountByScreen!: object;
     movieOverview!: string;
     moviePosterUrl!: string;
+    userRating = 0;
+    movieRatedByCurrentUser = false;
 
     constructor(private movieService: MovieService, private router: Router, private authService:  AuthService) {
         this.movieId = this.router.url.split('/')[2];
@@ -35,11 +39,10 @@ export class MovieComponent implements OnInit {
             lg: 2
           };
     }
-    
 
-    addRating = async () => {
+    async onRateChange(rating :number) {        
         let userId = this.authService.userLogingDetails?.user.id!
-        var response = await this.movieService.addRating(userId ,this.movieId, this.starRating);
+        var response = await this.movieService.addRating(userId ,this.movieId, rating);
         switch(response.message) {
             case serverMessages.RatingNotInRange: {notify(serverMessages.RatingNotInRange, this.errorNotify, 2000); break;}
             case serverMessages.UserNotFound: {notify(serverMessages.UserNotFound, this.errorNotify, 2000); break;}
@@ -47,7 +50,8 @@ export class MovieComponent implements OnInit {
             case serverMessages.MovieAlreadyRated: {notify(serverMessages.MovieAlreadyRated, this.errorNotify, 2000); break;}
             default: notify(response.message, this.successNotify, 2000);
         } 
-    }
+    
+    } 
 
     async ngOnInit() {
         this.loadingVisible = true;
@@ -62,10 +66,15 @@ export class MovieComponent implements OnInit {
 @NgModule({
     imports: [
         DxFormModule,
-        DxLoadIndicatorModule],
+        DxLoadIndicatorModule,
+        DxButtonModule,
+        RatingModule,
+        NgbRatingModule,
+        DxResponsiveBoxModule
+        ],
     exports: [MovieComponent],
     declarations: [MovieComponent],
-    providers: [],
+    providers: [RatingConfig],
     
   })
   export class MovieModule { }
