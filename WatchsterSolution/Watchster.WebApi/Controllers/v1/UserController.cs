@@ -136,5 +136,21 @@ namespace Watchster.WebApi.Controllers.v1
 
             return Ok(new { Message = "Password changed!" });
         }
+
+        [HttpDelete]
+        [Route("DeleteAccount")]
+        public async Task<IActionResult> DeleteAccountAsync([FromBody] DeleteAccountCommand command)
+        {
+            logger.LogInformation("Handeling request on User/DeleteAccount");
+
+            var response = await mediator.Send(command);
+
+            if (!response)
+            {
+                return Unauthorized(new { Message = Error.UserNotFound });
+            }
+
+            return Ok(new { Message = "User deleted successfully!" });
+        }
     }
 }
