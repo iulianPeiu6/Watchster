@@ -21,6 +21,7 @@ namespace Watchster.Application.UnitTests.Features.Commands
         public SendResetMailCommandTests()
         {
             var fakeSendGridService = new Fake<ISendGridService>();
+
             fakeSendGridService.CallsTo(sg => sg.SendMailAsync(A<MailInfo>.That.Matches(x => x.Receiver.Email == invalidEmail)))
                 .Throws<ArgumentException>();
             sendGridService = fakeSendGridService.FakedObject;

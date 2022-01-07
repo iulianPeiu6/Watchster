@@ -18,12 +18,12 @@ namespace Watchster.Application.UnitTests.Features.Queries
     {
         private readonly GetRecommendationsQueryHandler handler;
         private readonly FakeMovieRepository movieRepository;
-        private readonly FakeRatingsRepository ratingRepository;
+        private readonly FakeRatingRepository ratingRepository;
         private readonly IMovieRecommender movieRecommender;
 
         public GetRecommendationsQueryTests()
         {
-            ratingRepository = A.Fake<FakeRatingsRepository>();
+            ratingRepository = A.Fake<FakeRatingRepository>();
             movieRepository = A.Fake<FakeMovieRepository>();
             movieRecommender = A.Fake<IMovieRecommender>();
             handler = new GetRecommendationsQueryHandler(ratingRepository, movieRepository, movieRecommender);

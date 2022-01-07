@@ -32,8 +32,6 @@ namespace Watchster.Application.UnitTests.Fakes
             return entities.GetEnumerator();
         }
 
-
-
         public Task<Rating> AddAsync(Rating entity)
         {
             entities.Add(entity);
@@ -75,18 +73,7 @@ namespace Watchster.Application.UnitTests.Fakes
 
         public IQueryable<Rating> Query()
         {
-            throw new NotImplementedException();
-        }
-
-        private object GetValue(MemberExpression member)
-        {
-            var objectMember = Expression.Convert(member, typeof(object));
-
-            var getterLambda = Expression.Lambda<Func<object>>(objectMember);
-
-            var getter = getterLambda.Compile();
-
-            return getter();
+            return entities.AsQueryable();
         }
 
         public IQueryable<Rating> Query(Expression<Func<Rating, bool>> expression)
