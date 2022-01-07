@@ -37,11 +37,13 @@ export class MoviesComponent implements OnInit {
   }
 
   async onContentReady(e: any) {
-    if (this.loadingVisible == true) {
+    let currentPage = this.dataGrid?.instance.pageIndex()!
+    let totalPages = this.dataGrid?.instance.pageCount()
+    if (this.loadingVisible == true || totalPages == 0 || totalPages == 1) {
       return;
     }
     
-    let isOnLastPage = (this.dataGrid?.instance.pageIndex()! + 1) == this.dataGrid?.instance.pageCount();
+    let isOnLastPage = (currentPage + 1) == totalPages;
     if (isOnLastPage) {
       this.loadingVisible = true;
       let newMovies = await this.movieService.getNextMovies();
