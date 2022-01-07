@@ -28,7 +28,7 @@ namespace Watchster.Application.UnitTests.Features.Commands
         }
 
         [Test]
-        public async Task Given_CreateUserCommand_When_PasswordNotRespectConstrains_Should_FailedCreationAccoutAsync()
+        public async Task Given_CreateUserCommand_When_PasswordNotRespectConstrains_Should_FailedCreationAccountAsync()
         {
             //arrage
             var command = new CreateUserCommand
@@ -43,6 +43,26 @@ namespace Watchster.Application.UnitTests.Features.Commands
 
             //assert
             
+            response.Should().NotBeNull();
+            response.ErrorMessage.Should().Be(Error.InvalidData);
+        }
+
+        [Test]
+        public async Task Given_CreateUserCommand_When_EmailIsInvalid_Should_FailedCreationAccountAsync()
+        {
+            //arrage
+            var command = new CreateUserCommand
+            {
+                Email = "invalid email",
+                IsSubscribed = (RandomNumber.Next() % 2) == 0,
+                Password = "valid password"
+            };
+
+            //act
+            var response = await handler.Handle(command, default);
+
+            //assert
+
             response.Should().NotBeNull();
             response.ErrorMessage.Should().Be(Error.InvalidData);
         }
