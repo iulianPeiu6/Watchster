@@ -14,8 +14,6 @@ namespace Watchster.Application.Models
 
         public string Genres { get; set; }
 
-        public decimal AverageRating { get; set; }
-
         public string Overview { get; set; }
     }
 }
