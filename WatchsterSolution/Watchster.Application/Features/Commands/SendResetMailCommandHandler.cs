@@ -22,8 +22,12 @@ namespace Watchster.Application.Features.Commands
         {
             var mail = new MailInfo
             {
-                Subject = "Password reset Watchster Application",
-                Body = "Password reset link: " + request.Endpoint + "/" + request.Result.Code,
+                Subject = "Watchster : Reset Password",
+                Body = $"Hello, <br/><br/>" +
+                    $"You have requested to change your password. <br/>" +
+                    $"Click <a href='{request.Endpoint}/{request.Result.Code}'>here</a> to reset your password.<br/>" +
+                    $"Watchster, <br/>" +
+                    $"Your Online Movie Recommender",
                 Receiver = new EmailAddress()
                 {
                     Email = request.Result.Email

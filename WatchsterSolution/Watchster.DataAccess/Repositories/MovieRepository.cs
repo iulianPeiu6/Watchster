@@ -11,7 +11,7 @@ namespace Watchster.DataAccess.Repositories
 {
     public class MovieRepository : Repository<Movie>, IMovieRepository
     {
-        private const int MOVIE_PAGE_SIZE = 2000;
+        private const int MOVIE_PAGE_SIZE = 1000;
         public MovieRepository(WatchsterContext context) : base(context)
         {
         }

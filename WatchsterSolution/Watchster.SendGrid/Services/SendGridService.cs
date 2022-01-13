@@ -44,7 +44,7 @@ namespace Watchster.SendGrid.Services
                     From = mail.Sender,
                     Subject = mail.Subject
                 };
-                message.AddContent(MimeType.Text, mail.Body);
+                message.AddContent(MimeType.Html, mail.Body);
                 message.AddTo(mail.Receiver);
 
                 var response = await sendGridClient.SendEmailAsync(message).ConfigureAwait(false);

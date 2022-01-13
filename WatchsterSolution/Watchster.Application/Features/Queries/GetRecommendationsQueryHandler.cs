@@ -31,7 +31,10 @@ namespace Watchster.Application.Features.Queries
 
             if (currentUserHasRatings)
             {
-                throw new ArgumentException("The specified user does not have any ratings in the database");
+                return Task.FromResult(new GetRecommendationsResponse
+                {
+                    Recommendations = new List<RecommendationDetails>()
+                });
             }
 
             return GetRecommendations(request);
@@ -39,10 +42,15 @@ namespace Watchster.Application.Features.Queries
 
         private async Task<GetRecommendationsResponse> GetRecommendations(GetRecommendationsQuery request)
         {
+            var moviesIdsRatedByCurrentUser = ratingRepository.Query(rating => rating.UserId == request.UserId)
+                .Select(rating => rating.MovieId)
+                .ToList();
+
             var movieIds = ratingRepository.Query()
                 .Select(rating => rating.MovieId)
                 .Distinct()
-                .ToList();
+                .ToList()
+                .Except(moviesIdsRatedByCurrentUser);
 
             var movieRatings = new List<MovieRating>();
 

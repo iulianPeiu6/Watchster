@@ -30,14 +30,20 @@ namespace Watchster.Application.UnitTests.Features.Queries
         }
 
         [Test]
-        public void Given_GetRecommendationsQueryWithNoUserRatings_When_GetRecommendationsQueryHandlerIsCalled_Then_GetRecommendationsQueryHandlerShouldThrowArgumentException()
+        public async Task Given_GetRecommendationsQueryWithNoUserRatings_When_GetRecommendationsQueryHandlerIsCalled_Then_GetRecommendationsQueryHandlerShouldReturnEmptyResultAsync()
         {
+            // Arrange
             var query = new GetRecommendationsQuery
             {
                 UserId = 101
             };
-            Action response = () => handler.Handle(query, default).Wait();
-            response.Should().Throw<ArgumentException>().WithMessage("The specified user does not have any ratings in the database");
+
+            // Act
+            var response = await handler.Handle(query, default);
+
+            // Assert
+            response.Should().NotBeNull();
+            response.Recommendations.Should().BeEmpty();
         }
 
         [Test]
