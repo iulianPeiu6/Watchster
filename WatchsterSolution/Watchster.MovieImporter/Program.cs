@@ -15,7 +15,7 @@ namespace Watchster.MovieImporter
         private const string EnvironmentKey = "DOTNET_ENVIRONMENT";
         private const string DevelopmentEnvironment = "Development";
 
-        private static readonly string enviroment = Environment.GetEnvironmentVariable(EnvironmentKey) ?? DevelopmentEnvironment;
+        private static readonly string environment = Environment.GetEnvironmentVariable(EnvironmentKey) ?? DevelopmentEnvironment;
 
         static async Task Main()
         {
@@ -31,7 +31,7 @@ namespace Watchster.MovieImporter
             IConfigurationRoot configuration = builder.Build();
 
             IHost host = Host.CreateDefaultBuilder()
-                .UseEnvironment(enviroment)
+                .UseEnvironment(environment)
                 .ConfigureServices((context, services) =>
                 {
                     services.AddMovieImporter(configuration);

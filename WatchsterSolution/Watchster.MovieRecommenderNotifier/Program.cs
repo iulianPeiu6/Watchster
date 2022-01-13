@@ -1,12 +1,61 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
+using Watchster.MovieRecommenderNotifier.Extensions;
 
 namespace Watchster.MovieRecommenderNotifier
 {
     static class Program
     {
-        static void Main(string[] args)
+        private const string EnvironmentKey = "DOTNET_ENVIRONMENT";
+        private const string DevelopmentEnvironment = "Development";
+
+        private static readonly string environment = Environment.GetEnvironmentVariable(EnvironmentKey) ?? DevelopmentEnvironment;
+
+        static async Task Main()
         {
-            throw new NotImplementedException();
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            IHost host = CreateHostBuilder();
+            await host.RunAsync();
+        }
+
+        private static IHost CreateHostBuilder()
+        {
+            var builder = new ConfigurationBuilder();
+            ConfigurationSetup(builder);
+            IConfigurationRoot configuration = builder.Build();
+
+            IHost host = Host.CreateDefaultBuilder()
+                .UseEnvironment(environment)
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddMovieRecommenderNotifier(configuration);
+                    services.AddLogging(builder =>
+                    {
+                        builder.AddConfiguration(configuration.GetSection("Logging"));
+                        builder.AddFile(o => o.RootPath = AppContext.BaseDirectory);
+                    });
+
+                })
+                .UseWindowsService()
+                .Build();
+
+            return host;
+        }
+
+        private static void ConfigurationSetup(IConfigurationBuilder builder)
+        {
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            builder.SetBasePath(path)
+                .AddJsonFile("movierecommendernotifier.json", false, reloadOnChange: true)
+                .AddJsonFile("movierecommendernotifier.Development.json", true, reloadOnChange: true)
+                .Build();
         }
     }
 }
