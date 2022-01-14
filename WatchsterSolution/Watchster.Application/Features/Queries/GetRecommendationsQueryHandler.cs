@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -33,7 +32,7 @@ namespace Watchster.Application.Features.Queries
             {
                 return Task.FromResult(new GetRecommendationsResponse
                 {
-                    Recommendations = new List<RecommendationDetails>()
+                    Recommendations = new List<MovieRecommendation>()
                 });
             }
 
@@ -64,7 +63,7 @@ namespace Watchster.Application.Features.Queries
                 movieRatings.Add(movieRating);
             }
 
-            var recommendations = new List<RecommendationDetails>();
+            var recommendations = new List<MovieRecommendation>();
 
             foreach (MovieRating movieRating in movieRatings)
             {
@@ -72,7 +71,7 @@ namespace Watchster.Application.Features.Queries
                 if (!float.IsNaN(prediction.Score))
                 {
                     var movie = await movieRepository.GetByIdAsync(movieRating.MovieId);
-                    var recommendationDetails = new RecommendationDetails
+                    var recommendationDetails = new MovieRecommendation
                     {
                         Id = movie.Id,
                         TMDbId = movie.TMDbId,

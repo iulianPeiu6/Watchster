@@ -145,7 +145,7 @@ namespace Watchster.Application.UnitTests.Features.Queries
             response.Should().NotBeNull();
             response.Should().BeOfType<GetRecommendationsResponse>();
             response.Recommendations.Should().NotBeNullOrEmpty();
-            foreach (RecommendationDetails details in response.Recommendations)
+            foreach (MovieRecommendation details in response.Recommendations)
             {
                 details.Should().NotBeNull();
                 details.Id.Should().BePositive();

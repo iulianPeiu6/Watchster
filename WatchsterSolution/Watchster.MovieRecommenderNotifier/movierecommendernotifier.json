@@ -1,0 +1,50 @@
+﻿{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    },
+    "File": {
+      "BasePath": "Logs",
+      "FileAccessMode": "KeepOpenAndAutoFlush",
+      "FileEncodingName": "utf-8",
+      "DateFormat": "yyyyMMdd",
+      "CounterFormat": "0000",
+      "MaxFileSize": 10485760,
+      "LogLevel": {
+        "Watchster.MovieRecommenderNotifier": "Information",
+        "Default": "Debug"
+      },
+      "IncludeScopes": true,
+      "MaxQueueSize": 100,
+      "Files": [
+        {
+          "Path": "<date:yyyy>-<date:MM>-<date:dd>-log<counter>.log"
+        },
+        {
+          "Path": "<date:yyyy>/<date:MM>/<date:dd>/log-<counter>.log",
+          "MinLevel": {
+            "Watchster.MovieRecommenderNotifier": "Warning",
+            "Default": "Trace"
+          },
+          "CounterFormat": "0000"
+        }
+      ]
+    }
+  },
+  "QuartzSettings": {
+    "StartAt": null,
+    "RerunUnitOfMeasureIsInHours": true,
+    "RerunInHours": 168,
+    "RerunInDays": 7
+  },
+  "ConnectionStrings": {
+    "WatchsterDB": "Server=localhost;Database=WatchsterDB;Trusted_Connection=True;"
+  },
+  "Authentication": {
+    "Issuer": "Watchster",
+    "MinutesExpiration": 1440,
+    "Key": ""
+  }
+}
