@@ -48,7 +48,6 @@ namespace Watchster.Application.Features.Queries
             var movieIds = ratingRepository.Query()
                 .Select(rating => rating.MovieId)
                 .Distinct()
-                .ToList()
                 .Except(moviesIdsRatedByCurrentUser);
 
             var movieRatings = new List<MovieRating>();
