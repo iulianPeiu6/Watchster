@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Quartz;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +8,6 @@ using Watchster.Application.Features.Commands;
 using Watchster.Application.Features.Queries;
 using Watchster.Application.Models;
 using Watchster.Domain.Entities;
-using Watchster.TMDb.Services;
 
 namespace Watchster.MovieRecommenderNotifier.Job
 {
@@ -71,7 +69,7 @@ namespace Watchster.MovieRecommenderNotifier.Job
         private async Task SendRecommendationsToUserAsync(IEnumerable<MovieRecommendation> recommendations, User user)
         {
             logger.LogInformation($"Sending movie recommendation for user {user.Id} to email address {user.Email}");
-            
+
             var command = new SendMovieRecommendationsViaEmailCommand
             {
                 Recommendations = recommendations,
@@ -80,7 +78,7 @@ namespace Watchster.MovieRecommenderNotifier.Job
 
             var emailSent = await mediator.Send(command);
 
-            logger.LogInformation($"Email was {(emailSent?string.Empty: "not ")}for user {user.Id}");
+            logger.LogInformation($"Email was {(emailSent ? string.Empty : "not ")}for user {user.Id}");
         }
     }
 }

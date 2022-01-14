@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Primitives;
 using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
