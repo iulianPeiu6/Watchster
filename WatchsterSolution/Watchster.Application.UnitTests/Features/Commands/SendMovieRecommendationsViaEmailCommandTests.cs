@@ -65,7 +65,11 @@ namespace Watchster.Application.UnitTests.Features.Commands
             {
                 Recommendations = new List<MovieRecommendation>() 
                 { 
-                    new MovieRecommendation() 
+                    new MovieRecommendation(),
+                    new MovieRecommendation(),
+                    new MovieRecommendation(),
+                    new MovieRecommendation(),
+                    new MovieRecommendation()
                 },
                 ToEmailAddress = invalidEmail
             };

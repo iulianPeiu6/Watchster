@@ -52,7 +52,7 @@ namespace Watchster.Application.Features.Commands
             return true;
         }
 
-        private string ConstructEmailBody(IEnumerable<MovieRecommendation> recommendations)
+        private static string ConstructEmailBody(IEnumerable<MovieRecommendation> recommendations)
         {
             var body = new StringBuilder();
             body.Append("Hello, <br/><br/>");
