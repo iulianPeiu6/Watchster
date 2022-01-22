@@ -12,3 +12,11 @@ Watchster is a web application capable of managing and recommending movies to it
 * [Functional & Non-Functional](https://github.com/iulianPeiu6/WatchsterApp/blob/main/SystemModeling/SystemRequirements/Requirements.md)
 * [Architectural Decisions](https://github.com/iulianPeiu6/WatchsterApp/blob/main/SystemModeling/ArchitecturalDecisions/ADR01ApplicationStructure.md)
 * [C4 Diagrams](https://github.com/iulianPeiu6/WatchsterApp/blob/main/SystemModeling/C4Diagrams/C4Diagrams.md)
+
+## Maintainers
+
+-   Iulian Peiu ([@iulianPeiu6](https://github.com/iulianPeiu6))
+-   Alexandru Hutu ([@PrEaDiVviN](https://github.com/PrEaDiVviN))
+-   Razvan-Daniel Gheoghita ([@GheoghitaRazvanDaniel](https://github.com/GheoghitaRazvanDaniel))
+-   Matei Goanta ([@gmatei](https://github.com/gmatei))
+-   Ioana-Alexandra Spanache ([@AlexandraSpa](https://github.com/AlexandraSpa))
